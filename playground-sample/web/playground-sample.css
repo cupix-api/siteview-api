@@ -1,0 +1,48 @@
+header {
+  padding: 1rem;
+  background-color: #474747;
+  color: white;
+  height: 88px;
+}
+
+nav {
+  align-items: center;
+  display: flex;
+  font-weight: bold;
+  justify-content: space-between;
+}
+
+main {
+  display: flex;
+  flex-wrap: nowrap;
+  height: calc(100vh - 88px);
+  height: -webkit-fill-available;
+  max-height: calc(100vh - 88px);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#side-nav {
+  border-right: 1px solid #474747;
+}
+
+.btn-toggle::before {
+  display: inline-block;
+  width: 1.25em;
+  line-height: 0;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  transition: transform 0.35s ease;
+  transform-origin: 0.5em 50%;
+}
+
+.btn-toggle[aria-expanded="true"]::before {
+  transform: rotate(90deg);
+}
+
+.indent {
+  margin-left: 1.25rem;
+}
+
+.hide {
+  display: none;
+}
