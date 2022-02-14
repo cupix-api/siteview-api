@@ -105,7 +105,7 @@ function setResponseContent(responseType, response, errorMessage, errorArgs) {
 
 async function updateAnnotationIds() {
   const result = await CupixApi.getAnnotationAll();
-  const idArr = result.annotations.map(ann => ann.dbid);
+  const idArr = result.annotations.map(ann => ann.id);
   const datalist = document.getElementById('annotation-id');
   resetDatalist('annotation-id');
   idArr.forEach(id => {

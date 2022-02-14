@@ -6,8 +6,9 @@ window.onload = function () {
     var iframe = document.createElement("iframe");
     iframe.classList.add("w-100");
     iframe.classList.add("h-100");
+    // local
     // iframe.src = "http://cupix.local.cupix.works:4200";
-    iframe.src = "https://app.cupix.works";
+    iframe.src = "https://apidemo.cupix.works";
     iframe.onload = () => {
       cupixWindow = iframe.contentWindow;
     }
