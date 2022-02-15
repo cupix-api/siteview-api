@@ -217,7 +217,7 @@ CupixApi.findNearestPanos = (
     operationType: "FIND_NEAREST_PANOS",
     operationArgs: {
       levelId,
-      recordId: captureId,
+      captureId: captureId,
       coordX,
       coordY,
       normalX,
@@ -226,12 +226,12 @@ CupixApi.findNearestPanos = (
     }
   });
 
-CupixApi.addAnnotation = (formDesignId, annotationLayerId, name, values) =>
+CupixApi.addAnnotation = (formTemplateId, annotationGroupId, name, values) =>
   CupixApi.sendToCupix({
     operationType: "ADD_ANNOTATION_FORM",
     operationArgs: {
-      formDesignId,
-      annotationLayerId,
+      formTemplateId,
+      annotationGroupId,
       name,
       values
     }
@@ -263,74 +263,74 @@ CupixApi.toggleResolveAnnotation = (annotationId) =>
     }
   });
 
-CupixApi.getFormDesigns = () =>
+CupixApi.getFormTemplates = () =>
   CupixApi.sendToCupix({
-    operationType: "GET_FORM_DESIGN_ALL"
+    operationType: "GET_FORM_TEMPLATE_ALL"
   });
 
-CupixApi.getFormDesign = (formDesignId) =>
+CupixApi.getFormTemplate = (formTemplateId) =>
   CupixApi.sendToCupix({
-    operationType: "GET_FORM_DESIGN",
+    operationType: "GET_FORM_TEMPLATE",
     operationArgs: {
-      formDesignId
+      formTemplateId
     }
   });
 
-CupixApi.addAnnotationLayer = (
+CupixApi.addAnnotationGroup = (
   name,
   levelId,
-  recordId,
-  annotationLayerTemplateId
+  captureId,
+  annotationGroupTemplateId
 ) =>
   CupixApi.sendToCupix({
-    operationType: "ADD_ANNOTATION_LAYER",
+    operationType: "ADD_ANNOTATION_GROUP",
     operationArgs: {
       name,
       levelId,
-      recordId,
-      annotationLayerTemplateId
+      captureId,
+      annotationGroupTemplateId
     }
   });
 
-CupixApi.getAnnotationLayer = (annotationLayerId) =>
+CupixApi.getAnnotationGroup = (annotationGroupId) =>
   CupixApi.sendToCupix({
-    operationType: "GET_ANNOTATION_LAYER",
+    operationType: "GET_ANNOTATION_GROUP",
     operationArgs: {
-      annotationLayerId
+      annotationGroupId
     }
   });
 
-CupixApi.getAnnotationLayerAll = () =>
+CupixApi.getAnnotationGroupAll = () =>
   CupixApi.sendToCupix({
-    operationType: "GET_ANNOTATION_LAYER_ALL"
+    operationType: "GET_ANNOTATION_GROUP_ALL"
   });
 
-CupixApi.updateAnnotationLayer = (annotationLayerId, name) =>
+CupixApi.updateAnnotationGroup = (annotationGroupId, name) =>
   CupixApi.sendToCupix({
-    operationType: "UPDATE_ANNOTATION_LAYER",
+    operationType: "UPDATE_ANNOTATION_GROUP",
     operationArgs: {
-      annotationLayerId,
+      annotationGroupId,
       name
     }
   });
 
-CupixApi.deleteAnnotationLayer = (annotationLayerId) =>
+CupixApi.deleteAnnotationGroup = (annotationGroupId) =>
   CupixApi.sendToCupix({
-    operationType: "DELETE_ANNOTATION_LAYER",
+    operationType: "DELETE_ANNOTATION_GROUP",
     operationArgs: {
-      annotationLayerId
+      annotationGroupId
     }
   });
 
-CupixApi.getAnnotationLayerTemplate = (annotationLayerTemplateId) =>
+CupixApi.getAnnotationGroupTemplate = (annotationGroupTemplateId) =>
   CupixApi.sendToCupix({
-    operationType: "GET_ANNOTATION_LAYER_TEMPLATE",
+    operationType: "GET_ANNOTATION_GROUP_TEMPLATE",
     operationArgs: {
-      annotationLayerTemplateId
+      annotationGroupTemplateId
     }
   });
 
-CupixApi.getAnnotationLayerTemplateAll = () =>
+CupixApi.getAnnotationGroupTemplateAll = () =>
   CupixApi.sendToCupix({
-    operationType: "GET_ANNOTATION_LAYER_TEMPLATE_ALL"
+    operationType: "GET_ANNOTATION_GROUP_TEMPLATE_ALL"
   });

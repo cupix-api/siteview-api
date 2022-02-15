@@ -18,8 +18,8 @@
     - [**Get Pano All**](#get-pano-all)
     - [**Get Room**](#get-room)
     - [**Get Room All**](#get-room-all)
-    - [**Get Form Design**](#get-form-design)
-    - [**Get Form Design All**](#get-form-design-all)
+    - [**Get Form Template**](#get-form-template)
+    - [**Get Form Template All**](#get-form-template-all)
   - [**Change API**](#change-api)
     - [**Change Level**](#change-level)
     - [**Change Capture**](#change-capture)
@@ -32,18 +32,18 @@
     - [**Set Camera Reset**](#set-camera-reset)
     - [**Set Camera Move**](#set-camera-move)
   - [**Annotation API**](#annotation-api)
-    - [**Add Annotation Layer**](#add-annotation-layer)
+    - [**Add Annotation Group**](#add-annotation-group)
     - [**Add Annotation Form**](#add-annotation-form)
-    - [**Delete Annotation Layer**](#delete-annotation-layer)
+    - [**Delete Annotation Group**](#delete-annotation-group)
     - [**Delete Annotation**](#delete-annotation)
-    - [**Get Annotation Layer**](#get-annotation-layer)
-    - [**Get Annotation Layer All**](#get-annotation-layer-all)
-    - [**Get Annotation Layer Template**](#get-annotation-layer-template)
-    - [**Get Annotation Layer Template All**](#get-annotation-layer-template-all)
+    - [**Get Annotation Group**](#get-annotation-group)
+    - [**Get Annotation Group All**](#get-annotation-group-all)
+    - [**Get Annotation Group Template**](#get-annotation-group-template)
+    - [**Get Annotation Group Template All**](#get-annotation-group-template-all)
     - [**Get Annotation**](#get-annotation)
     - [**Get Annotation All**](#get-annotation-all)
     - [**Toggle Resolve Annotation**](#toggle-resolve-annotation)
-    - [**Update Annotation Layer**](#update-annotation-layer)
+    - [**Update Annotation Group**](#update-annotation-group)
     - [**Update Annotation Form**](#update-annotation-form)
   - [**Utility API**](#utility-api)
     - [**Find Nearest Panos**](#find-nearest-panos)
@@ -54,7 +54,7 @@
 
 ### **Start**
 
-API 사용하기 위해 시작 해야 하는 API
+API that need to be run in order to use other APIs
 
 Request
 
@@ -72,13 +72,13 @@ Response
 }
 ```
 
-| Property | Data type | Description   |
-| -------- | --------- | ------------- |
-| running  | boolean   | API 시작 여부 |
+| Property | Data type | Description                |
+| -------- | --------- | -------------------------- |
+| running  | boolean   | Whether the API is started |
 
 ### **Stop**
 
-API 사용을 종료 함. `running: false` 상태에서는 API를 사용할 수 없음.
+Stop using the API. API cannot be used in `running: false` state.
 
 Request
 
@@ -97,9 +97,9 @@ Response
 }
 ```
 
-| Property | Data type | Description   |
-| -------- | --------- | ------------- |
-| running  | boolean   | API 시작 여부 |
+| Property | Data type | Description                |
+| -------- | --------- | -------------------------- |
+| running  | boolean   | Whether the API is started |
 
 ---
 
@@ -107,7 +107,7 @@ Response
 
 ### **Sign In**
 
-로그인 API. Home / SiteView 페이지를 사용하기 위해 로그인 해야 함.
+Login API. Must be logged in to use the Go Home / SiteView page API.
 
 Request
 
@@ -135,18 +135,18 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property   | Data type | Description                            |
-| ---------- | --------- | -------------------------------------- |
-| email      | string    | 로그인 이메일. 토큰이 없을 경우 필수   |
-| password   | string    | 로그인 패스워드. 토큰이 없을 경우 필수 |
-| teamDomain | string    | 팀 도메인. 토큰이 없을 경우 필수       |
-| token      | string    | 토큰이 있으면 토큰만으로 로그인 가능   |
+| Property   | Data type | Description                                      |
+| ---------- | --------- | ------------------------------------------------ |
+| email      | string    | Login email. Required if token is not present    |
+| password   | string    | Login password. Required if token is not present |
+| teamDomain | string    | Team domain. Required if token is not present    |
+| token      | string    | If have a token, can login with just the token   |
 
 Response
 
 ### **Sign Out**
 
-로그아웃 API.
+Logout API.
 
 ```ts
 CupixApi.sendToCupix({
@@ -158,7 +158,7 @@ CupixApi.sendToCupix({
 
 ### **Go Home**
 
-대시보드 페이지로 이동.
+Go to the dashboard page.
 
 Request
 
@@ -172,7 +172,7 @@ Response
 
 ### **Go SiteView**
 
-특정 key의 siteView 페이지로 이동.
+Go to the siteView page.
 
 Request
 
@@ -185,9 +185,9 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property    | Data type | Description                   |
-| ----------- | --------- | ----------------------------- |
-| siteViewKey | string    | 페이지 이동할 siteView 의 key |
+| Property    | Data type | Description                                 |
+| ----------- | --------- | ------------------------------------------- |
+| siteViewKey | string    | The key of the siteView to move the page to |
 
 Response
 
@@ -195,7 +195,7 @@ Response
 
 ### **Get Siteview**
 
-현재 siteView의 정보를 조회.
+Get the information of the current siteView.
 
 Request
 
@@ -214,14 +214,14 @@ Response
 }
 ```
 
-| Property | Data type | Description                 |
-| -------- | --------- | --------------------------- |
-| key      | string    | 현재 페이지의 siteView key  |
-| name     | string    | 현재 페이지의 siteView name |
+| Property | Data type | Description                       |
+| -------- | --------- | --------------------------------- |
+| key      | string    | SiteView key of the current page  |
+| name     | string    | SiteView name of the current page |
 
 ### **Get Level**
 
-특정 ID의 레벨을 조회.
+Get the specific level information.
 
 Request
 
@@ -234,9 +234,9 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property | Data type | Description     | Require |
-| -------- | --------- | --------------- | ------- |
-| levelId  | number    | 대상의 level ID | O       |
+| Property | Data type | Description       | Require |
+| -------- | --------- | ----------------- | ------- |
+| levelId  | number    | Target's level ID | O       |
 
 Response
 
@@ -252,21 +252,21 @@ Response
 }
 ```
 
-| Property | Data type | Description |
-| -------- | --------- | ----------- |
-| level    | object    | level 정보  |
+| Property | Data type | Description       |
+| -------- | --------- | ----------------- |
+| level    | object    | Level information |
 
-| level Property | Data type | Description           |
-| -------------- | --------- | --------------------- |
-| id             | number    | level object의 아이디 |
-| name           | string    | level object의 이름   |
-| isGroundLevel  | boolean   | 그라운드 레벨의 여부  |
-| elevation      | number    | level의 높이          |
-| height         | number    | level의 천장 높이     |
+| level Property | Data type | Description                     |
+| -------------- | --------- | ------------------------------- |
+| id             | number    | ID of level                     |
+| name           | string    | Name of level                   |
+| isGroundLevel  | boolean   | Ground level or not             |
+| elevation      | number    | The height of the level         |
+| height         | number    | The ceiling height of the level |
 
 ### **Get Level All**
 
-현재 siteView의 모든 레벨을 조회.
+Get all level information of the current siteView.
 
 Request
 
@@ -292,21 +292,21 @@ Response
 }
 ```
 
-| Property | Data type              | Description      |
-| -------- | ---------------------- | ---------------- |
-| levels   | array of level objects | level 정보 array |
+| Property | Data type              | Description             |
+| -------- | ---------------------- | ----------------------- |
+| levels   | array of level objects | Level information array |
 
-| level Property | Data type | Description           |
-| -------------- | --------- | --------------------- |
-| id             | number    | level object의 아이디 |
-| name           | string    | level object의 이름   |
-| isGroundLevel  | boolean   | 그라운드 레벨의 여부  |
-| elevation      | number    | level의 높이          |
-| height         | number    | level의 천장 높이     |
+| level Property | Data type | Description                     |
+| -------------- | --------- | ------------------------------- |
+| id             | number    | ID of level                     |
+| name           | string    | Name of level                   |
+| isGroundLevel  | boolean   | Ground level or not             |
+| elevation      | number    | The height of the level         |
+| height         | number    | The ceiling height of the level |
 
 ### **Get Capture**
 
-특정 ID의 캡쳐를 조회
+Get the specific capture information.
 
 Request
 
@@ -319,9 +319,9 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property  | Data type | Description        | Require |
-| --------- | --------- | ------------------ | ------- |
-| captureId | number    | 대상의 캡처 아이디 | O       |
+| Property  | Data type | Description | Require |
+| --------- | --------- | ----------- | ------- |
+| captureId | number    | Target's ID | O       |
 
 Response
 
@@ -336,19 +336,19 @@ Response
 }
 ```
 
-| Property | Data type | Description  |
-| -------- | --------- | ------------ |
-| capture  | object    | capture 정보 |
+| Property | Data type | Description         |
+| -------- | --------- | ------------------- |
+| capture  | object    | Capture information |
 
 | capture Property | Data type | Description             |
 | ---------------- | --------- | ----------------------- |
-| id               | number    | capture object의 아이디 |
-| name             | string    | capture object의 이름   |
-| date             | Date      | capture의 날짜          |
+| id               | number    | ID of capture           |
+| name             | string    | The name of the capture |
+| date             | Date      | Date of capture         |
 
 ### **Get Capture All**
 
-현재 siteView의 모든 capture를 조회.
+Get all capture information of the current siteView.
 
 Request
 
@@ -373,19 +373,19 @@ Response
 }
 ```
 
-| Property | Data type                | Description        |
-| -------- | ------------------------ | ------------------ |
-| captures | array of capture objects | capture 정보 array |
+| Property | Data type                | Description               |
+| -------- | ------------------------ | ------------------------- |
+| captures | array of capture objects | Capture information array |
 
 | capture Property | Data type | Description             |
 | ---------------- | --------- | ----------------------- |
-| id               | number    | capture object의 아이디 |
-| name             | string    | capture object의 이름   |
-| date             | Date      | capture의 날짜          |
+| id               | number    | ID of capture           |
+| name             | string    | The name of the capture |
+| date             | Date      | Date of capture         |
 
 ### **Get Pano**
 
-특정 ID의 파노를 조회.
+Get the specific pano information.
 
 Request
 
@@ -398,9 +398,9 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property | Data type | Description    | Require |
-| -------- | --------- | -------------- | ------- |
-| panoId   | number    | 대상의 pano ID | O       |
+| Property | Data type | Description      | Require |
+| -------- | --------- | ---------------- | ------- |
+| panoId   | number    | Target's pano ID | O       |
 
 Response
 
@@ -420,25 +420,25 @@ Response
 }
 ```
 
-| Property | Data type | Description |
-| -------- | --------- | ----------- |
-| pano     | object    | pano 정보   |
+| Property | Data type | Description      |
+| -------- | --------- | ---------------- |
+| pano     | object    | Pano information |
 
-| pano Property  | Data type | Description                 |
-| -------------- | --------- | --------------------------- |
-| id             | number    | pano object의 아이디        |
-| name           | string    | pano object의 이름          |
-| filename       | string    | pano 이미지 파일 이름       |
-| appCapturedAt  | Date      | 앱에서 촬영한 날짜          |
-| publishedAt    | Date      | publish 날짜                |
-| measureReadyAt | Date      | measure ready 날짜          |
-| position       | number[]  | 파노의 [x,y,z] 좌표         |
-| levelId        | number    | pano가 포함된 레벨의 아이디 |
-| captureId      | number    | pano가 포함된 캡쳐의 아이디 |
+| pano Property  | Data type | Description                     |
+| -------------- | --------- | ------------------------------- |
+| id             | number    | ID of the pano                  |
+| name           | string    | Name of the pano                |
+| filename       | string    | Pano image file name            |
+| appCapturedAt  | Date      | Date taken in the app           |
+| publishedAt    | Date      | Published date                  |
+| measureReadyAt | Date      | Measure ready date              |
+| position       | number[]  | [x,y,z] coordinates of pano     |
+| levelId        | number    | ID of the level containing pano |
+| captureId      | number    | ID of capture containing pano   |
 
 ### **Get Pano All**
 
-현재 siteView의 모든 pano를 조회.
+Get all panos of the current siteView.
 
 Request
 
@@ -468,25 +468,25 @@ Response
 }
 ```
 
-| Property | Data type             | Description     |
-| -------- | --------------------- | --------------- |
-| panos    | array of pano objects | pano 정보 array |
+| Property | Data type             | Description            |
+| -------- | --------------------- | ---------------------- |
+| panos    | array of pano objects | pano information array |
 
-| pano Property  | Data type | Description                 |
-| -------------- | --------- | --------------------------- |
-| id             | number    | pano object의 아이디        |
-| name           | string    | pano object의 이름          |
-| filename       | string    | pano 이미지 파일 이름       |
-| appCapturedAt  | Date      | 앱에서 촬영한 날짜          |
-| publishedAt    | Date      | publish 날짜                |
-| measureReadyAt | Date      | measure ready 날짜          |
-| position       | number[]  | 파노의 [x,y,z] 좌표         |
-| levelId        | number    | pano가 포함된 레벨의 아이디 |
-| captureId      | number    | pano가 포함된 캡쳐의 아이디 |
+| pano Property  | Data type | Description                     |
+| -------------- | --------- | ------------------------------- |
+| id             | number    | ID of the pano                  |
+| name           | string    | Name of the pano                |
+| filename       | string    | Pano image file name            |
+| appCapturedAt  | Date      | Date taken in the app           |
+| publishedAt    | Date      | Published date                  |
+| measureReadyAt | Date      | Measure ready date              |
+| position       | number[]  | [x,y,z] coordinates of pano     |
+| levelId        | number    | ID of the level containing pano |
+| captureId      | number    | ID of capture containing pano   |
 
 ### **Get Room**
 
-특정 ID의 room 조회.
+Get the specific room information.
 
 Request
 
@@ -499,9 +499,9 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property | Data type | Description    | Require |
-| -------- | --------- | -------------- | ------- |
-| roomId   | number    | 대상의 room ID | O       |
+| Property | Data type | Description      | Require |
+| -------- | --------- | ---------------- | ------- |
+| roomId   | number    | Target's room ID | O       |
 
 Response
 
@@ -516,22 +516,22 @@ Response
 }
 ```
 
-| Property | Data type | Description |
-| -------- | --------- | ----------- |
-| room     | object    | room 정보   |
+| Property | Data type | Description      |
+| -------- | --------- | ---------------- |
+| room     | object    | Room information |
 
-| room Property | Data type | Description                    |
-| ------------- | --------- | ------------------------------ |
-| id            | number    | room object의 ID               |
-| name          | string    | room object의 이름             |
-| bimId         | number    | bim ID                         |
-| baseMatrix    | number[]  | base Matrix                    |
-| minBound      | number[]  | 바운딩 박스의 min 좌표 [x,y,z] |
-| maxBound      | number[]  | 바운딩 박스의 man 좌표 [x,y,z] |
+| room Property | Data type | Description                             |
+| ------------- | --------- | --------------------------------------- |
+| id            | number    | ID of room                              |
+| name          | string    | Name of the room                        |
+| bimId         | number    | Bim ID                                  |
+| baseMatrix    | number[]  | Base matrix                             |
+| minBound      | number[]  | Min coordinates of bounding box [x,y,z] |
+| maxBound      | number[]  | Max coordinates of bounding box [x,y,z] |
 
 ### **Get Room All**
 
-현재 siteView의 모든 room 조회
+Get all room information of the current siteView.
 
 Request
 
@@ -556,41 +556,43 @@ Response
 }
 ```
 
-| Property | Data type             | Description     |
-| -------- | --------------------- | --------------- |
-| rooms    | array of room objects | room 정보 array |
+| Property | Data type             | Description            |
+| -------- | --------------------- | ---------------------- |
+| rooms    | array of room objects | Room information array |
 
-| room Property | Data type | Description                    |
-| ------------- | --------- | ------------------------------ |
-| id            | number    | room object의 ID               |
-| name          | string    | room object의 이름             |
-| minBound      | number[]  | 바운딩 박스의 min 좌표 [x,y,z] |
-| maxBound      | number[]  | 바운딩 박스의 man 좌표 [x,y,z] |
+| room Property | Data type | Description                             |
+| ------------- | --------- | --------------------------------------- |
+| id            | number    | ID of room                              |
+| name          | string    | Name of the room                        |
+| bimId         | number    | Bim ID                                  |
+| baseMatrix    | number[]  | Base matrix                             |
+| minBound      | number[]  | Min coordinates of bounding box [x,y,z] |
+| maxBound      | number[]  | Max coordinates of bounding box [x,y,z] |
 
-### **Get Form Design**
+### **Get Form Template**
 
-특정 ID의 form design 조회.
+Get the specific form template.
 
 Request
 
 ```ts
 CupixApi.sendToCupix({
-  operationType: "GET_FORM_DESIGN",
+  operationType: "GET_FORM_TEMPLATE",
   operationArgs: {
-    formDesignId: 1,
+    formTemplateId: 1,
   },
 });
 ```
 
-| Property     | Data type | Description           | Require |
-| ------------ | --------- | --------------------- | ------- |
-| formDesignId | number    | 대상의 form design ID | O       |
+| Property       | Data type | Description               | Require |
+| -------------- | --------- | ------------------------- | ------- |
+| formTemplateId | number    | Target's form template ID | O       |
 
 Response
 
 ```ts
 {
-  formDesign: {
+  formTemplate: {
     id: 1,
     name: "",
     description: "",
@@ -608,35 +610,35 @@ Response
 }
 ```
 
-| Property   | Data type                  | Description      |
-| ---------- | -------------------------- | ---------------- |
-| formDesign | object                     | form Design 정보 |
-| formFields | array of formField objects | form field 정보  |
+| Property     | Data type                  | Description               |
+| ------------ | -------------------------- | ------------------------- |
+| formTemplate | object                     | form Template information |
+| formFields   | array of formField objects | form field information    |
 
-| formDesign Property | Data type | Description                      |
-| ------------------- | --------- | -------------------------------- |
-| id                  | number    | form Design object의 ID          |
-| name                | string    | form Design object의 이름        |
-| description         | string    | form Design object의 description |
-| created_at          | string    | form Design object의 생성일      |
-| updated_at          | string    | form Design object의 수정일      |
+| formTemplate Property | Data type | Description                       |
+| --------------------- | --------- | --------------------------------- |
+| id                    | number    | ID of the form template           |
+| name                  | string    | Name of the form template         |
+| description           | string    | Description of the form template  |
+| created_at            | string    | Created date of the form template |
+| updated_at            | string    | Updated date of the form template |
 
-| formField Property | Data type                                                                                                                                | Description              |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| id                 | number                                                                                                                                   | form field object의 ID   |
-| type               | string                                                                                                                                   | form field object의 타입 |
-| name               | string                                                                                                                                   | form field object의 이름 |
-| kind               | `"select_boxes" \| "text_field" \| "number" \| "description" \| "member" \| "text_area" \| "check_box" \| "select" \| "radio" \| "date"` | form field object의 종류 |
+| formField Property | Data type                                                                                                                                | Description            |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| id                 | number                                                                                                                                   | ID of the form field   |
+| type               | string                                                                                                                                   | Type of form field     |
+| name               | string                                                                                                                                   | Name of the form field |
+| kind               | `"select_boxes" \| "text_field" \| "number" \| "description" \| "member" \| "text_area" \| "check_box" \| "select" \| "radio" \| "date"` | Types of form field    |
 
-### **Get Form Design All**
+### **Get Form Template All**
 
-사용할 수 있는 모든 form design을 조회.
+Get all available form templates.
 
 Request
 
 ```ts
 CupixApi.sendToCupix({
-  operationType: "GET_FORM_DESIGN_ALL",
+  operationType: "GET_FORM_TEMPLATE_ALL",
 });
 ```
 
@@ -644,7 +646,7 @@ Response
 
 ```ts
 {
-  formDesigns: [
+  formTemplates: [
     {
       id: "",
       name: "",
@@ -656,23 +658,23 @@ Response
 }
 ```
 
-| Property    | Data type                   | Description      |
-| ----------- | --------------------------- | ---------------- |
-| formDesigns | array of formDesign Objects | form design 정보 |
+| Property      | Data type                     | Description               |
+| ------------- | ----------------------------- | ------------------------- |
+| formTemplates | array of formTemplate Objects | form template information |
 
-| formDesign Property | Data type | Description                      |
-| ------------------- | --------- | -------------------------------- |
-| id                  | number    | form Design object의 ID          |
-| name                | string    | form Design object의 이름        |
-| description         | string    | form Design object의 description |
-| created_at          | string    | form Design object의 생성일      |
-| updated_at          | string    | form Design object의 수정일      |
+| formTemplate Property | Data type | Description                       |
+| --------------------- | --------- | --------------------------------- |
+| id                    | number    | ID of the form template           |
+| name                  | string    | Name of the form template         |
+| description           | string    | Description of the form template  |
+| created_at            | string    | Created date of the form template |
+| updated_at            | string    | Updated date of the form template |
 
 ## **Change API**
 
 ### **Change Level**
 
-특정 level로 이동.
+Change to a specific level
 
 Request
 
@@ -685,15 +687,15 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property | Data type | Description          | Require |
-| -------- | --------- | -------------------- | ------- |
-| levelId  | number    | active 할 level의 ID | O       |
+| Property | Data type | Description               | Require |
+| -------- | --------- | ------------------------- | ------- |
+| levelId  | number    | ID of the level to change | O       |
 
 Response
 
 ### **Change Capture**
 
-특정 capture로 이동.
+Change to a specific capture.
 
 Request
 
@@ -706,16 +708,16 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property  | Data type | Description          | Require |
-| --------- | --------- | -------------------- | ------- |
-| captureId | number    | 이동할 capture 의 ID | O       |
+| Property  | Data type | Description             | Require |
+| --------- | --------- | ----------------------- | ------- |
+| captureId | number    | ID of capture to change | O       |
 
 Response
 
 
 ### **Change Pano**
 
-특정 pano를 focus 함
+Focus on a specific pano.
 
 Request
 
@@ -729,10 +731,10 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property | Data type | Description              | Require |
-| -------- | --------- | ------------------------ | ------- |
-| panoId   | number    | focus 할 pano의 ID       | O       |
-| lookAt   | number[]  | pano의 방향 [x,y,z] 좌표 | X       |
+| Property | Data type | Description                             | Require |
+| -------- | --------- | --------------------------------------- | ------- |
+| panoId   | number    | ID of the pano to focus on              | O       |
+| lookAt   | number[]  | [x,y,z] coordinates looking at the pano | X       |
 
 Response
 
@@ -741,7 +743,7 @@ Response
 
 ### **Get Camera Parameter**
 
-카메라의 파라미터 정보를 가져옴
+Get camera parameter information.
 
 Request
 
@@ -771,9 +773,9 @@ Response
 }
 ```
 
-| Property         | Data type | Description            |
-| ---------------- | --------- | ---------------------- |
-| cameraParameters | object    | camera Parameters 정보 |
+| Property         | Data type | Description                   |
+| ---------------- | --------- | ----------------------------- |
+| cameraParameters | object    | Camera Parameters information |
 
 | cameraParameters Property | Data type | Description                                                                   |
 | ------------------------- | --------- | ----------------------------------------------------------------------------- |
@@ -792,7 +794,7 @@ Response
 
 ### **Set Camera Rotate**
 
-카메라를 회전 시킴
+Rotate the camera.
 
 Request
 
@@ -806,17 +808,17 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property  | Data type                             | Description          | Require |
-| --------- | ------------------------------------- | -------------------- | ------- |
-| direction | `'UP' \| 'DOWN' \| 'LEFT' \| 'RIGHT'` | 변경할 카메라의 방향 | O       |
-| angle     | number                                | 변경할 카메라의 각도 | O       |
+| Property  | Data type                             | Description                   | Require |
+| --------- | ------------------------------------- | ----------------------------- | ------- |
+| direction | `'UP' \| 'DOWN' \| 'LEFT' \| 'RIGHT'` | Direction of camera to change | O       |
+| angle     | number                                | Camera angle to change        | O       |
 
 Response
 
 
 ### **Set Camera Zoom**
 
-카메라의 zoom level을 변경.
+Change the zoom level of the camera.
 
 Request
 
@@ -831,14 +833,14 @@ CupixApi.sendToCupix({
 
 | Property      | Data type | Description  | Require |
 | ------------- | --------- | ------------ | ------- |
-| angleInDegree | number    | 카메라의 fov | O       |
+| angleInDegree | number    | Camera's fov | O       |
 
 Response
 
 
 ### **Set Camera Lookat**
 
-카메라를 특정 좌표를 파라보도록 방향을 변경.
+Set the camera to look at specific coordinates.
 
 Request
 
@@ -853,18 +855,18 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property | Data type | Description            | Require |
-| -------- | --------- | ---------------------- | ------- |
-| lookAtX  | number    | 카메라가 바라볼 방향 X | O       |
-| lookAtY  | number    | 카메라가 바라볼 방향 Y | O       |
-| lookAtZ  | number    | 카메라가 바라볼 방향 Z | O       |
+| Property | Data type | Description                                         | Require |
+| -------- | --------- | --------------------------------------------------- | ------- |
+| lookAtX  | number    | X coordinate of the direction the camera is looking | O       |
+| lookAtY  | number    | Y coordinate of the direction the camera is looking | O       |
+| lookAtZ  | number    | Z coordinate of the direction the camera is looking | O       |
 
 Response
 
 
 ### **Set Camera Reset**
 
-카메라의 방향을 특정 방향으로 리셋.
+Reset camera.
 
 Request
 
@@ -890,44 +892,44 @@ CupixApi.sendToCupix({
 
 "SET_CAMERA_MOVE",
 Request
-| Property  | Data type                                 | Description          |
-| --------- | ----------------------------------------- | -------------------- |
-| direction | `'FORWARD' \| 'BACK' \| 'LEFT' \| 'RIGHT` | 변경할 카메라의 방향 |
+| Property  | Data type                                 | Description                   |
+| --------- | ----------------------------------------- | ----------------------------- |
+| direction | `'FORWARD' \| 'BACK' \| 'LEFT' \| 'RIGHT` | Direction of camera to change |
 
 Response
 
 ## **Annotation API**
 
-### **Add Annotation Layer**
+### **Add Annotation Group**
 
-annotation layer를 추가 함.
+Add annotation group.
 
 Request
 
 ```ts
 CupixApi.sendToCupix({
-  operationType: 'ADD_ANNOTATION_LAYER',
+  operationType: 'ADD_ANNOTATION_GROUP',
   operationArgs: {
     name: "",
     levelId: 1,
-    recordId: 1,
-    annotationLayerTemplateId: 1,
+    captureId: 1,
+    annotationGroupTemplateId: 1,
   },
 });
 ```
 
-| Property                  | Data type | Description                                                 | Require |
-| ------------------------- | --------- | ----------------------------------------------------------- | ------- |
-| name                      | string    | 추가할 annotation layer의 이름                              | O       |
-| levelId                   | number    | 추가할 annotation layer의 상위 level ID                     | O       |
-| recordId                  | number    | 추가할 annotation layer의 상위 record ID                    | O       |
-| annotationLayerTemplateId | number    | 추가할 annotation layer의 대상 annotation Layer Template ID | X       |
+| Property                  | Data type | Description                                  | Require |
+| ------------------------- | --------- | -------------------------------------------- | ------- |
+| name                      | string    | The name of the annotation group to be added | O       |
+| levelId                   | number    | level ID of annotation group to be added     | O       |
+| captureId                 | number    | capture ID of annotation group to be added   | O       |
+| annotationGroupTemplateId | number    | Target annotation group Template ID          | X       |
 
 Response
 
 ### **Add Annotation Form**
 
-특정 annotation layer에 annotation form 을 추가 함.
+Add annotation form to specific annotation group.
 
 Request
 
@@ -935,45 +937,45 @@ Request
 CupixApi.sendToCupix({
   operationType: 'ADD_ANNOTATION_FORM',
   operationArgs: {
-    formDesignId: 1,
-    annotationLayerId: 1,
+    formTemplateId: 1,
+    annotationGroupId: 1,
     name: "",
     values: ""
   }
 });
 ```
 
-| Property          | Data type | Description                                                | Require |
-| ----------------- | --------- | ---------------------------------------------------------- | ------- |
-| formDesignId      | number    | 추가할 annotation의 대상 form design ID                    | O       |
-| annotationLayerId | number    | 추가할 annotation의 상위 annotation layer ID               | X       |
-| name              | string    | 추가할 annotation의 이름. defulat: 'New form'              | X       |
-| values            | string    | annotation values. stringify JSON '[]'. 각 필드 값의 array | X       |
+| Property          | Data type | Description                                                                                | Require |
+| ----------------- | --------- | ------------------------------------------------------------------------------------------ | ------- |
+| formTemplateId    | number    | Target form template ID of annotation to be added                                          | O       |
+| annotationGroupId | number    | Parent annotation group ID of annotation to be added                                       | X       |
+| name              | string    | The name of the annotation to add. default: 'New form'                                     | X       |
+| values            | string    | Annotation values. stringify JSON `'["text1", "text2"]'`. array of values ​​for each field | X       |
 
 Response
 
 
-### **Delete Annotation Layer**
+### **Delete Annotation Group**
 
 ```ts
 CupixApi.sendToCupix({
-  operationType: 'DELETE_ANNOTATION_LAYER',
+  operationType: 'DELETE_ANNOTATION_GROUP',
   operationArgs: {
-    annotationLayerId: 1,
+    annotationGroupId: 1,
   },
 });
 ```
 
 Request
-| Property          | Data type | Description                  | Require |
-| ----------------- | --------- | ---------------------------- | ------- |
-| annotationLayerId | number    | 삭제할 annotation layer의 ID | O       |
+| Property          | Data type | Description                          | Require |
+| ----------------- | --------- | ------------------------------------ | ------- |
+| annotationGroupId | number    | ID of annotation group to be deleted | O       |
 
 Response
 
 ### **Delete Annotation**
 
-특정 ID의 annotation을 삭제 함.
+Delete specific annotation.
 
 Request
 
@@ -986,36 +988,36 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property     | Data type | Description            | Require |
-| ------------ | --------- | ---------------------- | ------- |
-| annotationId | number    | 삭제할 annotation의 ID | O       |
+| Property     | Data type | Description                    | Require |
+| ------------ | --------- | ------------------------------ | ------- |
+| annotationId | number    | ID of annotation to be deleted | O       |
 
 Response
 
-### **Get Annotation Layer**
+### **Get Annotation Group**
 
-특정 ID의 annotation layer 정보를 조회.
+Get specific annotation group information.
 
 Request
 
 ```ts
 CupixApi.sendToCupix({
-  operationType: 'GET_ANNOTATION_LAYER',
+  operationType: 'GET_ANNOTATION_GROUP',
   operationArgs: {
-    annotationLayerId: 1
+    annotationGroupId: 1
   }
 });
 ```
 
-| Property          | Data type | Description                | Require |
-| ----------------- | --------- | -------------------------- | ------- |
-| annotationLayerId | number    | 대상 annotation layer의 ID | O       |
+| Property          | Data type | Description                   | Require |
+| ----------------- | --------- | ----------------------------- | ------- |
+| annotationGroupId | number    | ID of target annotation group | O       |
 
 Response
 
 ```ts
 {
-  annotationLayer: {
+  annotationGroup: {
     id: 1,
     reviewKey: "",
     name: "",
@@ -1023,25 +1025,25 @@ Response
 }
 ```
 
-| Property        | Data type | Description           |
-| --------------- | --------- | --------------------- |
-| annotationLayer | object    | annotation layer 정보 |
+| Property        | Data type | Description                  |
+| --------------- | --------- | ---------------------------- |
+| annotationGroup | object    | annotation group information |
 
-| annotationLayer Property | Data type | Description                               |
-| ------------------------ | --------- | ----------------------------------------- |
-| id                       | number    | annotation layer object의 ID              |
-| reviewKey                | string    | 이 annotation layer를 포함하는 review key |
-| name                     | string    | annotation layer object의 이름            |
+| annotationGroup Property | Data type | Description                                 |
+| ------------------------ | --------- | ------------------------------------------- |
+| id                       | number    | ID of annotation group                      |
+| reviewKey                | string    | Review key containing this annotation group |
+| name                     | string    | The name of the annotation group            |
 
-### **Get Annotation Layer All**
+### **Get Annotation Group All**
 
-현재 siteView의 모든 annotation layer 정보를 조회.
+Get all annotation group information of current siteView
 
 Request
 
 ```ts
 CupixApi.sendToCupix({
-  operationType: 'GET_ANNOTATION_LAYER_ALL',
+  operationType: 'GET_ANNOTATION_GROUP_ALL',
 });
 ```
 
@@ -1049,7 +1051,7 @@ Response
 
 ```ts
 {
-  annotationLayerList: [
+  annotationGroupList: [
     {
       id: 1,
       reviewKey: "",
@@ -1059,65 +1061,65 @@ Response
 }
 ```
 
-| Property            | Data type                        | Description                |
-| ------------------- | -------------------------------- | -------------------------- |
-| annotationLayerList | array of annotationLayer objects | annotation layer list 정보 |
+| Property            | Data type                        | Description                       |
+| ------------------- | -------------------------------- | --------------------------------- |
+| annotationGroupList | array of annotationGroup objects | annotation group list information |
 
-| annotationLayer Property | Data type | Description                              |
-| ------------------------ | --------- | ---------------------------------------- |
-| id                       | number    | annotation layer object의 아이디         |
-| reviewKey                | string    | 이 annotation layer를 포함하는 reviewKey |
-| name                     | string    | annotation layer object의 이름           |
+| annotationGroup Property | Data type | Description                                 |
+| ------------------------ | --------- | ------------------------------------------- |
+| id                       | number    | ID of annotation group                      |
+| reviewKey                | string    | Review key containing this annotation group |
+| name                     | string    | The name of the annotation group            |
 
-### **Get Annotation Layer Template**
+### **Get Annotation Group Template**
 
-특정 ID의 annotation layer template 정보를 조회.
+Get specific annotation group template information.
 
 Request
 
 ```ts
 CupixApi.sendToCupix({
-  operationType: 'GET_ANNOTATION_LAYER_TEMPLATE',
+  operationType: 'GET_ANNOTATION_GROUP_TEMPLATE',
   operationArgs: {
-    annotationLayerTemplateId: 1,
+    annotationGroupTemplateId: 1,
   },
 });
 ```
 
-| Property                  | Data type | Description                | Require |
-| ------------------------- | --------- | -------------------------- | ------- |
-| annotationLayerTemplateId | number    | 대상 annotation layer의 ID | O       |
+| Property                  | Data type | Description                   | Require |
+| ------------------------- | --------- | ----------------------------- | ------- |
+| annotationGroupTemplateId | number    | ID of target annotation group | O       |
 
 Response
 
 ```ts
 {
-  annotationLayer: {}
+  annotationGroup: {}
 }
 ```
 
-| Property        | Data type | Description           |
-| --------------- | --------- | --------------------- |
-| annotationLayer | object    | annotation layer 정보 |
+| Property        | Data type | Description                  |
+| --------------- | --------- | ---------------------------- |
+| annotationGroup | object    | annotation group information |
 
-| annotationLayer Property | Data type | Description                           |
-| ------------------------ | --------- | ------------------------------------- |
-| id                       | number    | annotation layer object의 ID          |
-| name                     | string    | annotation layer object의 이름        |
-| description              | string    | annotation layer object의 description |
-| created_at               | string    | annotation layer object의 생성일      |
-| updated_at               | string    | annotation layer object의 수정일      |
-| published_at             | string    | annotation layer object 발행일        |
+| annotationGroup Property | Data type | Description                        |
+| ------------------------ | --------- | ---------------------------------- |
+| id                       | number    | ID of annotation group             |
+| name                     | string    | The name of the annotation group   |
+| description              | string    | Description of annotation group    |
+| created_at               | string    | Created date of annotation group   |
+| updated_at               | string    | Updated date of annotation group   |
+| published_at             | string    | Published date of annotation group |
 
-### **Get Annotation Layer Template All**
+### **Get Annotation Group Template All**
 
-모든 annotation layer template을 조회
+Get all annotation group templates.
 
 Request
 
 ```ts
 CupixApi.sendToCupix({
-  operationType: 'GET_ANNOTATION_LAYER_TEMPLATE_ALL',
+  operationType: 'GET_ANNOTATION_GROUP_TEMPLATE_ALL',
 });
 
 ```
@@ -1126,26 +1128,26 @@ Response
 
 ```ts
 {
-  annotationLayerTemplates: []
+  annotationGroupTemplates: []
 }
 ```
 
-| Property                 | Data type                                | Description                 |
-| ------------------------ | ---------------------------------------- | --------------------------- |
-| annotationLayerTemplates | array of annotationLayerTemplate objects | annotation layer 정보 array |
+| Property                 | Data type                                | Description                        |
+| ------------------------ | ---------------------------------------- | ---------------------------------- |
+| annotationGroupTemplates | array of annotationGroupTemplate objects | annotation group information array |
 
-| annotationLayer Property | Data type | Description                           |
-| ------------------------ | --------- | ------------------------------------- |
-| id                       | number    | annotation layer object의 ID          |
-| name                     | string    | annotation layer object의 이름        |
-| description              | string    | annotation layer object의 description |
-| created_at               | string    | annotation layer object의 생성일      |
-| updated_at               | string    | annotation layer object의 수정일      |
-| published_at             | string    | annotation layer object 발행일        |
+| annotationGroup Property | Data type | Description                        |
+| ------------------------ | --------- | ---------------------------------- |
+| id                       | number    | ID of annotation group             |
+| name                     | string    | The name of the annotation group   |
+| description              | string    | Description of annotation group    |
+| created_at               | string    | Created date of annotation group   |
+| updated_at               | string    | Updated date of annotation group   |
+| published_at             | string    | Published date of annotation group |
 
 ### **Get Annotation**
 
-특정 ID의 annotation 정보를 조회.
+Get specific annotation information.
 
 Request
 
@@ -1158,9 +1160,9 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property     | Data type | Description          | Require |
-| ------------ | --------- | -------------------- | ------- |
-| annotationId | number    | 대상의 annotation ID | O       |
+| Property     | Data type | Description            | Require |
+| ------------ | --------- | ---------------------- | ------- |
+| annotationId | number    | Target's annotation ID | O       |
 
 Response
 
@@ -1170,28 +1172,28 @@ Response
     id: 1,
     name: "",
     formName: "",
-    formDesignId: 1,
+    formTemplateId: 1,
     children: [],
   },
 }
 ```
 
-| Property   | Data type | Description     |
-| ---------- | --------- | --------------- |
-| annotation | object    | annotation 정보 |
+| Property   | Data type | Description            |
+| ---------- | --------- | ---------------------- |
+| annotation | object    | annotation information |
 
-| annotation Property | Data type                  | Description                  |
-| ------------------- | -------------------------- | ---------------------------- |
-| id                  | number                     | annotation object의 ID       |
-| name                | string                     | annotation object의 이름     |
-| formName            | string                     | annotation의 formDesign 이름 |
-| formDesignId        | number                     | annotation의 formDesignId    |
-| children            | array of annotation object | 하위 annotation              |
+| annotation Property | Data type                  | Description                         |
+| ------------------- | -------------------------- | ----------------------------------- |
+| id                  | number                     | ID of the annotation                |
+| name                | string                     | The name of the annotation          |
+| formName            | string                     | formTemplate name of the annotation |
+| formTemplateId      | number                     | formTemplateId of the annotation    |
+| children            | array of annotation object | sub-annotation                      |
 
 
 ### **Get Annotation All**
 
-현재 siteView의 모든 annotation을 조회.
+Get all annotations of the current siteView.
 
 Request
 
@@ -1210,28 +1212,28 @@ Response
       id: 1,
       name: "",
       formName: "",
-      formDesignId: 1,
+      formTemplateId: 1,
       children: [],
     },
   ],
 }
 ```
 
-| Property    | Data type                  | Description           |
-| ----------- | -------------------------- | --------------------- |
-| annotations | array of annotation object | annotation 정보 array |
+| Property    | Data type                  | Description                  |
+| ----------- | -------------------------- | ---------------------------- |
+| annotations | array of annotation object | annotation information array |
 
-| annotation Property | Data type                  | Description                  |
-| ------------------- | -------------------------- | ---------------------------- |
-| id                  | number                     | annotation object의 ID       |
-| name                | string                     | annotation object의 이름     |
-| formName            | string                     | annotation의 formDesign 이름 |
-| formDesignId        | number                     | annotation의 formDesignId    |
-| children            | array of annotation object | 하위 annotation              |
+| annotation Property | Data type                  | Description                         |
+| ------------------- | -------------------------- | ----------------------------------- |
+| id                  | number                     | ID of the annotation                |
+| name                | string                     | The name of the annotation          |
+| formName            | string                     | formTemplate name of the annotation |
+| formTemplateId      | number                     | formTemplateId of the annotation    |
+| children            | array of annotation object | sub-annotation                      |
 
 ### **Toggle Resolve Annotation**
 
-특정 ID의 annotation의 resolve를 toggle 함.
+Toggles resolve specific annotation.
 
 Request
 
@@ -1244,39 +1246,39 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property     | Data type | Description          | Require |
-| ------------ | --------- | -------------------- | ------- |
-| annotationId | number    | 대상 annotation의 ID | O       |
+| Property     | Data type | Description             | Require |
+| ------------ | --------- | ----------------------- | ------- |
+| annotationId | number    | ID of target annotation | O       |
 
 Response
 
-### **Update Annotation Layer**
+### **Update Annotation Group**
 
-특정 ID의 annotation layer를 업데이트 함.
+Update specific annotation group.
 
 Request
 
 ```ts
 CupixApi.sendToCupix({
-  operationType: 'UPDATE_ANNOTATION_LAYER',
+  operationType: 'UPDATE_ANNOTATION_GROUP',
   operationArgs: {
-    annotationLayerId: 1,
+    annotationGroupId: 1,
     name: "",
   },
 });
 ```
 
-| Property          | Data type | Description                 | Require |
-| ----------------- | --------- | --------------------------- | ------- |
-| annotationLayerId | number    | 대상 annotation의 ID        | O       |
-| name              | string    | 대상 annotation의 바뀔 이름 | O       |
+| Property          | Data type | Description                   | Require |
+| ----------------- | --------- | ----------------------------- | ------- |
+| annotationGroupId | number    | ID of target annotation       | O       |
+| name              | string    | New name of target annotation | O       |
 
 Response
 
 
 ### **Update Annotation Form**
 
-특정 ID의 annotation form을 업데이트 함.
+Update specific annotation form.
 
 Request
 
@@ -1291,11 +1293,11 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property     | Data type | Description                                                | Require |
-| ------------ | --------- | ---------------------------------------------------------- | ------- |
-| annotationId | number    | 대상 annotation의 ID                                       | O       |
-| name         | string    | 대상 annotation 의 바뀔 이름                               | X       |
-| values       | string    | annotation values. stringify JSON '[]'. 각 필드 값의 array | X       |
+| Property     | Data type | Description                                                                                | Require |
+| ------------ | --------- | ------------------------------------------------------------------------------------------ | ------- |
+| annotationId | number    | ID of target annotation                                                                    | O       |
+| name         | string    | New name of target annotation                                                              | X       |
+| values       | string    | Annotation values. stringify JSON `'["text1", "text2"]'`. array of values ​​for each field | X       |
 
 Response
 
@@ -1303,7 +1305,7 @@ Response
 
 ### **Find Nearest Panos**
 
-특정 좌표를 기준으로 가까운 pano를 찾음.
+Find the nearest panos based on specific coordinates.
 
 Request
 
@@ -1312,7 +1314,7 @@ CupixApi.sendToCupix({
   operationType: "FIND_NEAREST_PANOS",
   operationArgs: {
     levelId: 0,
-    recordId: 0,
+    captureId: 0,
     coordX: 0,
     coordY: 0,
     maxCount: 0
@@ -1322,15 +1324,15 @@ CupixApi.sendToCupix({
 });
 ```
 
-| Property | Data type | Description                                                     | Require |
-| -------- | --------- | --------------------------------------------------------------- | ------- |
-| levelId  | number    | 찾을 파노의 levelId                                             | O       |
-| recordId | number    | 찾을 파노의 recordId                                            | O       |
-| coordX   | number    | target 좌표 X, target 좌표를 기준으로 가까운 pano를 찾음        | O       |
-| coordY   | number    | target 좌표 Y, target 좌표를 기준으로 가까운 pano를 찾음        | O       |
-| maxCount | number    | 최대로 찾을 pano 갯수. default: 6                               | X       |
-| normalX  | number    | 방향 벡터 X, 방향 벡터 기준으로 45도 이내의 값을 찾기 위한 벡터 | X       |
-| normalY  | number    | 방향 벡터 Y, 방향 벡터 기준으로 45도 이내의 값을 찾기 위한 벡터 | X       |
+| Property  | Data type | Description                                                                            | Require |
+| --------- | --------- | -------------------------------------------------------------------------------------- | ------- |
+| levelId   | number    | The levelId of pano to find                                                            | O       |
+| captureId | number    | pano captureId to find                                                                 | O       |
+| coordX    | number    | Based on the target coordinate X, the target coordinate finds the nearest pano         | O       |
+| coordY    | number    | Based on the target coordinate Y, the target coordinate finds the nearest pano         | O       |
+| maxCount  | number    | Maximum number of panos to find. default: 6                                            | X       |
+| normalX   | number    | direction vector X, a vector to find a value within 45 degrees of the direction vector | X       |
+| normalY   | number    | Direction vector Y, a vector to find a value within 45 degrees of the direction vector | X       |
 
 Response
 
@@ -1352,18 +1354,18 @@ Response
 }
 ```
 
-| Property | Data type            | Description                                                                                                                           |
-| -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| panos    | array of pano object | target 좌표에서 가장 가까운 maxCount 개의 pano. normal 값이 있을 경우 카메라 방향이 normal의 방향과 45도 이내인 값을 우선으로 sort 함 |
+| Property | Data type            | Description                                                                                                                                                      |
+| -------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| panos    | array of pano object | The maxCount panos nearest to the target coordinates. If there is a normal value, the camera direction is prioritized within 45 degrees of the normal direction. |
 
-| pano Property  | Data type | Description                 |
-| -------------- | --------- | --------------------------- |
-| id             | number    | pano object의 아이디        |
-| name           | string    | pano object의 이름          |
-| filename       | string    | pano 이미지 파일 이름       |
-| appCapturedAt  | Date      |                             |
-| publishedAt    | Date      | publish 날짜                |
-| measureReadyAt | Date      | measure ready 날짜          |
-| position       | number[]  | 파노의 [x,y,z] 좌표         |
-| levelId        | number    | pano가 포함된 레벨의 아이디 |
-| captureId      | number    | pano가 포함된 캡쳐의 아이디 |
+| pano Property  | Data type | Description                     |
+| -------------- | --------- | ------------------------------- |
+| id             | number    | ID of the pano                  |
+| name           | string    | Name of the pano                |
+| filename       | string    | Pano image file name            |
+| appCapturedAt  | Date      | Captured date on mobile         |
+| publishedAt    | Date      | Published date                  |
+| measureReadyAt | Date      | Measure ready date              |
+| position       | number[]  | Pano's [x,y,z] coordinates      |
+| levelId        | number    | ID of the level containing pano |
+| captureId      | number    | ID of capture containing pano   |

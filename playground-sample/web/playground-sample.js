@@ -115,11 +115,11 @@ async function updateAnnotationIds() {
   });
 }
 
-async function updateAnnotationLayerIds() {
-  const result = await CupixApi.getAnnotationLayerAll();
-  const idArr = result.annotationLayerList.map(layer => layer.id);
-  const datalist = document.getElementById('annotation-layer-id');
-  resetDatalist('annotation-layer-id');
+async function updateAnnotationGroupIds() {
+  const result = await CupixApi.getAnnotationGroupAll();
+  const idArr = result.annotationGroupList.map(group => group.id);
+  const datalist = document.getElementById('annotation-group-id');
+  resetDatalist('annotation-group-id');
   idArr.forEach(id => {
     const option = document.createElement("option");
     option.setAttribute('value', id);
@@ -127,14 +127,14 @@ async function updateAnnotationLayerIds() {
   });
 }
 
-async function updateFormDesigns() {
-  const result = await CupixApi.getFormDesigns();
-  const formDesignList = document.getElementById('form-design-select');
-  result.formDesigns.forEach(formDesign => {
+async function updateFormTemplates() {
+  const result = await CupixApi.getFormTemplates();
+  const formTemplateList = document.getElementById('form-template-select');
+  result.formTemplates.forEach(formTemplate => {
     const option = document.createElement("option");
-    option.setAttribute('value', formDesign.attributes.id);
-    option.innerText = formDesign.attributes.name;
-    formDesignList.appendChild(option);
+    option.setAttribute('value', formTemplate.attributes.id);
+    option.innerText = formTemplate.attributes.name;
+    formTemplateList.appendChild(option);
   });
 }
 
@@ -146,28 +146,28 @@ function resetDatalist(id) {
   }
 }
 
-function resetFormDesignList() {
-  const formDesignList = document.getElementById('form-design-select');
-  while (formDesignList.firstChild) {
-    formDesignList.removeChild(formDesignList.lastChild);
+function resetFormTemplateList() {
+  const formTemplateList = document.getElementById('form-template-select');
+  while (formTemplateList.firstChild) {
+    formTemplateList.removeChild(formTemplateList.lastChild);
   }
   const option = document.createElement('option');
   option.setAttribute('selected', true);
-  option.innerText = 'Choose Form Design';
-  formDesignList.appendChild(option);
+  option.innerText = 'Choose Form Template';
+  formTemplateList.appendChild(option);
 }
 
 async function addAnnotation() {
-  const formDesignId = activeFacilities.annotation.formDesignId;
+  const formTemplateId = activeFacilities.annotation.formTemplateId;
   const name = 'Add Annotation Test';
   const values = '["1", "Add Annotation Test"]';
-  const layerIdInput = document.getElementById('annotation-layer-id-input');
-  if (!layerIdInput.value) {
-    const result = await CupixApi.getAnnotationLayerAll();
-    const id = result.annotationLayerList[0].id;
-    layerIdInput.value = id;
+  const groupIdInput = document.getElementById('annotation-group-id-input');
+  if (!groupIdInput.value) {
+    const result = await CupixApi.getAnnotationGroupAll();
+    const id = result.annotationGroupList[0].id;
+    groupIdInput.value = id;
   }
-  const result = await CupixApi.addAnnotation(formDesignId, Number(layerIdInput.value), name, values);
+  const result = await CupixApi.addAnnotation(formTemplateId, Number(groupIdInput.value), name, values);
   if (!result.errorMessage) await updateAnnotationIds();
 }
 
@@ -206,34 +206,34 @@ async function toggleResolveAnnotation() {
   CupixApi.toggleResolveAnnotation(annotationId);
 }
 
-async function onChangeFormDesign(value) {
-  const formDesignId = Number(value);
+async function onChangeFormTemplate(value) {
+  const formTemplateId = Number(value);
   if (!isNaN(Number(value))) {
-    await CupixApi.getFormDesign(formDesignId);
+    await CupixApi.getFormTemplate(formTemplateId);
   }
 }
 
-async function addAnnotationLayer() {
-  await CupixApi.addAnnotationLayer('Add Annotation Layer Test', activeFacilities.levelId, activeFacilities.captureId);
-  updateAnnotationLayerIds();
+async function addAnnotationGroup() {
+  await CupixApi.addAnnotationGroup('Add Annotation Group Test', activeFacilities.levelId, activeFacilities.captureId);
+  updateAnnotationGroupIds();
 }
 
-async function getAnnotationLayerAll() {
-  updateAnnotationLayerIds();
+async function getAnnotationGroupAll() {
+  updateAnnotationGroupIds();
 }
 
-async function deleteAnnotationLayer() {
-  let annotationLayerIdInput = document.getElementById('annotation-layer-id-input');
-  const annotationLayerId = annotationLayerIdInput?.value === '' ? undefined : Number(annotationLayerIdInput?.value);
-  annotationLayerIdInput.value = '';
-  await CupixApi.deleteAnnotationLayer(annotationLayerId);
-  await updateAnnotationLayerIds();
+async function deleteAnnotationGroup() {
+  let annotationGroupIdInput = document.getElementById('annotation-group-id-input');
+  const annotationGroupId = annotationGroupIdInput?.value === '' ? undefined : Number(annotationGroupIdInput?.value);
+  annotationGroupIdInput.value = '';
+  await CupixApi.deleteAnnotationGroup(annotationGroupId);
+  await updateAnnotationGroupIds();
 }
 
-async function updateAnnotationLayer() {
-  let input = document.getElementById('annotation-layer-id-input')?.value;
-  const annotationLayerId = input === '' ? undefined : Number(input);
-  let name = 'Update Annotation Layer Test';
-  if (!/\(\d+\)$/.test(name)) name += `(${annotationLayerId})`;
-  await CupixApi.updateAnnotationLayer(annotationLayerId, name);
+async function updateAnnotationGroup() {
+  let input = document.getElementById('annotation-group-id-input')?.value;
+  const annotationGroupId = input === '' ? undefined : Number(input);
+  let name = 'Update Annotation Group Test';
+  if (!/\(\d+\)$/.test(name)) name += `(${annotationGroupId})`;
+  await CupixApi.updateAnnotationGroup(annotationGroupId, name);
 }

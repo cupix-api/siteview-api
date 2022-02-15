@@ -1,3 +1,5 @@
+const isProd = /cupix-api.github.io/.test(window.location.href);
+
 var cupixWindow;
 
 window.onload = function () {
@@ -6,12 +8,10 @@ window.onload = function () {
     var iframe = document.createElement("iframe");
     iframe.classList.add("w-100");
     iframe.classList.add("h-100");
-    // local
-    // iframe.src = "http://cupix.local.cupix.works:4200";
-    iframe.src = "https://apidemo.cupix.works";
+    iframe.src = isProd ? "https://apidemo.cupix.works" : "http://cupix.local.cupix.works:4200";
     iframe.onload = () => {
       cupixWindow = iframe.contentWindow;
-    }
+    };
     elem.appendChild(iframe);
   }
 };
@@ -34,15 +34,15 @@ function getJSONContent(json) {
 
 function setPostContent(postType, postContent) {
   setContent("event-post-timestamp", `Updated: ${new Date().toLocaleString()}`);
-  setContent("event-post-type", postType || '--');
+  setContent("event-post-type", postType || "--");
   setContent("event-post-content", getJSONContent(postContent));
 }
 
 function setResponseContent(responseType, response, errorMessage, errorArgs) {
   setContent("event-resp-timestamp", `Updated: ${new Date().toLocaleString()}`);
-  setContent("event-resp-type", responseType || '--');
+  setContent("event-resp-type", responseType || "--");
   setContent("event-resp-content", getJSONContent(response));
-  setContent("event-error-msg", errorMessage || '--');
+  setContent("event-error-msg", errorMessage || "--");
   setContent("event-error-args", getJSONContent(errorArgs));
 }
 
@@ -50,20 +50,32 @@ function setOutputErrorMessage(operationType, errorMessage, errorArgs) {
   setResponseContent(operationType, undefined, errorMessage, errorArgs);
 }
 
-window.addEventListener("message", function (e) {
-  const response = e && e.data;
-  if (response == undefined) return;
-  if (response.header != 'CUPIXWORKS_API') return;
-  console.log('[CUPIXWORKS_API]', JSON.stringify(response || {}));
-  setResponseContent(e.data.responseType, e.data.response, e.data.errorMessage, e.data.errorArgs);
-}, false);
+window.addEventListener(
+  "message",
+  function (e) {
+    const response = e && e.data;
+    if (response == undefined) return;
+    if (response.header != "CUPIXWORKS_API") return;
+    console.log("[CUPIXWORKS_API]", JSON.stringify(response || {}));
+    setResponseContent(
+      e.data.responseType,
+      e.data.response,
+      e.data.errorMessage,
+      e.data.errorArgs
+    );
+  },
+  false
+);
 
 var CupixUI = CupixUI || {};
 
 CupixUI.isEmptyString = (str) => str == undefined || str.length < 1;
 
 CupixUI.promptString = (operationType, valueName, defaultValue) => {
-  let str = prompt(`Please enter ${valueName}`, sessionStorage.getItem(valueName) || defaultValue || '');
+  let str = prompt(
+    `Please enter ${valueName}`,
+    sessionStorage.getItem(valueName) || defaultValue || ""
+  );
   if (str) sessionStorage.setItem(valueName, str);
   if (CupixUI.isEmptyString(str)) {
     let errorMessage = `empty ${valueName}`;
@@ -78,9 +90,9 @@ CupixUI.promptString = (operationType, valueName, defaultValue) => {
 CupixUI.promptNumber = (operationType, valueName, defaultValue) => {
   let str = CupixUI.promptString(operationType, valueName, defaultValue);
   try {
-    str = str.replace(/\s/g, '');
+    str = str.replace(/\s/g, "");
     let x = Number(str);
-    if (isNaN(x)) throw 'invalid number';
+    if (isNaN(x)) throw "invalid number";
     return x;
   } catch (ec) {
     console.warn(ec);
@@ -96,12 +108,12 @@ CupixUI.promptNumber = (operationType, valueName, defaultValue) => {
 CupixUI.promptVector2 = (operationType, valueName, defaultValue) => {
   let str = CupixUI.promptString(operationType, valueName, defaultValue);
   try {
-    str = str.replace(/\s/g, '');
-    let token = str.split(',');
-    if (token.length !== 2) throw 'invalid vector size';
+    str = str.replace(/\s/g, "");
+    let token = str.split(",");
+    if (token.length !== 2) throw "invalid vector size";
     let x = Number(token[0]);
     let y = Number(token[1]);
-    if (isNaN(x) || isNaN(y)) throw 'invalid number';
+    if (isNaN(x) || isNaN(y)) throw "invalid number";
     return {
       x: x,
       y: y
@@ -232,7 +244,7 @@ function promptStringOptional(...rest) {
   try {
     return CupixUI.promptString(...rest);
   } catch {
-    return '';
+    return "";
   }
 }
 
@@ -240,23 +252,22 @@ function promptNumberOptional(...rest) {
   try {
     return CupixUI.promptNumber(...rest);
   } catch {
-    return '';
+    return "";
   }
 }
-
 
 CupixUI.addAnnotation = () => {
   try {
     const op = "addAnnotation";
-    const formDesignId = CupixUI.promptNumber(op, "form design id");
-    const annotationLayerId = CupixUI.promptNumber(op, "annotation layer id");
+    const formTemplateId = CupixUI.promptNumber(op, "form template id");
+    const annotationGroupId = CupixUI.promptNumber(op, "annotation group id");
     const name = CupixUI.promptString(op, "annotation name");
     const values = promptStringOptional(op, "form fields");
-    CupixApi.addAnnotation(formDesignId, annotationLayerId, name, values);
+    CupixApi.addAnnotation(formTemplateId, annotationGroupId, name, values);
   } catch (ec) {
     console.warn(ec);
   }
-}
+};
 
 CupixUI.deleteAnnotation = () => {
   try {
@@ -266,7 +277,7 @@ CupixUI.deleteAnnotation = () => {
   } catch (ec) {
     console.warn(ec);
   }
-}
+};
 
 CupixUI.updateAnnotation = () => {
   try {
@@ -278,7 +289,7 @@ CupixUI.updateAnnotation = () => {
   } catch (ec) {
     console.warn(ec);
   }
-}
+};
 
 CupixUI.toggleResolveAnnotation = () => {
   try {
@@ -288,80 +299,90 @@ CupixUI.toggleResolveAnnotation = () => {
   } catch (ec) {
     console.warn(ec);
   }
-}
+};
 
-CupixUI.getFormDesign = () => {
+CupixUI.getFormTemplate = () => {
   try {
-    const op = "getFormDesign";
-    const formDesignId = CupixUI.promptNumber(op, "form design id");
-    CupixApi.getFormDesign(formDesignId);
+    const op = "getFormTemplate";
+    const formTemplateId = CupixUI.promptNumber(op, "form template id");
+    CupixApi.getFormTemplate(formTemplateId);
   } catch (ec) {
     console.warn(ec);
   }
-}
+};
 
 function promptVector2Optional(...rest) {
   try {
-    return CupixUI.promptVector2(...rest)
+    return CupixUI.promptVector2(...rest);
   } catch {
     return {};
   }
 }
 
-CupixUI.addAnnotationLayer = () => {
+CupixUI.addAnnotationGroup = () => {
   try {
-    const op = "addAnnotationLayer";
-    const name = CupixUI.promptString(op, 'annotation layer name');
+    const op = "addAnnotationGroup";
+    const name = CupixUI.promptString(op, "annotation group name");
     const levelId = CupixUI.promptNumber(op, "level id");
-    const recordId = CupixUI.promptNumber(op, "record id");
-    const annotationLayerTemplateId = promptNumberOptional(op, "annotation layer template id (optional)");
-    CupixApi.addAnnotationLayer(name, levelId, recordId, annotationLayerTemplateId);
+    const captureId = CupixUI.promptNumber(op, "capture id");
+    const annotationGroupTemplateId = promptNumberOptional(
+      op,
+      "annotation group template id (optional)"
+    );
+    CupixApi.addAnnotationGroup(
+      name,
+      levelId,
+      captureId,
+      annotationGroupTemplateId
+    );
   } catch (ec) {
     console.warn(ec);
   }
-}
+};
 
-CupixUI.getAnnotationLayer = () => {
+CupixUI.getAnnotationGroup = () => {
   try {
-    const op = "getAnnotationLayer";
-    const annotationLayerId = CupixUI.promptNumber(op, 'annotation layer id');
-    CupixApi.getAnnotationLayer(annotationLayerId);
+    const op = "getAnnotationGroup";
+    const annotationGroupId = CupixUI.promptNumber(op, "annotation group id");
+    CupixApi.getAnnotationGroup(annotationGroupId);
   } catch (ec) {
     console.warn(ec);
   }
-}
+};
 
-CupixUI.updateAnnotationLayer = () => {
+CupixUI.updateAnnotationGroup = () => {
   try {
-    const op = "updateAnnotationLayer";
-    const annotationLayerId = CupixUI.promptNumber(op, 'annotation layer id');
-    const name = CupixUI.promptString(op, 'name');
-    CupixApi.updateAnnotationLayer(annotationLayerId, name);
+    const op = "updateAnnotationGroup";
+    const annotationGroupId = CupixUI.promptNumber(op, "annotation group id");
+    const name = CupixUI.promptString(op, "name");
+    CupixApi.updateAnnotationGroup(annotationGroupId, name);
   } catch (ec) {
     console.warn(ec);
   }
-}
+};
 
-CupixUI.deleteAnnotationLayer = () => {
+CupixUI.deleteAnnotationGroup = () => {
   try {
-    const op = "deleteAnnotationLayer";
-    const annotationLayerId = CupixUI.promptNumber(op, 'annotation layer id');
-    CupixApi.deleteAnnotationLayer(annotationLayerId);
+    const op = "deleteAnnotationGroup";
+    const annotationGroupId = CupixUI.promptNumber(op, "annotation group id");
+    CupixApi.deleteAnnotationGroup(annotationGroupId);
   } catch (ec) {
     console.warn(ec);
   }
-}
+};
 
-CupixUI.getAnnotationLayerTemplate = () => {
+CupixUI.getAnnotationGroupTemplate = () => {
   try {
-    const op = "getAnnotationLayerTemplate";
-    const annotationLayerTemplateId = CupixUI.promptNumber(op, 'annotation template layer id');
-    CupixApi.getAnnotationLayerTemplate(annotationLayerTemplateId);
+    const op = "getAnnotationGroupTemplate";
+    const annotationGroupTemplateId = CupixUI.promptNumber(
+      op,
+      "annotation template group id"
+    );
+    CupixApi.getAnnotationGroupTemplate(annotationGroupTemplateId);
   } catch (ec) {
     console.warn(ec);
   }
-}
-
+};
 
 CupixUI.findNearestPanos = () => {
   try {
@@ -371,7 +392,15 @@ CupixUI.findNearestPanos = () => {
     const coord = CupixUI.promptVector2(op, "coordinate (x, y)", "0, 0");
     const normal = promptVector2Optional(op, "normal vector (x, y) (optional)");
     const maxCount = CupixUI.promptNumber(op, "max search count", "8");
-    CupixApi.findNearestPanos(levelId, captureId, coord.x, coord.y, normal.x, normal.y, maxCount);
+    CupixApi.findNearestPanos(
+      levelId,
+      captureId,
+      coord.x,
+      coord.y,
+      normal.x,
+      normal.y,
+      maxCount
+    );
   } catch (ec) {
     console.warn(ec);
   }

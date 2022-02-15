@@ -71,7 +71,7 @@ function drawFacilityBtns() {
       drawSensorsBtn(fa.utilities[0].sensors, cSensorList);
       sensorList = cSensorList;
       resetDatalist('annotation-id');
-      resetDatalist('annotation-layer-id');
+      resetDatalist('annotation-group-id');
       await CupixApi.goSiteView(fa.siteViewKey);
       Array
         .from(document.getElementById("facility-btn-list").children)
