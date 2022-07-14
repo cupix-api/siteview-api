@@ -10,7 +10,14 @@ function initCupix() {
     iframe.src = target;
     iframe.onload = async () => {
       cupixWindow = iframe.contentWindow;
-      await CupixApi.start();
+      let apiLoaded = false;
+      let retryCount = 0;
+      do {
+        const startApiResult = await CupixApi.start(1000);
+        if (startApiResult?.error) console.error(startApiResult.error);
+        else apiLoaded = true;
+        retryCount++;
+      } while(!apiLoaded && retryCount < 5);
       await CupixApi.signout();
       signinWithToken();
     };

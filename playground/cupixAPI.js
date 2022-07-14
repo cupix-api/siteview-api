@@ -4,7 +4,7 @@ var CupixApi = CupixApi || {};
 
 CupixApi.uuid = 0;
 
-CupixApi.sendToCupix = function (event) {
+CupixApi.sendToCupix = function (event, timeout) {
   console.log(`sendToCupix: [${event.operationType}]`, JSON.stringify(event));
   if (cupixWindow) {
     event.header = "CUPIXWORKS_API";
@@ -13,16 +13,21 @@ CupixApi.sendToCupix = function (event) {
     cupixWindow.postMessage(event, "*");
     const promise = new Promise((resolve) => {
       resolvers[CupixApi.uuid] = resolve;
+      if (!isNaN(timeout)) {
+        setTimeout(() => {
+          resolve({error: `timeout: ${event.operationType}`});
+        }, timeout);
+      }
     });
     CupixApi.uuid++;
     return promise;
   }
 };
 
-CupixApi.start = () =>
+CupixApi.start = (timeout) =>
   CupixApi.sendToCupix({
     operationType: "APP_API_START"
-  });
+  }, timeout);
 
 CupixApi.stop = () =>
   CupixApi.sendToCupix({
