@@ -57,6 +57,7 @@ function drawFacilityBtns() {
   let sensorList = document.getElementById("sensor-list");
   drawSensorsBtn(facilities[0].utilities[0].sensors, sensorList);
   facilities.forEach((fa) => {
+    if (!fa) return;
     const btn = document.createElement("button");
     btn.classList.add('btn-sm');
     if (!fa.siteViewKey) btn.classList.add("disabled");
