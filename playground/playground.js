@@ -1,5 +1,8 @@
 const isProd = /cupix-api.github.io/.test(window.location.href);
 
+/**
+ * @type {Window | null | undefined} cupixWindow
+*/
 var cupixWindow;
 
 window.onload = function () {
@@ -16,6 +19,10 @@ window.onload = function () {
   }
 };
 
+/**
+ * @param {string} id
+ * @param {string} content
+*/
 function setContent(id, content) {
   var elem = document.getElementById(id);
   if (elem) elem.innerText = content;

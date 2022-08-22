@@ -1,5 +1,18 @@
+/**
+ * @typedef {Object} CupixMessageResponse
+ * @property {"CUPIXWORKS_API"} header
+ * @property {CupixMessageRequest} request
+ * @property {any} response
+ * @property {string} responseType
+ * @property {string} sourceUUID
+ */
+
 let activeFacilities = facilities[0];
 let sideNav;
+/**
+ * Cupix iframe container
+ * @type {HTMLDivElement | undefined | null} cupixElem
+ * */
 let cupixElem;
 
 function initCupix() {
@@ -76,6 +89,7 @@ function log(...params) {
 
 window.addEventListener(
   "message",
+  /** @param {MessageEvent<CupixMessageResponse>} e */
   function (e) {
     const response = e && e.data;
     if (response == undefined) return;

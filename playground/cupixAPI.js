@@ -1,9 +1,30 @@
+/**
+ * @typedef {Object} CupixMessageRequest
+ * @property {string} operationType
+ * @property {"CUPIXWORKS_API"} header
+ * @property {string} uuid
+ * @property {number} timestamp
+ */
+/**
+ * @typedef {Object} ErrorType
+ * @property {string} error
+ */
+
 const resolvers = {};
 
+/**
+ * @typedef {Object} CupixApi
+ * @property {number} uuid
+ * */
 var CupixApi = CupixApi || {};
 
 CupixApi.uuid = 0;
 
+/**
+ * @param {CupixMessageRequest} event
+ * @param {number} timeout
+ * @return {Promise<ErrorType>}
+*/
 CupixApi.sendToCupix = function (event, timeout) {
   console.log(`sendToCupix: [${event.operationType}]`, JSON.stringify(event));
   if (cupixWindow) {
@@ -11,6 +32,8 @@ CupixApi.sendToCupix = function (event, timeout) {
     event.uuid = CupixApi.uuid.toString();
     event.timestamp = Date.now();
     cupixWindow.postMessage(event, "*");
+
+    /** @type {Promise<ErrorType>} */
     const promise = new Promise((resolve) => {
       resolvers[CupixApi.uuid] = resolve;
       if (!isNaN(timeout)) {
@@ -24,6 +47,9 @@ CupixApi.sendToCupix = function (event, timeout) {
   }
 };
 
+/**
+ * @param {number} timeout
+*/
 CupixApi.start = (timeout) =>
   CupixApi.sendToCupix({
     operationType: "APP_API_START"
@@ -34,6 +60,11 @@ CupixApi.stop = () =>
     operationType: "APP_API_STOP"
   });
 
+/**
+ * @param {string} teamDomain
+ * @param {string} email
+ * @param {string} password
+ * */
 CupixApi.signin = (teamDomain, email, password) =>
   CupixApi.sendToCupix({
     operationType: "SIGNIN",
