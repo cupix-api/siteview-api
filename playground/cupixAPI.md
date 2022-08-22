@@ -32,18 +32,13 @@
     - [**Set Camera Reset**](#set-camera-reset)
     - [**Set Camera Move**](#set-camera-move)
   - [**Annotation API**](#annotation-api)
-    - [**Add Annotation Group**](#add-annotation-group)
     - [**Add Annotation Form**](#add-annotation-form)
-    - [**Delete Annotation Group**](#delete-annotation-group)
     - [**Delete Annotation**](#delete-annotation)
     - [**Get Annotation Group**](#get-annotation-group)
     - [**Get Annotation Group All**](#get-annotation-group-all)
-    - [**Get Annotation Group Template**](#get-annotation-group-template)
-    - [**Get Annotation Group Template All**](#get-annotation-group-template-all)
     - [**Get Annotation**](#get-annotation)
     - [**Get Annotation All**](#get-annotation-all)
     - [**Toggle Resolve Annotation**](#toggle-resolve-annotation)
-    - [**Update Annotation Group**](#update-annotation-group)
     - [**Update Annotation Form**](#update-annotation-form)
   - [**Utility API**](#utility-api)
     - [**Find Nearest Panos**](#find-nearest-panos)
@@ -900,33 +895,6 @@ Response
 
 ## **Annotation API**
 
-### **Add Annotation Group**
-
-Add annotation group.
-
-Request
-
-```ts
-CupixApi.sendToCupix({
-  operationType: 'ADD_ANNOTATION_GROUP',
-  operationArgs: {
-    name: "",
-    levelId: 1,
-    captureId: 1,
-    annotationGroupTemplateId: 1,
-  },
-});
-```
-
-| Property                  | Data type | Description                                  | Require |
-| ------------------------- | --------- | -------------------------------------------- | ------- |
-| name                      | string    | The name of the annotation group to be added | O       |
-| levelId                   | number    | level ID of annotation group to be added     | O       |
-| captureId                 | number    | capture ID of annotation group to be added   | O       |
-| annotationGroupTemplateId | number    | Target annotation group Template ID          | X       |
-
-Response
-
 ### **Add Annotation Form**
 
 Add annotation form to specific annotation group.
@@ -951,25 +919,6 @@ CupixApi.sendToCupix({
 | annotationGroupId | number    | Parent annotation group ID of annotation to be added                                       | X       |
 | name              | string    | The name of the annotation to add. default: 'New form'                                     | X       |
 | values            | string    | Annotation values. stringify JSON `'["text1", "text2"]'`. array of values ​​for each field | X       |
-
-Response
-
-
-### **Delete Annotation Group**
-
-```ts
-CupixApi.sendToCupix({
-  operationType: 'DELETE_ANNOTATION_GROUP',
-  operationArgs: {
-    annotationGroupId: 1,
-  },
-});
-```
-
-Request
-| Property          | Data type | Description                          | Require |
-| ----------------- | --------- | ------------------------------------ | ------- |
-| annotationGroupId | number    | ID of annotation group to be deleted | O       |
 
 Response
 
@@ -1071,79 +1020,6 @@ Response
 | reviewKey                | string    | Review key containing this annotation group |
 | name                     | string    | The name of the annotation group            |
 
-### **Get Annotation Group Template**
-
-Get specific annotation group template information.
-
-Request
-
-```ts
-CupixApi.sendToCupix({
-  operationType: 'GET_ANNOTATION_GROUP_TEMPLATE',
-  operationArgs: {
-    annotationGroupTemplateId: 1,
-  },
-});
-```
-
-| Property                  | Data type | Description                   | Require |
-| ------------------------- | --------- | ----------------------------- | ------- |
-| annotationGroupTemplateId | number    | ID of target annotation group | O       |
-
-Response
-
-```ts
-{
-  annotationGroup: {}
-}
-```
-
-| Property        | Data type | Description                  |
-| --------------- | --------- | ---------------------------- |
-| annotationGroup | object    | annotation group information |
-
-| annotationGroup Property | Data type | Description                        |
-| ------------------------ | --------- | ---------------------------------- |
-| id                       | number    | ID of annotation group             |
-| name                     | string    | The name of the annotation group   |
-| description              | string    | Description of annotation group    |
-| created_at               | string    | Created date of annotation group   |
-| updated_at               | string    | Updated date of annotation group   |
-| published_at             | string    | Published date of annotation group |
-
-### **Get Annotation Group Template All**
-
-Get all annotation group templates.
-
-Request
-
-```ts
-CupixApi.sendToCupix({
-  operationType: 'GET_ANNOTATION_GROUP_TEMPLATE_ALL',
-});
-
-```
-
-Response
-
-```ts
-{
-  annotationGroupTemplates: []
-}
-```
-
-| Property                 | Data type                                | Description                        |
-| ------------------------ | ---------------------------------------- | ---------------------------------- |
-| annotationGroupTemplates | array of annotationGroupTemplate objects | annotation group information array |
-
-| annotationGroup Property | Data type | Description                        |
-| ------------------------ | --------- | ---------------------------------- |
-| id                       | number    | ID of annotation group             |
-| name                     | string    | The name of the annotation group   |
-| description              | string    | Description of annotation group    |
-| created_at               | string    | Created date of annotation group   |
-| updated_at               | string    | Updated date of annotation group   |
-| published_at             | string    | Published date of annotation group |
 
 ### **Get Annotation**
 
@@ -1251,30 +1127,6 @@ CupixApi.sendToCupix({
 | annotationId | number    | ID of target annotation | O       |
 
 Response
-
-### **Update Annotation Group**
-
-Update specific annotation group.
-
-Request
-
-```ts
-CupixApi.sendToCupix({
-  operationType: 'UPDATE_ANNOTATION_GROUP',
-  operationArgs: {
-    annotationGroupId: 1,
-    name: "",
-  },
-});
-```
-
-| Property          | Data type | Description                   | Require |
-| ----------------- | --------- | ----------------------------- | ------- |
-| annotationGroupId | number    | ID of target annotation       | O       |
-| name              | string    | New name of target annotation | O       |
-
-Response
-
 
 ### **Update Annotation Form**
 

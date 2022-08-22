@@ -312,22 +312,6 @@ CupixApi.getFormTemplate = (formTemplateId) =>
     }
   });
 
-CupixApi.addAnnotationGroup = (
-  name,
-  levelId,
-  captureId,
-  annotationGroupTemplateId
-) =>
-  CupixApi.sendToCupix({
-    operationType: "ADD_ANNOTATION_GROUP",
-    operationArgs: {
-      name,
-      levelId,
-      captureId,
-      annotationGroupTemplateId
-    }
-  });
-
 CupixApi.getAnnotationGroup = (annotationGroupId) =>
   CupixApi.sendToCupix({
     operationType: "GET_ANNOTATION_GROUP",
@@ -341,32 +325,3 @@ CupixApi.getAnnotationGroupAll = () =>
     operationType: "GET_ANNOTATION_GROUP_ALL"
   });
 
-CupixApi.updateAnnotationGroup = (annotationGroupId, name) =>
-  CupixApi.sendToCupix({
-    operationType: "UPDATE_ANNOTATION_GROUP",
-    operationArgs: {
-      annotationGroupId,
-      name
-    }
-  });
-
-CupixApi.deleteAnnotationGroup = (annotationGroupId) =>
-  CupixApi.sendToCupix({
-    operationType: "DELETE_ANNOTATION_GROUP",
-    operationArgs: {
-      annotationGroupId
-    }
-  });
-
-CupixApi.getAnnotationGroupTemplate = (annotationGroupTemplateId) =>
-  CupixApi.sendToCupix({
-    operationType: "GET_ANNOTATION_GROUP_TEMPLATE",
-    operationArgs: {
-      annotationGroupTemplateId
-    }
-  });
-
-CupixApi.getAnnotationGroupTemplateAll = () =>
-  CupixApi.sendToCupix({
-    operationType: "GET_ANNOTATION_GROUP_TEMPLATE_ALL"
-  });

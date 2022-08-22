@@ -326,27 +326,6 @@ function promptVector2Optional(...rest) {
   }
 }
 
-CupixUI.addAnnotationGroup = () => {
-  try {
-    const op = "addAnnotationGroup";
-    const name = CupixUI.promptString(op, "annotation group name");
-    const levelId = CupixUI.promptNumber(op, "level id");
-    const captureId = CupixUI.promptNumber(op, "capture id");
-    const annotationGroupTemplateId = promptNumberOptional(
-      op,
-      "annotation group template id (optional)"
-    );
-    CupixApi.addAnnotationGroup(
-      name,
-      levelId,
-      captureId,
-      annotationGroupTemplateId
-    );
-  } catch (ec) {
-    console.warn(ec);
-  }
-};
-
 CupixUI.getAnnotationGroup = () => {
   try {
     const op = "getAnnotationGroup";
@@ -357,39 +336,6 @@ CupixUI.getAnnotationGroup = () => {
   }
 };
 
-CupixUI.updateAnnotationGroup = () => {
-  try {
-    const op = "updateAnnotationGroup";
-    const annotationGroupId = CupixUI.promptNumber(op, "annotation group id");
-    const name = CupixUI.promptString(op, "name");
-    CupixApi.updateAnnotationGroup(annotationGroupId, name);
-  } catch (ec) {
-    console.warn(ec);
-  }
-};
-
-CupixUI.deleteAnnotationGroup = () => {
-  try {
-    const op = "deleteAnnotationGroup";
-    const annotationGroupId = CupixUI.promptNumber(op, "annotation group id");
-    CupixApi.deleteAnnotationGroup(annotationGroupId);
-  } catch (ec) {
-    console.warn(ec);
-  }
-};
-
-CupixUI.getAnnotationGroupTemplate = () => {
-  try {
-    const op = "getAnnotationGroupTemplate";
-    const annotationGroupTemplateId = CupixUI.promptNumber(
-      op,
-      "annotation template group id"
-    );
-    CupixApi.getAnnotationGroupTemplate(annotationGroupTemplateId);
-  } catch (ec) {
-    console.warn(ec);
-  }
-};
 
 CupixUI.findNearestPanos = () => {
   try {

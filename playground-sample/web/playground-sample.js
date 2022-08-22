@@ -234,27 +234,6 @@ async function onChangeFormTemplate(value) {
   }
 }
 
-async function addAnnotationGroup() {
-  await CupixApi.addAnnotationGroup('Add Annotation Group Test', activeFacilities.levelId, activeFacilities.captureId);
-  updateAnnotationGroupIds();
-}
-
 async function getAnnotationGroupAll() {
   updateAnnotationGroupIds();
-}
-
-async function deleteAnnotationGroup() {
-  let annotationGroupIdInput = document.getElementById('annotation-group-id-input');
-  const annotationGroupId = annotationGroupIdInput?.value === '' ? undefined : Number(annotationGroupIdInput?.value);
-  annotationGroupIdInput.value = '';
-  await CupixApi.deleteAnnotationGroup(annotationGroupId);
-  await updateAnnotationGroupIds();
-}
-
-async function updateAnnotationGroup() {
-  let input = document.getElementById('annotation-group-id-input')?.value;
-  const annotationGroupId = input === '' ? undefined : Number(input);
-  let name = 'Update Annotation Group Test';
-  if (!/\(\d+\)$/.test(name)) name += `(${annotationGroupId})`;
-  await CupixApi.updateAnnotationGroup(annotationGroupId, name);
 }
