@@ -22,6 +22,7 @@ CupixApi.uuid = 0;
 
 /**
  * @param {string} htmlDivId
+ * @param {string} target
  */
 CupixApi.init = function (htmlDivId, target) {
   window.CupixApi = CupixApi;

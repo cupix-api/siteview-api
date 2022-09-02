@@ -49,7 +49,7 @@
 ## Getting Started
 Add source file:
 ```html
-<script src="cupixAPI.js" ></script>
+<script src="cupixAPI.js"></script>
 ```
 
 Add markup:
@@ -61,6 +61,8 @@ And initialize:
 ```js
 CupixApi.init('cupix-container');
 ```
+
+[Live demo](https://stackblitz.com/edit/js-aap1v1?file=index.html)
 
 
 ## **Initialize API**
