@@ -97,7 +97,8 @@ CupixApi.goSiteView = (siteViewKey) =>
   CupixApi.sendToCupix({
     operationType: "GO_SITEVIEW",
     operationArgs: {
-      siteViewKey: siteViewKey
+      siteViewKey: siteViewKey,
+      hideTopBar: true
     }
   });
 
