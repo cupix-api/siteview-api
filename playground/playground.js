@@ -1,4 +1,5 @@
 const isProd = /cupix-api.github.io/.test(window.location.href);
+const target = isProd ? "https://apidemo.cupix.works" : "http://cupix.local.cupix.works:4200";
 
 /**
  * @type {Window | null | undefined} cupixWindow
@@ -6,17 +7,7 @@ const isProd = /cupix-api.github.io/.test(window.location.href);
 var cupixWindow;
 
 window.onload = function () {
-  var elem = document.getElementById("cupix-container");
-  if (elem) {
-    var iframe = document.createElement("iframe");
-    iframe.classList.add("w-100");
-    iframe.classList.add("h-100");
-    iframe.src = isProd ? "https://apidemo.cupix.works" : "http://cupix.local.cupix.works:4200";
-    iframe.onload = () => {
-      cupixWindow = iframe.contentWindow;
-    };
-    elem.appendChild(iframe);
-  }
+  CupixApi.init("cupix-container", target);
 };
 
 /**

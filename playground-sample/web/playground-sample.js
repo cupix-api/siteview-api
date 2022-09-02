@@ -9,38 +9,24 @@
 
 let activeFacilities = facilities[0];
 let sideNav;
-/**
- * Cupix iframe container
- * @type {HTMLDivElement | undefined | null} cupixElem
- * */
-let cupixElem;
 
-function initCupix() {
-  if (cupixElem) {
-    var iframe = document.createElement("iframe");
-    iframe.classList.add("w-100");
-    iframe.classList.add("h-100");
-    iframe.src = target;
-    iframe.onload = async () => {
-      cupixWindow = iframe.contentWindow;
-      let apiLoaded = false;
-      let retryCount = 0;
-      do {
-        const startApiResult = await CupixApi.start(1000);
-        if (startApiResult?.error) console.error(startApiResult.error);
-        else apiLoaded = true;
-        retryCount++;
-      } while(!apiLoaded && retryCount < 5);
-      await CupixApi.signout();
-      signinWithToken();
-    };
-    cupixElem.appendChild(iframe);
-  }
+
+async function initCupix() {
+  await CupixApi.init('cupix-container');
+  let apiLoaded = false;
+  let retryCount = 0;
+  do {
+    const startApiResult = await CupixApi.start(1000);
+    if (startApiResult?.error) console.error(startApiResult.error);
+    else apiLoaded = true;
+    retryCount++;
+  } while(!apiLoaded && retryCount < 5);
+  await CupixApi.signout();
+  signinWithToken();
 }
 
 window.onload = function () {
   sideNav = document.getElementById("side-nav");
-  cupixElem = document.getElementById("cupix-container");
   initNav();
   initCupix();
   drawFacilityBtns();

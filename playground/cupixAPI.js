@@ -21,17 +21,40 @@ var CupixApi = CupixApi || {};
 CupixApi.uuid = 0;
 
 /**
+ * @param {string} htmlDivId
+ */
+CupixApi.init = function (htmlDivId, target) {
+  window.CupixApi = CupixApi;
+  var elem = document.getElementById(htmlDivId);
+  let resolver;
+  if (elem) {
+    var iframe = document.createElement("iframe");
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.src = target ?? "https://apidemo.cupix.works";
+    iframe.onload = () => {
+      CupixApi.cupixWindow = iframe.contentWindow;
+      if (resolver) resolver();
+    };
+    elem.appendChild(iframe);
+  }
+  return new Promise((res, rej) => {
+    resolver = res;
+  });
+}
+
+/**
  * @param {CupixMessageRequest} event
  * @param {number} timeout
  * @return {Promise<ErrorType>}
 */
 CupixApi.sendToCupix = function (event, timeout) {
   console.log(`sendToCupix: [${event.operationType}]`, JSON.stringify(event));
-  if (cupixWindow) {
+  if (CupixApi.cupixWindow) {
     event.header = "CUPIXWORKS_API";
     event.uuid = CupixApi.uuid.toString();
     event.timestamp = Date.now();
-    cupixWindow.postMessage(event, "*");
+    CupixApi.cupixWindow.postMessage(event, "*");
 
     /** @type {Promise<ErrorType>} */
     const promise = new Promise((resolve) => {
