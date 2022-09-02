@@ -1,4 +1,5 @@
 - [CUPIX API](#cupix-api)
+  - [Getting Started](#getting-started)
   - [**Initialize API**](#initialize-api)
     - [**Start**](#start)
     - [**Stop**](#stop)
@@ -44,6 +45,23 @@
     - [**Find Nearest Panos**](#find-nearest-panos)
 
 # CUPIX API
+
+## Getting Started
+Add source file:
+```html
+<script src="cupixAPI.js" ></script>
+```
+
+Add markup:
+```html
+<div id="cupix-container" style="width:100%; height:100%;"></div>
+```
+
+And initialize:
+```js
+CupixApi.init('cupix-container');
+```
+
 
 ## **Initialize API**
 
@@ -176,6 +194,7 @@ CupixApi.sendToCupix({
   operationType: "GO_SITEVIEW",
   operationArgs: {
     siteViewKey: "",
+    hideTopBar: true
   },
 });
 ```
@@ -183,6 +202,7 @@ CupixApi.sendToCupix({
 | Property    | Data type | Description                                 |
 | ----------- | --------- | ------------------------------------------- |
 | siteViewKey | string    | The key of the siteView to move the page to |
+| hideTopBar  | boolean   | Hide top bar parameter. default: true       |
 
 Response
 
