@@ -13,10 +13,10 @@
 const resolvers = {};
 
 /**
- * @typedef {Object} CupixApi
+ * @typedef {Object} siteView4embed
  * @property {number} uuid
  * */
-var CupixApi = CupixApi || {};
+var siteView4embed = siteView4embed || {};
 
 siteView4embed.uuid = 0;
 
@@ -25,7 +25,7 @@ siteView4embed.uuid = 0;
  * @param {string} target
  */
 siteView4embed.init = function (htmlDivId, target) {
-  window.CupixApi = CupixApi;
+  window.siteView4embed = siteView4embed;
   var elem = document.getElementById(htmlDivId);
   let resolver;
   if (elem) {
