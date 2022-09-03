@@ -9,7 +9,7 @@
     </script>
   <script src="./playground-sample/web/module/global.js"></script>
   <script src="./playground-sample/web/module/drawLayout.js"></script>
-  <script src="./playground/cupixAPI.js"></script>
+  <script src="./playground/siteView4embed.js"></script>
   <script src="./playground-sample/web/playground-sample.js"></script>
 </head>
 
@@ -58,30 +58,46 @@
           <div class="col-8">
             <div id="cupix-container-actions" class="hide">
               <div>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="CupixApi.setCameraMove('LEFT')">Move Left</button>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="CupixApi.setCameraMove('RIGHT')">Move Right</button>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="CupixApi.setCameraMove('FORWARD')">Move Forward</button>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="CupixApi.setCameraMove('BACK')">Move Backward</button>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="CupixApi.setCameraZoom(-5.0)">Zoom In</button>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="CupixApi.setCameraZoom(5.0)">Zoom Out</button>
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                  onclick="siteView4embed.setCameraMove('LEFT')">Move Left</button>
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                  onclick="siteView4embed.setCameraMove('RIGHT')">Move Right</button>
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                  onclick="siteView4embed.setCameraMove('FORWARD')">Move Forward</button>
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                  onclick="siteView4embed.setCameraMove('BACK')">Move Backward</button>
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                  onclick="siteView4embed.setCameraZoom(-5.0)">Zoom
+                  In</button>
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                  onclick="siteView4embed.setCameraZoom(5.0)">Zoom
+                  Out</button>
               </div>
               <div class="mt-1">
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="getAnnotationGroupAll()">Get All Annotation Group IDs</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="getAnnotationGroupAll()">Get All
+                  Annotation Group IDs</button>
               </div>
               <div class="input-group input-group-sm mt-1">
-                <input id="annotation-group-id-input" type="text" class="form-control col-1" list="annotation-group-id" placeholder="Annotation Group ID"/>
+                <input id="annotation-group-id-input" type="text" class="form-control col-1" list="annotation-group-id"
+                  placeholder="Annotation Group ID" />
                 <datalist id="annotation-group-id"></datalist>
               </div>
               <div class="mt-1">
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="updateAnnotationIds()">Get All Annotation IDs</button>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addAnnotation()">Add Annotation Form</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="updateAnnotationIds()">Get All
+                  Annotation IDs</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addAnnotation()">Add Annotation
+                  Form</button>
               </div>
               <div class="input-group input-group-sm mt-1">
-                <input id="annotation-id-input" type="text" class="form-control col-1" list="annotation-id" placeholder="Annotation ID"/>
+                <input id="annotation-id-input" type="text" class="form-control col-1" list="annotation-id"
+                  placeholder="Annotation ID" />
                 <datalist id="annotation-id"></datalist>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="deleteAnnotation()">Delete Annotation</button>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="updateAnnotation()">Update Annotation Form</button>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleResolveAnnotation()">Toggle Resolve Annotation</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="deleteAnnotation()">Delete
+                  Annotation</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="updateAnnotation()">Update
+                  Annotation Form</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleResolveAnnotation()">Toggle
+                  Resolve Annotation</button>
               </div>
               <div id="cupix-container" class="hide"></div>
             </div>
