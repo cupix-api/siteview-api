@@ -18,13 +18,13 @@ const resolvers = {};
  * */
 var CupixApi = CupixApi || {};
 
-CupixApi.uuid = 0;
+siteView4embed.uuid = 0;
 
 /**
  * @param {string} htmlDivId
  * @param {string} target
  */
-CupixApi.init = function (htmlDivId, target) {
+siteView4embed.init = function (htmlDivId, target) {
   window.CupixApi = CupixApi;
   var elem = document.getElementById(htmlDivId);
   let resolver;
@@ -34,7 +34,7 @@ CupixApi.init = function (htmlDivId, target) {
     iframe.style.height = "100%";
     iframe.src = target ?? "https://apidemo.cupix.works";
     iframe.onload = () => {
-      CupixApi.cupixWindow = iframe.contentWindow;
+      siteView4embed.cupixWindow = iframe.contentWindow;
       if (resolver) resolver();
     };
     elem.appendChild(iframe);
@@ -49,24 +49,24 @@ CupixApi.init = function (htmlDivId, target) {
  * @param {number} timeout
  * @return {Promise<ErrorType>}
 */
-CupixApi.sendToCupix = function (event, timeout) {
+siteView4embed.sendToCupix = function (event, timeout) {
   console.log(`sendToCupix: [${event.operationType}]`, JSON.stringify(event));
-  if (CupixApi.cupixWindow) {
+  if (siteView4embed.cupixWindow) {
     event.header = "CUPIXWORKS_API";
-    event.uuid = CupixApi.uuid.toString();
+    event.uuid = siteView4embed.uuid.toString();
     event.timestamp = Date.now();
-    CupixApi.cupixWindow.postMessage(event, "*");
+    siteView4embed.cupixWindow.postMessage(event, "*");
 
     /** @type {Promise<ErrorType>} */
     const promise = new Promise((resolve) => {
-      resolvers[CupixApi.uuid] = resolve;
+      resolvers[siteView4embed.uuid] = resolve;
       if (!isNaN(timeout)) {
         setTimeout(() => {
-          resolve({error: `timeout: ${event.operationType}`});
+          resolve({ error: `timeout: ${event.operationType}` });
         }, timeout);
       }
     });
-    CupixApi.uuid++;
+    siteView4embed.uuid++;
     return promise;
   }
 };
@@ -74,13 +74,13 @@ CupixApi.sendToCupix = function (event, timeout) {
 /**
  * @param {number} timeout
 */
-CupixApi.start = (timeout) =>
-  CupixApi.sendToCupix({
+siteView4embed.start = (timeout) =>
+  siteView4embed.sendToCupix({
     operationType: "APP_API_START"
   }, timeout);
 
-CupixApi.stop = () =>
-  CupixApi.sendToCupix({
+siteView4embed.stop = () =>
+  siteView4embed.sendToCupix({
     operationType: "APP_API_STOP"
   });
 
@@ -89,8 +89,8 @@ CupixApi.stop = () =>
  * @param {string} email
  * @param {string} password
  * */
-CupixApi.signin = (teamDomain, email, password) =>
-  CupixApi.sendToCupix({
+siteView4embed.signin = (teamDomain, email, password) =>
+  siteView4embed.sendToCupix({
     operationType: "SIGNIN",
     operationArgs: {
       email: email,
@@ -99,110 +99,110 @@ CupixApi.signin = (teamDomain, email, password) =>
     }
   });
 
-CupixApi.signinWithToken = (token) =>
-  CupixApi.sendToCupix({
+siteView4embed.signinWithToken = (token) =>
+  siteView4embed.sendToCupix({
     operationType: "SIGNIN",
     operationArgs: {
       token
     }
   });
 
-CupixApi.signout = () =>
-  CupixApi.sendToCupix({
+siteView4embed.signout = () =>
+  siteView4embed.sendToCupix({
     operationType: "SIGNOUT"
   });
 
-CupixApi.goHome = () =>
-  CupixApi.sendToCupix({
+siteView4embed.goHome = () =>
+  siteView4embed.sendToCupix({
     operationType: "GO_HOME"
   });
 
-CupixApi.goSiteView = (siteViewKey) =>
-  CupixApi.sendToCupix({
+siteView4embed.goSiteView = (siteViewKey, hideTopBar = true) =>
+  siteView4embed.sendToCupix({
     operationType: "GO_SITEVIEW",
     operationArgs: {
       siteViewKey: siteViewKey,
-      hideTopBar: true
+      hideTopBar: hideTopBar
     }
   });
 
-CupixApi.getSiteView = () =>
-  CupixApi.sendToCupix({
+siteView4embed.getSiteView = () =>
+  siteView4embed.sendToCupix({
     operationType: "GET_SITEVIEW"
   });
 
-CupixApi.getLevel = (levelId) =>
-  CupixApi.sendToCupix({
+siteView4embed.getLevel = (levelId) =>
+  siteView4embed.sendToCupix({
     operationType: "GET_LEVEL",
     operationArgs: {
       levelId: levelId
     }
   });
 
-CupixApi.getLevelAll = () =>
-  CupixApi.sendToCupix({
+siteView4embed.getLevelAll = () =>
+  siteView4embed.sendToCupix({
     operationType: "GET_LEVEL_ALL"
   });
 
-CupixApi.getCapture = (captureId) =>
-  CupixApi.sendToCupix({
+siteView4embed.getCapture = (captureId) =>
+  siteView4embed.sendToCupix({
     operationType: "GET_CAPTURE",
     operationArgs: {
       captureId: captureId
     }
   });
 
-CupixApi.getCaptureAll = () =>
-  CupixApi.sendToCupix({
+siteView4embed.getCaptureAll = () =>
+  siteView4embed.sendToCupix({
     operationType: "GET_CAPTURE_ALL"
   });
 
-CupixApi.getPano = (panoId) =>
-  CupixApi.sendToCupix({
+siteView4embed.getPano = (panoId) =>
+  siteView4embed.sendToCupix({
     operationType: "GET_PANO",
     operationArgs: {
       panoId: panoId
     }
   });
 
-CupixApi.getPanoAll = () =>
-  CupixApi.sendToCupix({
+siteView4embed.getPanoAll = () =>
+  siteView4embed.sendToCupix({
     operationType: "GET_PANO_ALL"
   });
 
-CupixApi.getAnnotation = (annotationId) =>
-  CupixApi.sendToCupix({
+siteView4embed.getAnnotation = (annotationId) =>
+  siteView4embed.sendToCupix({
     operationType: "GET_ANNOTATION",
     operationArgs: {
       annotationId: annotationId
     }
   });
 
-CupixApi.getAnnotationAll = () =>
-  CupixApi.sendToCupix({
+siteView4embed.getAnnotationAll = () =>
+  siteView4embed.sendToCupix({
     operationType: "GET_ANNOTATION_ALL"
   });
 
-CupixApi.getRoom = (roomId) =>
-  CupixApi.sendToCupix({
+siteView4embed.getRoom = (roomId) =>
+  siteView4embed.sendToCupix({
     operationType: "GET_ROOM",
     operationArgs: {
       roomId: roomId
     }
   });
 
-CupixApi.getRoomAll = () =>
-  CupixApi.sendToCupix({
+siteView4embed.getRoomAll = () =>
+  siteView4embed.sendToCupix({
     operationType: "GET_ROOM_ALL"
   });
 
-CupixApi.getCameraParameters = () =>
-  CupixApi.sendToCupix({
+siteView4embed.getCameraParameters = () =>
+  siteView4embed.sendToCupix({
     operationType: "GET_CAMERA_PARAMETERS"
   });
 
-CupixApi.setCameraRotate = (direction, angle) =>
-  CupixApi.sendToCupix({
+siteView4embed.setCameraRotate = (direction, angle) =>
+  siteView4embed.sendToCupix({
     operationType: "SET_CAMERA_ROTATE",
     operationArgs: {
       direction: direction,
@@ -210,16 +210,16 @@ CupixApi.setCameraRotate = (direction, angle) =>
     }
   });
 
-CupixApi.setCameraZoom = (angleInDegree) =>
-  CupixApi.sendToCupix({
+siteView4embed.setCameraZoom = (angleInDegree) =>
+  siteView4embed.sendToCupix({
     operationType: "SET_CAMERA_ZOOM",
     operationArgs: {
       angleInDegree: angleInDegree
     }
   });
 
-CupixApi.setCameraLookAt = (x, y, z) =>
-  CupixApi.sendToCupix({
+siteView4embed.setCameraLookAt = (x, y, z) =>
+  siteView4embed.sendToCupix({
     operationType: "SET_CAMERA_LOOKAT",
     operationArgs: {
       lookAtX: x,
@@ -228,44 +228,44 @@ CupixApi.setCameraLookAt = (x, y, z) =>
     }
   });
 
-CupixApi.setCameraReset = () =>
-  CupixApi.sendToCupix({
+siteView4embed.setCameraReset = () =>
+  siteView4embed.sendToCupix({
     operationType: "SET_CAMERA_RESET"
   });
 
-CupixApi.setCameraMove = (direction) =>
-  CupixApi.sendToCupix({
+siteView4embed.setCameraMove = (direction) =>
+  siteView4embed.sendToCupix({
     operationType: "SET_CAMERA_MOVE",
     operationArgs: {
       direction: direction
     }
   });
 
-CupixApi.changeLevel = (levelId) =>
-  CupixApi.sendToCupix({
+siteView4embed.changeLevel = (levelId) =>
+  siteView4embed.sendToCupix({
     operationType: "CHANGE_LEVEL",
     operationArgs: {
       levelId: levelId
     }
   });
 
-CupixApi.changeCapture = (captureId) =>
-  CupixApi.sendToCupix({
+siteView4embed.changeCapture = (captureId) =>
+  siteView4embed.sendToCupix({
     operationType: "CHANGE_CAPTURE",
     operationArgs: {
       captureId: captureId
     }
   });
 
-CupixApi.changePano = (panoId) =>
-  CupixApi.sendToCupix({
+siteView4embed.changePano = (panoId) =>
+  siteView4embed.sendToCupix({
     operationType: "CHANGE_PANO",
     operationArgs: {
       panoId: panoId
     }
   });
 
-CupixApi.findNearestPanos = (
+siteView4embed.findNearestPanos = (
   levelId,
   captureId,
   coordX,
@@ -274,7 +274,7 @@ CupixApi.findNearestPanos = (
   normalY,
   maxCount
 ) =>
-  CupixApi.sendToCupix({
+  siteView4embed.sendToCupix({
     operationType: "FIND_NEAREST_PANOS",
     operationArgs: {
       levelId,
@@ -287,8 +287,8 @@ CupixApi.findNearestPanos = (
     }
   });
 
-CupixApi.addAnnotation = (formTemplateId, annotationGroupId, name, values) =>
-  CupixApi.sendToCupix({
+siteView4embed.addAnnotation = (formTemplateId, annotationGroupId, name, values) =>
+  siteView4embed.sendToCupix({
     operationType: "ADD_ANNOTATION_FORM",
     operationArgs: {
       formTemplateId,
@@ -298,16 +298,16 @@ CupixApi.addAnnotation = (formTemplateId, annotationGroupId, name, values) =>
     }
   });
 
-CupixApi.deleteAnnotation = (annotationId) =>
-  CupixApi.sendToCupix({
+siteView4embed.deleteAnnotation = (annotationId) =>
+  siteView4embed.sendToCupix({
     operationType: "DELETE_ANNOTATION",
     operationArgs: {
       annotationId
     }
   });
 
-CupixApi.updateAnnotation = (annotationId, name, values) =>
-  CupixApi.sendToCupix({
+siteView4embed.updateAnnotation = (annotationId, name, values) =>
+  siteView4embed.sendToCupix({
     operationType: "UPDATE_ANNOTATION_FORM",
     operationArgs: {
       annotationId,
@@ -316,37 +316,36 @@ CupixApi.updateAnnotation = (annotationId, name, values) =>
     }
   });
 
-CupixApi.toggleResolveAnnotation = (annotationId) =>
-  CupixApi.sendToCupix({
+siteView4embed.toggleResolveAnnotation = (annotationId) =>
+  siteView4embed.sendToCupix({
     operationType: "TOGGLE_RESOLVE_ANNOTATION",
     operationArgs: {
       annotationId
     }
   });
 
-CupixApi.getFormTemplates = () =>
-  CupixApi.sendToCupix({
+siteView4embed.getFormTemplates = () =>
+  siteView4embed.sendToCupix({
     operationType: "GET_FORM_TEMPLATE_ALL"
   });
 
-CupixApi.getFormTemplate = (formTemplateId) =>
-  CupixApi.sendToCupix({
+siteView4embed.getFormTemplate = (formTemplateId) =>
+  siteView4embed.sendToCupix({
     operationType: "GET_FORM_TEMPLATE",
     operationArgs: {
       formTemplateId
     }
   });
 
-CupixApi.getAnnotationGroup = (annotationGroupId) =>
-  CupixApi.sendToCupix({
+siteView4embed.getAnnotationGroup = (annotationGroupId) =>
+  siteView4embed.sendToCupix({
     operationType: "GET_ANNOTATION_GROUP",
     operationArgs: {
       annotationGroupId
     }
   });
 
-CupixApi.getAnnotationGroupAll = () =>
-  CupixApi.sendToCupix({
+siteView4embed.getAnnotationGroupAll = () =>
+  siteView4embed.sendToCupix({
     operationType: "GET_ANNOTATION_GROUP_ALL"
   });
-
