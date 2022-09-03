@@ -15,4 +15,4 @@ CupixWorks SiteView API enables third-party developers to embed the SiteView wit
 [Play around each API call](https://cupix-api.github.io/siteview-api/playground/playground.html#)
 
 # API Reference
-See [this page](https://github.com/cupix-api/siteview-api/blob/master/playground/cupixAPI.md) for the event refere
+See [this page](https://github.com/cupix-api/siteview-api/blob/master/playground) for the event refere
