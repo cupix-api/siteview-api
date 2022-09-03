@@ -87,7 +87,7 @@ Then, assign the iframe object's **contentWindow** to the **cupixWindow** global
 ```js
 function onSiteViewLoaded(iframe) {
   ...
-  cupixWindow = iframe.contentWindow;
+  siteView4embed.cupixWindow = iframe.contentWindow;
   ...
 }
 ```
