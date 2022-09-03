@@ -12,16 +12,16 @@ let sideNav;
 
 
 async function initCupix() {
-  await CupixApi.init('cupix-container');
+  await siteView4embed.init('cupix-container');
   let apiLoaded = false;
   let retryCount = 0;
   do {
-    const startApiResult = await CupixApi.start(1000);
+    const startApiResult = await siteView4embed.start(1000);
     if (startApiResult?.error) console.error(startApiResult.error);
     else apiLoaded = true;
     retryCount++;
-  } while(!apiLoaded && retryCount < 5);
-  await CupixApi.signout();
+  } while (!apiLoaded && retryCount < 5);
+  await siteView4embed.signout();
   signinWithToken();
 }
 
@@ -34,8 +34,8 @@ window.onload = function () {
 
 // Cupix API
 
-CupixApi.changePano = (panoId, lookAt) =>
-  CupixApi.sendToCupix({
+siteView4embed.changePano = (panoId, lookAt) =>
+  siteView4embed.sendToCupix({
     operationType: "CHANGE_PANO",
     operationArgs: {
       panoId,
@@ -48,8 +48,8 @@ var CupixUI = CupixUI || {};
 
 async function signinWithToken() {
   try {
-    await CupixApi.signinWithToken(token);
-    await CupixApi.goSiteView(facilities[0].siteViewKey);
+    await siteView4embed.signinWithToken(token);
+    await siteView4embed.goSiteView(facilities[0].siteViewKey);
     document.getElementById("cupix-container-loading").classList.add("hide");
     document.getElementById("cupix-container").classList.remove("hide");
     document.getElementById("cupix-container-actions").classList.remove("hide");
@@ -111,7 +111,7 @@ function setResponseContent(responseType, response, errorMessage, errorArgs) {
 }
 
 async function updateAnnotationIds() {
-  const result = await CupixApi.getAnnotationAll();
+  const result = await siteView4embed.getAnnotationAll();
   const idArr = result.annotations.map(ann => ann.id);
   const datalist = document.getElementById('annotation-id');
   resetDatalist('annotation-id');
@@ -123,7 +123,7 @@ async function updateAnnotationIds() {
 }
 
 async function updateAnnotationGroupIds() {
-  const result = await CupixApi.getAnnotationGroupAll();
+  const result = await siteView4embed.getAnnotationGroupAll();
   const idArr = result.annotationGroupList.map(group => group.id);
   const datalist = document.getElementById('annotation-group-id');
   resetDatalist('annotation-group-id');
@@ -135,7 +135,7 @@ async function updateAnnotationGroupIds() {
 }
 
 async function updateFormTemplates() {
-  const result = await CupixApi.getFormTemplates();
+  const result = await siteView4embed.getFormTemplates();
   const formTemplateList = document.getElementById('form-template-select');
   result.formTemplates.forEach(formTemplate => {
     const option = document.createElement("option");
@@ -170,11 +170,11 @@ async function addAnnotation() {
   const values = '["1", "Add Annotation Test"]';
   const groupIdInput = document.getElementById('annotation-group-id-input');
   if (!groupIdInput.value) {
-    const result = await CupixApi.getAnnotationGroupAll();
+    const result = await siteView4embed.getAnnotationGroupAll();
     const id = result.annotationGroupList[0].id;
     groupIdInput.value = id;
   }
-  const result = await CupixApi.addAnnotation(formTemplateId, Number(groupIdInput.value), name, values);
+  const result = await siteView4embed.addAnnotation(formTemplateId, Number(groupIdInput.value), name, values);
   if (!result.errorMessage) await updateAnnotationIds();
 }
 
@@ -184,13 +184,13 @@ async function updateAnnotation() {
   let name = 'Update Annotation Test';
   const values = '["2", "Update Annotation Test"]';
   if (!/\(\d+\)$/.test(name)) name += `(${annotationId})`;
-  await CupixApi.updateAnnotation(annotationId, name, values);
+  await siteView4embed.updateAnnotation(annotationId, name, values);
 }
 
 async function getAnnotation() {
   let input = document.getElementById('annotation-id-input')?.value;
   const annotationId = input === '' ? undefined : Number(input);
-  const result = await CupixApi.getAnnotation(annotationId);
+  const result = await siteView4embed.getAnnotation(annotationId);
   if (!result.errorMessage) {
     document.getElementById('annotation-values').value = JSON.stringify(result.fields);
   }
@@ -201,7 +201,7 @@ async function deleteAnnotation() {
   let annotationIdInput = document.getElementById('annotation-id-input');
   const annotationId = annotationIdInput?.value === '' ? undefined : Number(annotationIdInput?.value);
   annotationIdInput.value = '';
-  const result = await CupixApi.deleteAnnotation(annotationId);
+  const result = await siteView4embed.deleteAnnotation(annotationId);
   if (!result.errorMessage) {
     await updateAnnotationIds();
   }
@@ -210,13 +210,13 @@ async function deleteAnnotation() {
 async function toggleResolveAnnotation() {
   let input = document.getElementById('annotation-id-input')?.value;
   const annotationId = input === '' ? undefined : Number(input);
-  CupixApi.toggleResolveAnnotation(annotationId);
+  siteView4embed.toggleResolveAnnotation(annotationId);
 }
 
 async function onChangeFormTemplate(value) {
   const formTemplateId = Number(value);
   if (!isNaN(Number(value))) {
-    await CupixApi.getFormTemplate(formTemplateId);
+    await siteView4embed.getFormTemplate(formTemplateId);
   }
 }
 
