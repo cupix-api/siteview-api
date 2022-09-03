@@ -1,50 +1,50 @@
-- [CUPIX API](#cupix-api)
+- [SiteView API for Embeds](#siteview-api-for-embeds)
   - [Getting Started](#getting-started)
-  - [**Initialize API**](#initialize-api)
-    - [**Start**](#start)
-    - [**Stop**](#stop)
-  - [**Authenticate API**](#authenticate-api)
-    - [**Sign In**](#sign-in)
-    - [**Sign Out**](#sign-out)
-  - [**Navigate API**](#navigate-api)
-    - [**Go Home**](#go-home)
-    - [**Go SiteView**](#go-siteview)
-  - [**Get Info API**](#get-info-api)
-    - [**Get Siteview**](#get-siteview)
-    - [**Get Level**](#get-level)
-    - [**Get Level All**](#get-level-all)
-    - [**Get Capture**](#get-capture)
-    - [**Get Capture All**](#get-capture-all)
-    - [**Get Pano**](#get-pano)
-    - [**Get Pano All**](#get-pano-all)
-    - [**Get Room**](#get-room)
-    - [**Get Room All**](#get-room-all)
-    - [**Get Form Template**](#get-form-template)
-    - [**Get Form Template All**](#get-form-template-all)
-  - [**Change API**](#change-api)
-    - [**Change Level**](#change-level)
-    - [**Change Capture**](#change-capture)
-    - [**Change Pano**](#change-pano)
-  - [**Camera API**](#camera-api)
-    - [**Get Camera Parameter**](#get-camera-parameter)
-    - [**Set Camera Rotate**](#set-camera-rotate)
-    - [**Set Camera Zoom**](#set-camera-zoom)
-    - [**Set Camera Lookat**](#set-camera-lookat)
-    - [**Set Camera Reset**](#set-camera-reset)
-    - [**Set Camera Move**](#set-camera-move)
-  - [**Annotation API**](#annotation-api)
-    - [**Add Annotation Form**](#add-annotation-form)
-    - [**Delete Annotation**](#delete-annotation)
-    - [**Get Annotation Group**](#get-annotation-group)
-    - [**Get Annotation Group All**](#get-annotation-group-all)
-    - [**Get Annotation**](#get-annotation)
-    - [**Get Annotation All**](#get-annotation-all)
-    - [**Toggle Resolve Annotation**](#toggle-resolve-annotation)
-    - [**Update Annotation Form**](#update-annotation-form)
-  - [**Utility API**](#utility-api)
-    - [**Find Nearest Panos**](#find-nearest-panos)
+  - [Initialize](#initialize)
+    - [Start](#start)
+    - [Stop](#stop)
+  - [Authenticate](#authenticate)
+    - [Sign In](#sign-in)
+    - [Sign Out](#sign-out)
+  - [Navigate](#navigate)
+    - [Go Home](#go-home)
+    - [Go SiteView](#go-siteview)
+  - [Get Info](#get-info)
+    - [Get Siteview](#get-siteview)
+    - [Get Level](#get-level)
+    - [Get Level All](#get-level-all)
+    - [Get Capture](#get-capture)
+    - [Get Capture All](#get-capture-all)
+    - [Get Pano](#get-pano)
+    - [Get Pano All](#get-pano-all)
+    - [Get Room](#get-room)
+    - [Get Room All](#get-room-all)
+    - [Get Form Template](#get-form-template)
+    - [Get Form Template All](#get-form-template-all)
+  - [Change](#change)
+    - [Change Level](#change-level)
+    - [Change Capture](#change-capture)
+    - [Change Pano](#change-pano)
+  - [Camera](#camera)
+    - [Get Camera Parameter](#get-camera-parameter)
+    - [Set Camera Rotate](#set-camera-rotate)
+    - [Set Camera Zoom](#set-camera-zoom)
+    - [Set Camera Lookat](#set-camera-lookat)
+    - [Set Camera Reset](#set-camera-reset)
+    - [Set Camera Move](#set-camera-move)
+  - [Annotation](#annotation)
+    - [Add Annotation Form](#add-annotation-form)
+    - [Delete Annotation](#delete-annotation)
+    - [Get Annotation Group](#get-annotation-group)
+    - [Get Annotation Group All](#get-annotation-group-all)
+    - [Get Annotation](#get-annotation)
+    - [Get Annotation All](#get-annotation-all)
+    - [Toggle Resolve Annotation](#toggle-resolve-annotation)
+    - [Update Annotation Form](#update-annotation-form)
+  - [Utility](#utility)
+    - [Find Nearest Panos](#find-nearest-panos)
 
-# CUPIX API
+# SiteView API for Embeds
 
 ## Getting Started
 Add source file:
@@ -65,7 +65,7 @@ CupixApi.init('cupix-container');
 [Live demo](https://stackblitz.com/edit/js-aap1v1?file=index.html)
 
 
-## **Initialize API**
+## **Initialize**
 
 ### **Start**
 
@@ -118,7 +118,7 @@ Response
 
 ---
 
-## **Authenticate API**
+## **Authenticate**
 
 ### **Sign In**
 
@@ -169,7 +169,7 @@ CupixApi.sendToCupix({
 });
 ```
 
-## **Navigate API**
+## **Navigate**
 
 ### **Go Home**
 
@@ -208,7 +208,7 @@ CupixApi.sendToCupix({
 
 Response
 
-## **Get Info API**
+## **Get Info**
 
 ### **Get Siteview**
 
@@ -687,7 +687,7 @@ Response
 | created_at            | string    | Created date of the form template |
 | updated_at            | string    | Updated date of the form template |
 
-## **Change API**
+## **Change**
 
 ### **Change Level**
 
@@ -756,7 +756,7 @@ CupixApi.sendToCupix({
 Response
 
 
-## **Camera API**
+## **Camera**
 
 ### **Get Camera Parameter**
 
@@ -915,7 +915,7 @@ Request
 
 Response
 
-## **Annotation API**
+## **Annotation**
 
 ### **Add Annotation Form**
 
@@ -1175,7 +1175,7 @@ CupixApi.sendToCupix({
 
 Response
 
-## **Utility API**
+## **Utility**
 
 ### **Find Nearest Panos**
 
@@ -1243,3 +1243,4 @@ Response
 | position       | number[]  | Pano's [x,y,z] coordinates      |
 | levelId        | number    | ID of the level containing pano |
 | captureId      | number    | ID of capture containing pano   |
+
