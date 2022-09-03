@@ -73,7 +73,7 @@ function drawFacilityBtns() {
       sensorList = cSensorList;
       resetDatalist('annotation-id');
       resetDatalist('annotation-group-id');
-      await CupixApi.goSiteView(fa.siteViewKey);
+      await siteView4embed.goSiteView(fa.siteViewKey);
       Array
         .from(document.getElementById("facility-btn-list").children)
         .forEach((e) => e.classList.remove("active"));
@@ -106,7 +106,7 @@ function drawSensorsBtn(sensors, parentNode) {
 async function onClickSensorBtn(e, lookAt, normal) {
   Array.from(document.getElementById("sensor-list").children).forEach((c) => c.classList.remove("active"));
   e.target.classList.add("active");
-  const result = await CupixApi.findNearestPanos(
+  const result = await siteView4embed.findNearestPanos(
     activeFacilities.levelId,
     activeFacilities.captureId,
     lookAt[0],
@@ -115,7 +115,7 @@ async function onClickSensorBtn(e, lookAt, normal) {
     normal[1],
     6
   )
-  CupixApi.changePano(result.panos[0].id, [
+  siteView4embed.changePano(result.panos[0].id, [
     lookAt[0] - normal[0],
     lookAt[1] - normal[1],
     result.panos[0].position[2],
