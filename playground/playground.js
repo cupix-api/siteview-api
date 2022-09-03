@@ -7,7 +7,7 @@ const target = isProd ? "https://apidemo.cupix.works" : "http://cupix.local.cupi
 var cupixWindow;
 
 window.onload = function () {
-  CupixApi.init("cupix-container", target);
+  siteView4embed.init("cupix-container", target);
 };
 
 /**
@@ -132,7 +132,7 @@ CupixUI.signin = () => {
     const teamDomain = CupixUI.promptString(op, "team domain");
     const email = CupixUI.promptString(op, "email");
     const password = CupixUI.promptString(op, "password");
-    CupixApi.signin(teamDomain, email, password);
+    siteView4embed.signin(teamDomain, email, password);
   } catch (ec) {
     console.warn(ec);
   }
@@ -142,7 +142,7 @@ CupixUI.signinWithToken = () => {
   try {
     const op = "signinWithToken";
     const token = CupixUI.promptString(op, "personal API token");
-    CupixApi.signinWithToken(token);
+    siteView4embed.signinWithToken(token);
   } catch (ec) {
     console.warn(ec);
   }
@@ -152,7 +152,7 @@ CupixUI.goSiteView = () => {
   try {
     const op = "goSiteView";
     const key = CupixUI.promptString(op, "SiteView key");
-    CupixApi.goSiteView(key);
+    siteView4embed.goSiteView(key);
   } catch (ec) {
     console.warn(ec);
   }
@@ -162,7 +162,7 @@ CupixUI.getLevel = () => {
   try {
     const op = "getLevel";
     const id = CupixUI.promptNumber(op, "level id");
-    CupixApi.getLevel(id);
+    siteView4embed.getLevel(id);
   } catch (ec) {
     console.warn(ec);
   }
@@ -172,7 +172,7 @@ CupixUI.getCapture = () => {
   try {
     const op = "getCapture";
     const id = CupixUI.promptNumber(op, "capture id");
-    CupixApi.getCapture(id);
+    siteView4embed.getCapture(id);
   } catch (ec) {
     console.warn(ec);
   }
@@ -182,7 +182,7 @@ CupixUI.getPano = () => {
   try {
     const op = "getPano";
     const id = CupixUI.promptNumber(op, "pano id");
-    CupixApi.getPano(id);
+    siteView4embed.getPano(id);
   } catch (ec) {
     console.warn(ec);
   }
@@ -192,7 +192,7 @@ CupixUI.getAnnotation = () => {
   try {
     const op = "getAnnotation";
     const id = CupixUI.promptNumber(op, "annotation id");
-    CupixApi.getAnnotation(id);
+    siteView4embed.getAnnotation(id);
   } catch (ec) {
     console.warn(ec);
   }
@@ -202,7 +202,7 @@ CupixUI.getRoom = () => {
   try {
     const op = "getRoom";
     const id = CupixUI.promptNumber(op, "room id");
-    CupixApi.getRoom(id);
+    siteView4embed.getRoom(id);
   } catch (ec) {
     console.warn(ec);
   }
@@ -212,7 +212,7 @@ CupixUI.changeLevel = () => {
   try {
     const op = "changeLevel";
     const id = CupixUI.promptNumber(op, "level id");
-    CupixApi.changeLevel(id);
+    siteView4embed.changeLevel(id);
   } catch (ec) {
     console.warn(ec);
   }
@@ -222,7 +222,7 @@ CupixUI.changeCapture = () => {
   try {
     const op = "changeCapture";
     const id = CupixUI.promptNumber(op, "capture id");
-    CupixApi.changeCapture(id);
+    siteView4embed.changeCapture(id);
   } catch (ec) {
     console.warn(ec);
   }
@@ -232,7 +232,7 @@ CupixUI.changePano = () => {
   try {
     const op = "changePano";
     const id = CupixUI.promptNumber(op, "pano id");
-    CupixApi.changePano(id);
+    siteView4embed.changePano(id);
   } catch (ec) {
     console.warn(ec);
   }
@@ -261,7 +261,7 @@ CupixUI.addAnnotation = () => {
     const annotationGroupId = CupixUI.promptNumber(op, "annotation group id");
     const name = CupixUI.promptString(op, "annotation name");
     const values = promptStringOptional(op, "form fields");
-    CupixApi.addAnnotation(formTemplateId, annotationGroupId, name, values);
+    siteView4embed.addAnnotation(formTemplateId, annotationGroupId, name, values);
   } catch (ec) {
     console.warn(ec);
   }
@@ -271,7 +271,7 @@ CupixUI.deleteAnnotation = () => {
   try {
     const op = "deleteAnnotation";
     const annotationId = CupixUI.promptNumber(op, "annotation id");
-    CupixApi.deleteAnnotation(annotationId);
+    siteView4embed.deleteAnnotation(annotationId);
   } catch (ec) {
     console.warn(ec);
   }
@@ -283,7 +283,7 @@ CupixUI.updateAnnotation = () => {
     const annotationId = CupixUI.promptNumber(op, "annotation id");
     const name = promptStringOptional(op, "annotation name");
     const values = promptStringOptional(op, "form fields");
-    CupixApi.updateAnnotation(annotationId, name, values);
+    siteView4embed.updateAnnotation(annotationId, name, values);
   } catch (ec) {
     console.warn(ec);
   }
@@ -293,7 +293,7 @@ CupixUI.toggleResolveAnnotation = () => {
   try {
     const op = "toggleResolveAnnotation";
     const annotationId = CupixUI.promptNumber(op, "annotation id");
-    CupixApi.toggleResolveAnnotation(annotationId);
+    siteView4embed.toggleResolveAnnotation(annotationId);
   } catch (ec) {
     console.warn(ec);
   }
@@ -303,7 +303,7 @@ CupixUI.getFormTemplate = () => {
   try {
     const op = "getFormTemplate";
     const formTemplateId = CupixUI.promptNumber(op, "form template id");
-    CupixApi.getFormTemplate(formTemplateId);
+    siteView4embed.getFormTemplate(formTemplateId);
   } catch (ec) {
     console.warn(ec);
   }
@@ -321,7 +321,7 @@ CupixUI.getAnnotationGroup = () => {
   try {
     const op = "getAnnotationGroup";
     const annotationGroupId = CupixUI.promptNumber(op, "annotation group id");
-    CupixApi.getAnnotationGroup(annotationGroupId);
+    siteView4embed.getAnnotationGroup(annotationGroupId);
   } catch (ec) {
     console.warn(ec);
   }
@@ -336,7 +336,7 @@ CupixUI.findNearestPanos = () => {
     const coord = CupixUI.promptVector2(op, "coordinate (x, y)", "0, 0");
     const normal = promptVector2Optional(op, "normal vector (x, y) (optional)");
     const maxCount = CupixUI.promptNumber(op, "max search count", "8");
-    CupixApi.findNearestPanos(
+    siteView4embed.findNearestPanos(
       levelId,
       captureId,
       coord.x,
