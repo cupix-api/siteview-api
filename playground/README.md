@@ -47,250 +47,218 @@
 # SiteView API for Embeds
 
 ## Getting Started
-Add source file:
+
+### Include the SDK library
+
+Please add this javascript SDK library to your web application, allowing you to use the `siteView4embed` namespace as described in this document for quick integration. You can skip this step and directly use `window.postMessage` or `window.addEventListener` methods if you prefer basic level controls.
+
 ```html
-<script src="cupixAPI.js"></script>
+<script src="siteView4embed.js"></script>
 ```
 
-Add markup:
+### Add the SiteView iframe in your HTML page
+
+**Method 1:**
+
+Add a wrapper div in your HTML page.
+
 ```html
 <div id="cupix-container" style="width:100%; height:100%;"></div>
 ```
 
-And initialize:
+Then, calling `init()` SDK method with the div id and the SiteView URL will insert the iframe block programmatically.
+
 ```js
-CupixApi.init('cupix-container');
+siteView4embed.init("cupix-container", "[your SiteView URL]");
 ```
 
-[Live demo](https://stackblitz.com/edit/js-aap1v1?file=index.html)
+[Check a live sample](https://stackblitz.com/edit/js-aap1v1?file=index.html)
 
+**Method 2:**
+
+Add an iframe div in your HTML page with the SiteView URL as the source and an `onload()` callback method.
+
+```html
+<iframe src="[your SiteView URL]" onload="onSiteViewLoaded(this)"></iframe>
+```
+
+Then, assign the iframe object's **contentWindow** to the **cupixWindow** global variable that is declared in the SDK.
+
+```js
+function onSiteViewLoaded(iframe) {
+  ...
+  cupixWindow = iframe.contentWindow;
+  ...
+}
+```
 
 ## **Initialize**
 
 ### **Start**
 
-API that need to be run in order to use other APIs
-
-Request
+Initialize the API calls. The `running` state should be `true` to be able to call APIs.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "APP_API_START",
-});
+siteView4embed.start(timeout);
 ```
+
+| Property | Type   | Description             |
+| -------- | ------ | ----------------------- |
+| timeout  | number | timeout in milliseconds |
 
 Response
 
 ```ts
 {
-  running: true;
+  running: boolean;
 }
 ```
 
-| Property | Data type | Description                |
-| -------- | --------- | -------------------------- |
-| running  | boolean   | Whether the API is started |
+| Property | Type    | Description                       |
+| -------- | ------- | --------------------------------- |
+| running  | boolean | Whether the API is started or not |
 
 ### **Stop**
 
-Stop using the API. API cannot be used in `running: false` state.
-
-Request
+Stop an API call. APIs cannot be used when `running` is `false`.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "APP_API_STOP",
-});
+siteView4embed.stop();
 ```
 
 Response
 
 ```ts
 {
-  running: true;
-  forceMessage: true;
+  running: boolean;
 }
 ```
 
-| Property | Data type | Description                |
-| -------- | --------- | -------------------------- |
-| running  | boolean   | Whether the API is started |
-
----
+| Property | Type    | Description                       |
+| -------- | ------- | --------------------------------- |
+| running  | boolean | Whether the API is started or not |
 
 ## **Authenticate**
 
 ### **Sign In**
 
-Login API. Must be logged in to use the Go Home / SiteView page API.
+When the SiteView appears from the iframe, users are prompted to enter the login credentials unless the SiteView is publically published. Alternatively, you can use this `signin` method to authenticate the access programmatically.
 
-Request
-
-- sign in with Email
+- Sign in with an email
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "SIGNIN",
-  operationArgs: {
-    email: "example@example.com",
-    password: "",
-    teamDomain: "",
-  },
-});
+CupixApi.signin(teamDomain, email, password);
 ```
 
-- sign in with token
+| Property   | Type   | Description       |
+| ---------- | ------ | ----------------- |
+| email      | string | User email.       |
+| password   | string | User password.    |
+| teamDomain | string | User team domain. |
+
+- Sign in with user's personal API token, which is available from the CupixWorks Account Settings page.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "SIGNIN",
-  operationArgs: {
-    token: "",
-  },
-});
+CupixApi.signinWithToken(token);
 ```
 
-| Property   | Data type | Description                                      |
-| ---------- | --------- | ------------------------------------------------ |
-| email      | string    | Login email. Required if token is not present    |
-| password   | string    | Login password. Required if token is not present |
-| teamDomain | string    | Team domain. Required if token is not present    |
-| token      | string    | If have a token, can login with just the token   |
-
-Response
+| Property | Type   | Description        |
+| -------- | ------ | ------------------ |
+| token    | string | Personal API token |
 
 ### **Sign Out**
 
-Logout API.
-
 ```ts
-CupixApi.sendToCupix({
-  operationType: "SIGNOUT",
-});
+siteView4embed.signout();
 ```
 
 ## **Navigate**
 
 ### **Go Home**
 
-Go to the dashboard page.
-
-Request
+Load the project dashboard page.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GO_HOME",
-});
+siteView4embed.goHome();
 ```
-
-Response
 
 ### **Go SiteView**
 
-Go to the siteView page.
-
-Request
+Load the SiteView page.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GO_SITEVIEW",
-  operationArgs: {
-    siteViewKey: "",
-    hideTopBar: true
-  },
-});
+siteView4embed.goSiteView(siteViewKey, hideTopBar);
 ```
 
-| Property    | Data type | Description                                 |
-| ----------- | --------- | ------------------------------------------- |
-| siteViewKey | string    | The key of the siteView to move the page to |
-| hideTopBar  | boolean   | Hide top bar parameter. default: true       |
-
-Response
+| Property    | Type    | Description                        |
+| ----------- | ------- | ---------------------------------- |
+| siteViewKey | string  | The key (id) of the SiteView       |
+| hideTopBar  | boolean | Hide the top GUI bar. Default=true |
 
 ## **Get Info**
 
 ### **Get Siteview**
 
-Get the information of the current siteView.
-
-Request
+Get information on the current SiteView.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_SITEVIEW",
-});
+siteView4embed.getSiteView();
 ```
 
 Response
 
 ```ts
 {
-  key: "";
-  name: "";
+  key: string;
+  name: string;
 }
 ```
 
-| Property | Data type | Description                       |
-| -------- | --------- | --------------------------------- |
-| key      | string    | SiteView key of the current page  |
-| name     | string    | SiteView name of the current page |
+| Property | Type   | Description   |
+| -------- | ------ | ------------- |
+| key      | string | SiteView key  |
+| name     | string | SiteView name |
 
 ### **Get Level**
 
-Get the specific level information.
-
-Request
+Get information on a specific level.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_LEVEL",
-  operationArgs: {
-    levelId: 1,
-  },
-});
+siteView4embed.getLevel(levelId);
 ```
 
-| Property | Data type | Description       | Require |
-| -------- | --------- | ----------------- | ------- |
-| levelId  | number    | Target's level ID | O       |
+| Property | Type   | Description | Requred |
+| -------- | ------ | ----------- | ------- |
+| levelId  | number | Level ID    | true    |
 
 Response
 
 ```ts
 {
   level: {
-    id: 1,
-    name: "",
-    isGroundLevel: true,
-    elevation: 1,
-    height: 1,
+    id: number,
+    name: string,
+    isGroundLevel: boolean,
+    elevation: number,
+    height: number,
   },
 }
 ```
 
-| Property | Data type | Description       |
-| -------- | --------- | ----------------- |
-| level    | object    | Level information |
-
-| level Property | Data type | Description                     |
-| -------------- | --------- | ------------------------------- |
-| id             | number    | ID of level                     |
-| name           | string    | Name of level                   |
-| isGroundLevel  | boolean   | Ground level or not             |
-| elevation      | number    | The height of the level         |
-| height         | number    | The ceiling height of the level |
+| Property      | Type    | Description                              |
+| ------------- | ------- | ---------------------------------------- |
+| id            | number  | Level ID                                 |
+| name          | string  | Name of the level                        |
+| isGroundLevel | boolean | Ground level or not                      |
+| elevation     | number  | The height of the level in meter         |
+| height        | number  | The ceiling height of the level in meter |
 
 ### **Get Level All**
 
-Get all level information of the current siteView.
-
-Request
+Get information on all levels.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_LEVEL_ALL",
-});
+siteView4embed.getLevelAll();
 ```
 
 Response
@@ -299,80 +267,65 @@ Response
 {
   levels: [
     {
-      id: 1,
-      name: "",
-      isGroundLevel: true,
-      elevation: 1,
-      height: 1,
+      id: number,
+      name: string,
+      isGroundLevel: boolean,
+      elevation: number,
+      height: number,
     },
   ],
 }
 ```
 
-| Property | Data type              | Description             |
-| -------- | ---------------------- | ----------------------- |
-| levels   | array of level objects | Level information array |
+| Property | Type  | Description     |
+| -------- | ----- | --------------- |
+| levels   | array | Array of levels |
 
-| level Property | Data type | Description                     |
-| -------------- | --------- | ------------------------------- |
-| id             | number    | ID of level                     |
-| name           | string    | Name of level                   |
-| isGroundLevel  | boolean   | Ground level or not             |
-| elevation      | number    | The height of the level         |
-| height         | number    | The ceiling height of the level |
+| level Property | Type    | Description                              |
+| -------------- | ------- | ---------------------------------------- |
+| id             | number  | Level ID                                 |
+| name           | string  | Name of the level                        |
+| isGroundLevel  | boolean | Ground level or not                      |
+| elevation      | number  | The height of the level in meter         |
+| height         | number  | The ceiling height of the level in meter |
 
 ### **Get Capture**
 
-Get the specific capture information.
-
-Request
+Get information on a specific capture.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_CAPTURE",
-  operationArgs: {
-    captureId: 1,
-  },
-});
+siteView4embed.getCapture(captureId);
 ```
 
-| Property  | Data type | Description | Require |
-| --------- | --------- | ----------- | ------- |
-| captureId | number    | Target's ID | O       |
+| Property  | Type   | Description | Requred |
+| --------- | ------ | ----------- | ------- |
+| captureId | number | Capture ID  | true    |
 
 Response
 
 ```ts
 {
   capture: {
-    id: 1,
-    name: "",
-    startDate: Date,
-    endDate: Date,
+    id: number,
+    name: string,
+    startDate: date,
+    endDate: date,
   },
 }
 ```
 
-| Property | Data type | Description         |
-| -------- | --------- | ------------------- |
-| capture  | object    | Capture information |
-
-| capture Property | Data type | Description             |
-| ---------------- | --------- | ----------------------- |
-| id               | number    | ID of capture           |
-| name             | string    | The name of the capture |
-| date             | Date      | Date of capture         |
+| Property | Type   | Description              |
+| -------- | ------ | ------------------------ |
+| id       | number | Capture ID               |
+| name     | string | The label of the capture |
+| date     | Date   | Date of the capture      |
 
 ### **Get Capture All**
 
-Get all capture information of the current siteView.
-
-Request
+Get information on all captures.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_CAPTURE_ALL",
-});
+siteView4embed.getCaptureAll();
 ```
 
 Response
@@ -381,88 +334,73 @@ Response
 {
   captures: [
     {
-      id: 1,
-      name: "",
-      startDate: Date,
-      endDate: Date,
+      id: number,
+      name: string,
+      startDate: date,
+      endDate: date,
     },
   ],
 }
 ```
 
-| Property | Data type                | Description               |
-| -------- | ------------------------ | ------------------------- |
-| captures | array of capture objects | Capture information array |
+| Property | Type  | Description       |
+| -------- | ----- | ----------------- |
+| captures | array | Array of captures |
 
-| capture Property | Data type | Description             |
-| ---------------- | --------- | ----------------------- |
-| id               | number    | ID of capture           |
-| name             | string    | The name of the capture |
-| date             | Date      | Date of capture         |
+| Property | Type   | Description              |
+| -------- | ------ | ------------------------ |
+| id       | number | Capture ID               |
+| name     | string | The label of the capture |
+| date     | Date   | Date of the capture      |
 
 ### **Get Pano**
 
-Get the specific pano information.
-
-Request
+Get information on a specific pano.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_PANO",
-  operationArgs: {
-    panoId: 1,
-  },
-});
+siteView4embed.getPano(panoId);
 ```
 
-| Property | Data type | Description      | Require |
-| -------- | --------- | ---------------- | ------- |
-| panoId   | number    | Target's pano ID | O       |
+| Property | Type   | Description | Requred |
+| -------- | ------ | ----------- | ------- |
+| panoId   | number | Pano ID     | true    |
 
 Response
 
 ```ts
 {
   pano: {
-    id: 1,
-    name: "",
-    filename: "",
-    appCapturedAt: Date,
-    publishedAt: Date,
-    measureReadyAt: Date,
+    id: number,
+    name: string,
+    filename: string,
+    appCapturedAt: date,
+    publishedAt: date,
+    measureReadyAt: date,
     position: [],
-    levelId: 1,
-    captureId: 1,
+    levelId: number,
+    captureId: number,
   },
 }
 ```
 
-| Property | Data type | Description      |
-| -------- | --------- | ---------------- |
-| pano     | object    | Pano information |
-
-| pano Property  | Data type | Description                     |
-| -------------- | --------- | ------------------------------- |
-| id             | number    | ID of the pano                  |
-| name           | string    | Name of the pano                |
-| filename       | string    | Pano image file name            |
-| appCapturedAt  | Date      | Date taken in the app           |
-| publishedAt    | Date      | Published date                  |
-| measureReadyAt | Date      | Measure ready date              |
-| position       | number[]  | [x,y,z] coordinates of pano     |
-| levelId        | number    | ID of the level containing pano |
-| captureId      | number    | ID of capture containing pano   |
+| Property       | Type   | Description                      |
+| -------------- | ------ | -------------------------------- |
+| id             | number | Pano ID                          |
+| name           | string | Name of the pano                 |
+| filename       | string | Pano image file name             |
+| appCapturedAt  | date   | Date the capture was started     |
+| publishedAt    | date   | Published date                   |
+| measureReadyAt | date   | Measure ready status change date |
+| position       | []     | [x,y,z] coordinates of the pano  |
+| levelId        | number | Level ID                         |
+| captureId      | number | Capture ID                       |
 
 ### **Get Pano All**
 
-Get all panos of the current siteView.
-
-Request
+Get information on all panos.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_PANO_ALL",
-});
+siteView4embed.getPanoAll();
 ```
 
 Response
@@ -471,91 +409,76 @@ Response
 {
   panos: [
     {
-      id: 1,
-      name: "",
-      filename: "",
-      appCapturedAt: Date,
-      publishedAt: Date,
-      measureReadyAt: Date,
+      id: number,
+      name: string,
+      filename: string,
+      appCapturedAt: date,
+      publishedAt: date,
+      measureReadyAt: date,
       position: [],
-      levelId: 1,
-      captureId: 1,
+      levelId: number,
+      captureId: number,
     },
   ],
 }
 ```
 
-| Property | Data type             | Description            |
-| -------- | --------------------- | ---------------------- |
-| panos    | array of pano objects | pano information array |
+| Property | Type  | Description    |
+| -------- | ----- | -------------- |
+| panos    | array | Array of panos |
 
-| pano Property  | Data type | Description                     |
-| -------------- | --------- | ------------------------------- |
-| id             | number    | ID of the pano                  |
-| name           | string    | Name of the pano                |
-| filename       | string    | Pano image file name            |
-| appCapturedAt  | Date      | Date taken in the app           |
-| publishedAt    | Date      | Published date                  |
-| measureReadyAt | Date      | Measure ready date              |
-| position       | number[]  | [x,y,z] coordinates of pano     |
-| levelId        | number    | ID of the level containing pano |
-| captureId      | number    | ID of capture containing pano   |
+| Property       | Type   | Description                      |
+| -------------- | ------ | -------------------------------- |
+| id             | number | Pano ID                          |
+| name           | string | Name of the pano                 |
+| filename       | string | Pano image file name             |
+| appCapturedAt  | date   | Date taken in the app            |
+| publishedAt    | date   | Published date                   |
+| measureReadyAt | date   | Measure ready status change date |
+| position       | []     | [x,y,z] coordinates of pano      |
+| levelId        | number | Level ID                         |
+| captureId      | number | Capture ID                       |
 
 ### **Get Room**
 
-Get the specific room information.
-
-Request
+Get information on a specific room.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_ROOM",
-  operationArgs: {
-    roomId: 1,
-  },
-});
+siteView4embed.getRoom(roomId);
 ```
 
-| Property | Data type | Description      | Require |
-| -------- | --------- | ---------------- | ------- |
-| roomId   | number    | Target's room ID | O       |
+| Property | Type   | Description | Requred |
+| -------- | ------ | ----------- | ------- |
+| roomId   | number | Room ID     | true    |
 
 Response
 
 ```ts
 {
   room: {
-    id: 1,
-    name: "",
+    id: number,
+    name: string,
     minBound: [],
     maxBound: [],
   },
 }
 ```
 
-| Property | Data type | Description      |
-| -------- | --------- | ---------------- |
-| room     | object    | Room information |
-
-| room Property | Data type | Description                             |
-| ------------- | --------- | --------------------------------------- |
-| id            | number    | ID of room                              |
-| name          | string    | Name of the room                        |
-| bimId         | number    | Bim ID                                  |
-| baseMatrix    | number[]  | Base matrix                             |
-| minBound      | number[]  | Min coordinates of bounding box [x,y,z] |
-| maxBound      | number[]  | Max coordinates of bounding box [x,y,z] |
+| Property   | Type     | Description                                 |
+| ---------- | -------- | ------------------------------------------- |
+| id         | number   | Room ID                                     |
+| name       | string   | Name of the room                            |
+| bimId      | number   | BIM ID                                      |
+| baseMatrix | number[] | Transformation 4x4 matrix                   |
+| minBound   | number[] | [x,y,z] min coordinates of the bounding box |
+| maxBound   | number[] | [x,y,z] max coordinates of the bounding box |
 
 ### **Get Room All**
 
-Get all room information of the current siteView.
-
-Request
+Get information on all rooms.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_ROOM_ALL",
-});
+siteView4embed.getRoomAll();
 ```
 
 Response
@@ -564,8 +487,8 @@ Response
 {
   room: [
     {
-      id: 1,
-      name: "",
+      id: number,
+      name: string,
       minBound: [],
       maxBound: [],
     },
@@ -573,90 +496,79 @@ Response
 }
 ```
 
-| Property | Data type             | Description            |
-| -------- | --------------------- | ---------------------- |
-| rooms    | array of room objects | Room information array |
+| Property | Type  | Description           |
+| -------- | ----- | --------------------- |
+| rooms    | array | Array of room objects |
 
-| room Property | Data type | Description                             |
-| ------------- | --------- | --------------------------------------- |
-| id            | number    | ID of room                              |
-| name          | string    | Name of the room                        |
-| bimId         | number    | Bim ID                                  |
-| baseMatrix    | number[]  | Base matrix                             |
-| minBound      | number[]  | Min coordinates of bounding box [x,y,z] |
-| maxBound      | number[]  | Max coordinates of bounding box [x,y,z] |
+| Property   | Type     | Description                                 |
+| ---------- | -------- | ------------------------------------------- |
+| id         | number   | Room ID                                     |
+| name       | string   | Name of the room                            |
+| bimId      | number   | BIM ID                                      |
+| baseMatrix | number[] | Transformation 4x4 matrix                   |
+| minBound   | number[] | [x,y,z] min coordinates of the bounding box |
+| maxBound   | number[] | [x,y,z] max coordinates of the bounding box |
 
 ### **Get Form Template**
 
-Get the specific form template.
-
-Request
+Get information on a specific form template.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_FORM_TEMPLATE",
-  operationArgs: {
-    formTemplateId: 1,
-  },
-});
+siteView4embed.getFormTemplate(formTemplateId);
 ```
 
-| Property       | Data type | Description               | Require |
-| -------------- | --------- | ------------------------- | ------- |
-| formTemplateId | number    | Target's form template ID | O       |
+| Property       | Type   | Description      | Requred |
+| -------------- | ------ | ---------------- | ------- |
+| formTemplateId | number | Form template ID | true    |
 
 Response
 
 ```ts
 {
   formTemplate: {
-    id: 1,
-    name: "",
-    description: "",
-    created_at: "",
-    updated_at: "",
+    id: number,
+    name: string,
+    description: string,
+    created_at: string,
+    updated_at: string,
   },
   formFields: [
     {
-      id: 1;
-      type: "";
-      name: "";
-      kind: "select_boxes";
+      id: number;
+      type: string;
+      name: string;
+      kind: string;
     },
   ],
 }
 ```
 
-| Property     | Data type                  | Description               |
-| ------------ | -------------------------- | ------------------------- |
-| formTemplate | object                     | form Template information |
-| formFields   | array of formField objects | form field information    |
+| Property     | Type   | Description                |
+| ------------ | ------ | -------------------------- |
+| formTemplate | object | Form template object       |
+| formFields   | array  | Array of all field objects |
 
-| formTemplate Property | Data type | Description                       |
-| --------------------- | --------- | --------------------------------- |
-| id                    | number    | ID of the form template           |
-| name                  | string    | Name of the form template         |
-| description           | string    | Description of the form template  |
-| created_at            | string    | Created date of the form template |
-| updated_at            | string    | Updated date of the form template |
+| formTemplate Property | Type   | Description                       |
+| --------------------- | ------ | --------------------------------- |
+| id                    | number | Form template ID                  |
+| name                  | string | Name of the form template         |
+| description           | string | Description of the form template  |
+| created_at            | string | Created date of the form template |
+| updated_at            | string | Updated date of the form template |
 
-| formField Property | Data type                                                                                                                                | Description            |
+| formField Property | Type                                                                                                                                     | Description            |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| id                 | number                                                                                                                                   | ID of the form field   |
+| id                 | number                                                                                                                                   | Form field ID          |
 | type               | string                                                                                                                                   | Type of form field     |
 | name               | string                                                                                                                                   | Name of the form field |
 | kind               | `"select_boxes" \| "text_field" \| "number" \| "description" \| "member" \| "text_area" \| "check_box" \| "select" \| "radio" \| "date"` | Types of form field    |
 
 ### **Get Form Template All**
 
-Get all available form templates.
-
-Request
+Get information on all templates.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_FORM_TEMPLATE_ALL",
-});
+siteView4embed.getFormTemplates();
 ```
 
 Response
@@ -665,27 +577,27 @@ Response
 {
   formTemplates: [
     {
-      id: "",
-      name: "",
-      description: "",
-      created_at: "",
-      updated_at: "",
+      id: string,
+      name: string,
+      description: string,
+      created_at: string,
+      updated_at: string,
     },
   ],
 }
 ```
 
-| Property      | Data type                     | Description               |
-| ------------- | ----------------------------- | ------------------------- |
-| formTemplates | array of formTemplate Objects | form template information |
+| Property      | Type  | Description                    |
+| ------------- | ----- | ------------------------------ |
+| formTemplates | array | Array of form template objects |
 
-| formTemplate Property | Data type | Description                       |
-| --------------------- | --------- | --------------------------------- |
-| id                    | number    | ID of the form template           |
-| name                  | string    | Name of the form template         |
-| description           | string    | Description of the form template  |
-| created_at            | string    | Created date of the form template |
-| updated_at            | string    | Updated date of the form template |
+| Property    | Type   | Description                       |
+| ----------- | ------ | --------------------------------- |
+| id          | number | Form template ID                  |
+| name        | string | Name of the form template         |
+| description | string | Description of the form template  |
+| created_at  | string | Created date of the form template |
+| updated_at  | string | Updated date of the form template |
 
 ## **Change**
 
@@ -693,81 +605,47 @@ Response
 
 Change to a specific level
 
-Request
-
 ```ts
-CupixApi.sendToCupix({
-  operationType: "CHANGE_LEVEL",
-  operationArgs: {
-    levelId: 1,
-  },
-});
+siteView4embed.changeLevel(levelId);
 ```
 
-| Property | Data type | Description               | Require |
-| -------- | --------- | ------------------------- | ------- |
-| levelId  | number    | ID of the level to change | O       |
-
-Response
+| Property | Type   | Description        | Requred |
+| -------- | ------ | ------------------ | ------- |
+| levelId  | number | Level ID to change | true    |
 
 ### **Change Capture**
 
 Change to a specific capture.
 
-Request
-
 ```ts
-CupixApi.sendToCupix({
-  operationType: "CHANGE_CAPTURE",
-  operationArgs: {
-    captureId: 1,
-  },
-});
+siteView4embed.changeCapture(captureId);
 ```
 
-| Property  | Data type | Description             | Require |
-| --------- | --------- | ----------------------- | ------- |
-| captureId | number    | ID of capture to change | O       |
-
-Response
-
+| Property  | Type   | Description          | Requred |
+| --------- | ------ | -------------------- | ------- |
+| captureId | number | Capture ID to change | true    |
 
 ### **Change Pano**
 
-Focus on a specific pano.
-
-Request
+Navigate to a specific pano.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "CHANGE_PANO",
-  operationArgs: {
-    panoId,
-    lookAt,
-  },
-});
+siteView4embed.changePano(panoId);
 ```
 
-| Property | Data type | Description                             | Require |
-| -------- | --------- | --------------------------------------- | ------- |
-| panoId   | number    | ID of the pano to focus on              | O       |
-| lookAt   | number[]  | [x,y,z] coordinates looking at the pano | X       |
-
-Response
-
+| Property | Type     | Description            | Requred |
+| -------- | -------- | ---------------------- | ------- |
+| panoId   | number   | Pano ID                | true    |
+| lookAt   | number[] | [x,y,z] look-at vector | false   |
 
 ## **Camera**
 
 ### **Get Camera Parameter**
 
-Get camera parameter information.
-
-Request
+Get camera parameters.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_CAMERA_PARAMETERS"
-});
+siteView4embed.getCameraParameters();
 ```
 
 Response
@@ -775,247 +653,161 @@ Response
 ```ts
 {
   cameraParameters: {
-    viewMode: "",
+    viewMode: string,
     walkMode: true,
     orthoMode: false,
     tm: {
       elements: []
     },
-    fov: 1,
-    zoom: 1,
-    orthoWidth: 1,
-    orthoHeight: 1,
-    orthoZoom: 1
+    fov: number,
+    zoom: number,
+    orthoWidth: number,
+    orthoHeight: number,
+    orthoZoom: number
   }
 }
 ```
 
-| Property         | Data type | Description                   |
-| ---------------- | --------- | ----------------------------- |
-| cameraParameters | object    | Camera Parameters information |
-
-| cameraParameters Property | Data type | Description                                                                   |
-| ------------------------- | --------- | ----------------------------------------------------------------------------- |
-| viewMode                  | string    | `"walk" \| "fly" \| "overhead"`                                               |
-| walkMode                  | boolean   | whether the view mode is "walk"                                               |
-| orthoMode                 | boolean   | whether the camera is Orthographic or Perspective                             |
-| tm                        | number[]  | camera's world transform matrix                                               |
-| fov                       | number    | Camera frustum vertical field of view, from bottom to top of view, in degrees |
-| zoom                      | number    | Camera zoom factor w.r.t reset zoom factor                                    |
-| orthoWidth                | number    | orthogonal camera frustum width                                               |
-| orthoHeight               | number    | orthogonal camera frustum height                                              |
-| orthoZoom                 | number    | orthogonal camera zoom factor                                                 |
-| pivot                     | number[]  | camera rotation pivot @ world coordinate                                      |
-| pivotAtPano               | number[]  | camera rotation pivot @ pano coordinate                                       |
-| panoId                    | number    | pano id                                                                       |
+| Property    | Type     | Description                                                                  |
+| ----------- | -------- | ---------------------------------------------------------------------------- |
+| viewMode    | string   | `"walk" \| "fly" \| "overhead"`                                              |
+| walkMode    | boolean  | whether the view mode is "walk" or not                                       |
+| orthoMode   | boolean  | whether the camera is Orthographic or not (perspective)                      |
+| tm          | number[] | Camera world transform 4x4 matrix                                            |
+| fov         | number   | Frustum vertical FOV (Field of View), from bottom to top of view, in degrees |
+| zoom        | number   | Camera zoom factor w.r.t the default zoom factor                             |
+| orthoWidth  | number   | Orthogonal camera frustum width                                              |
+| orthoHeight | number   | Orthogonal camera frustum height                                             |
+| orthoZoom   | number   | Orthogonal camera zoom factor                                                |
+| pivot       | []       | [x,y,z] Camera rotation pivot point w.r.t the world coordinate system        |
+| pivotAtPano | []       | [x,y,z] Camera rotation pivot point w.r.t the pano coordinate system         |
+| panoId      | number   | Current pano id                                                              |
 
 ### **Set Camera Rotate**
 
 Rotate the camera.
 
-Request
-
 ```ts
-CupixApi.sendToCupix({
-  operationType: "SET_CAMERA_ROTATE",
-  operationArgs: {
-    direction: "UP",
-    angle: 0,
-  },
-});
+siteView4embed.setCameraRotate(direction, angle);
 ```
 
-| Property  | Data type                             | Description                   | Require |
-| --------- | ------------------------------------- | ----------------------------- | ------- |
-| direction | `'UP' \| 'DOWN' \| 'LEFT' \| 'RIGHT'` | Direction of camera to change | O       |
-| angle     | number                                | Camera angle to change        | O       |
-
-Response
-
+| Property  | Type                                  | Description               | Requred |
+| --------- | ------------------------------------- | ------------------------- | ------- |
+| direction | `'UP' \| 'DOWN' \| 'LEFT' \| 'RIGHT'` | Camera rotation direction | true    |
+| angle     | number                                | Angles in degree          | true    |
 
 ### **Set Camera Zoom**
 
 Change the zoom level of the camera.
 
-Request
-
 ```ts
-CupixApi.sendToCupix({
-  operationType: "SET_CAMERA_ZOOM",
-  operationArgs: {
-    angleInDegree: 0,
-  },
-});
+siteView4embed.setCameraZoom(angleInDegree);
 ```
 
-| Property      | Data type | Description  | Require |
-| ------------- | --------- | ------------ | ------- |
-| angleInDegree | number    | Camera's fov | O       |
-
-Response
-
+| Property      | Type   | Description                | Requred |
+| ------------- | ------ | -------------------------- | ------- |
+| angleInDegree | number | Camera FOV (Field of View) | true    |
 
 ### **Set Camera Lookat**
 
-Set the camera to look at specific coordinates.
-
-Request
+Make the camera to look at a specific point.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "SET_CAMERA_LOOKAT",
-  operationArgs: {
-    lookAtX: 0,
-    lookAtY: 0,
-    lookAtZ: 0,
-  },
-});
+siteView4embed.setCameraLookAt(x, y, z);
 ```
 
-| Property | Data type | Description                                         | Require |
-| -------- | --------- | --------------------------------------------------- | ------- |
-| lookAtX  | number    | X coordinate of the direction the camera is looking | O       |
-| lookAtY  | number    | Y coordinate of the direction the camera is looking | O       |
-| lookAtZ  | number    | Z coordinate of the direction the camera is looking | O       |
-
-Response
-
+| Property | Type   | Description  | Requred |
+| -------- | ------ | ------------ | ------- |
+| lookAtX  | number | X coordinate | true    |
+| lookAtY  | number | Y coordinate | true    |
+| lookAtZ  | number | Z coordinate | true    |
 
 ### **Set Camera Reset**
 
-Reset camera.
-
-Request
+Reset camera parameters to the default values.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "SET_CAMERA_RESET",
-});
+siteView4embed.setCameraReset();
 ```
-
-Response
-
 
 ### **Set Camera Move**
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "SET_CAMERA_MOVE",
-  operationArgs: {
-    direction: "FORWARD",
-  },
-});
+siteView4embed.setCameraMove(direction);
 ```
 
-"SET_CAMERA_MOVE",
-Request
-| Property  | Data type                                 | Description                   |
-| --------- | ----------------------------------------- | ----------------------------- |
-| direction | `'FORWARD' \| 'BACK' \| 'LEFT' \| 'RIGHT` | Direction of camera to change |
+Move the camera. The nearest pano will be searched to the given direction, and the pano will be changed.
 
-Response
+Request
+| Property | Type | Description |
+| - | - | - |
+| direction | `'FORWARD' \| 'BACK' \| 'LEFT' \| 'RIGHT` | Camera move direction |
 
 ## **Annotation**
 
 ### **Add Annotation Form**
 
-Add annotation form to specific annotation group.
-
-Request
+Add an annotation to an annotation group.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: 'ADD_ANNOTATION_FORM',
-  operationArgs: {
-    formTemplateId: 1,
-    annotationGroupId: 1,
-    name: "",
-    values: ""
-  }
-});
+siteView4embed.addAnnotation(formTemplateId, annotationGroupId, name, values);
 ```
 
-| Property          | Data type | Description                                                                                | Require |
-| ----------------- | --------- | ------------------------------------------------------------------------------------------ | ------- |
-| formTemplateId    | number    | Target form template ID of annotation to be added                                          | O       |
-| annotationGroupId | number    | Parent annotation group ID of annotation to be added                                       | X       |
-| name              | string    | The name of the annotation to add. default: 'New form'                                     | X       |
-| values            | string    | Annotation values. stringify JSON `'["text1", "text2"]'`. array of values ​​for each field | X       |
-
-Response
+| Property          | Type   | Description                                                                                                | Requred |
+| ----------------- | ------ | ---------------------------------------------------------------------------------------------------------- | ------- |
+| formTemplateId    | number | Annotation form template ID                                                                                | true    |
+| annotationGroupId | number | Annotation group ID in which the annotation will be added                                                  | false   |
+| name              | string | The name of the annotation. default: 'New form'                                                            | false   |
+| values            | string | A stringified array (using `JSON.stringify`) of values ​​for annotation fields like `'["text1", "text2"]'` | false   |
 
 ### **Delete Annotation**
 
-Delete specific annotation.
-
-Request
+Delete an annotation.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: 'DELETE_ANNOTATION',
-  operationArgs: {
-    annotationId: 1,
-  },
-});
+siteView4embed.deleteAnnotation(annotationId);
 ```
 
-| Property     | Data type | Description                    | Require |
-| ------------ | --------- | ------------------------------ | ------- |
-| annotationId | number    | ID of annotation to be deleted | O       |
-
-Response
+| Property     | Type   | Description                    | Requred |
+| ------------ | ------ | ------------------------------ | ------- |
+| annotationId | number | ID of annotation to be deleted | true    |
 
 ### **Get Annotation Group**
 
-Get specific annotation group information.
-
-Request
+Get information on a specific annotation group.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: 'GET_ANNOTATION_GROUP',
-  operationArgs: {
-    annotationGroupId: 1
-  }
-});
+siteView4embed.getAnnotationGroup(annotationGroupId);
 ```
 
-| Property          | Data type | Description                   | Require |
-| ----------------- | --------- | ----------------------------- | ------- |
-| annotationGroupId | number    | ID of target annotation group | O       |
+| Property          | Type   | Description         | Requred |
+| ----------------- | ------ | ------------------- | ------- |
+| annotationGroupId | number | Annotation group ID | true    |
 
 Response
 
 ```ts
 {
   annotationGroup: {
-    id: 1,
-    reviewKey: "",
-    name: "",
+    id: number,
+    reviewKey: string,
+    name: string,
   },
 }
 ```
 
-| Property        | Data type | Description                  |
-| --------------- | --------- | ---------------------------- |
-| annotationGroup | object    | annotation group information |
-
-| annotationGroup Property | Data type | Description                                 |
-| ------------------------ | --------- | ------------------------------------------- |
-| id                       | number    | ID of annotation group                      |
-| reviewKey                | string    | Review key containing this annotation group |
-| name                     | string    | The name of the annotation group            |
+| Property  | Type   | Description                          |
+| --------- | ------ | ------------------------------------ |
+| id        | number | Annotation group ID                  |
+| reviewKey | string | SiteView key of the annotation group |
+| name      | string | The name of the annotation group     |
 
 ### **Get Annotation Group All**
 
-Get all annotation group information of current siteView
-
-Request
+Get information on all annotation groups.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: 'GET_ANNOTATION_GROUP_ALL',
-});
+siteView4embed.getAnnotationGroupAll();
 ```
 
 Response
@@ -1024,81 +816,64 @@ Response
 {
   annotationGroupList: [
     {
-      id: 1,
-      reviewKey: "",
-      name: "",
+      id: number,
+      reviewKey: string,
+      name: string,
     },
-  ]
+  ];
 }
 ```
 
-| Property            | Data type                        | Description                       |
-| ------------------- | -------------------------------- | --------------------------------- |
-| annotationGroupList | array of annotationGroup objects | annotation group list information |
+| Property            | Type  | Description                      |
+| ------------------- | ----- | -------------------------------- |
+| annotationGroupList | array | Array of annotationGroup objects |
 
-| annotationGroup Property | Data type | Description                                 |
-| ------------------------ | --------- | ------------------------------------------- |
-| id                       | number    | ID of annotation group                      |
-| reviewKey                | string    | Review key containing this annotation group |
-| name                     | string    | The name of the annotation group            |
-
+| Property  | Type   | Description                          |
+| --------- | ------ | ------------------------------------ |
+| id        | number | Annotation group ID                  |
+| reviewKey | string | SiteView key of the annotation group |
+| name      | string | The name of the annotation group     |
 
 ### **Get Annotation**
 
-Get specific annotation information.
-
-Request
+Get information on a specific annotation.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_ANNOTATION",
-  operationArgs: {
-    annotationId: 1,
-  },
-});
+siteView4embed.getAnnotation(annotationId);
 ```
 
-| Property     | Data type | Description            | Require |
-| ------------ | --------- | ---------------------- | ------- |
-| annotationId | number    | Target's annotation ID | O       |
+| Property     | Type   | Description   | Requred |
+| ------------ | ------ | ------------- | ------- |
+| annotationId | number | Annotation ID | true    |
 
 Response
 
 ```ts
 {
   annotation: {
-    id: 1,
-    name: "",
-    formName: "",
-    formTemplateId: 1,
+    id: number,
+    name: string,
+    formName: string,
+    formTemplateId: number,
     children: [],
   },
 }
 ```
 
-| Property   | Data type | Description            |
-| ---------- | --------- | ---------------------- |
-| annotation | object    | annotation information |
-
-| annotation Property | Data type                  | Description                         |
-| ------------------- | -------------------------- | ----------------------------------- |
-| id                  | number                     | ID of the annotation                |
-| name                | string                     | The name of the annotation          |
-| formName            | string                     | formTemplate name of the annotation |
-| formTemplateId      | number                     | formTemplateId of the annotation    |
-| children            | array of annotation object | sub-annotation                      |
-
+| Property       | Type   | Description                         |
+| -------------- | ------ | ----------------------------------- |
+| id             | number | Annotation ID                       |
+| name           | string | The name of the annotation          |
+| formName       | string | formTemplate name of the annotation |
+| formTemplateId | number | formTemplateId of the annotation    |
+| children       | array  | Array of child annotations          |
 
 ### **Get Annotation All**
 
-Get all annotations of the current siteView.
-
-Request
+Get information on all annotations.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "GET_ANNOTATION_ALL",
-});
+siteView4embed.getAnnotationAll();
 ```
 
 Response
@@ -1107,106 +882,81 @@ Response
 {
   annotations: [
     {
-      id: 1,
-      name: "",
-      formName: "",
-      formTemplateId: 1,
+      id: number,
+      name: string,
+      formName: string,
+      formTemplateId: number,
       children: [],
     },
   ],
 }
 ```
 
-| Property    | Data type                  | Description                  |
-| ----------- | -------------------------- | ---------------------------- |
-| annotations | array of annotation object | annotation information array |
+| Property    | Type  | Description                 |
+| ----------- | ----- | --------------------------- |
+| annotations | array | Array of annotation objects |
 
-| annotation Property | Data type                  | Description                         |
-| ------------------- | -------------------------- | ----------------------------------- |
-| id                  | number                     | ID of the annotation                |
-| name                | string                     | The name of the annotation          |
-| formName            | string                     | formTemplate name of the annotation |
-| formTemplateId      | number                     | formTemplateId of the annotation    |
-| children            | array of annotation object | sub-annotation                      |
+| Property       | Type   | Description                         |
+| -------------- | ------ | ----------------------------------- |
+| id             | number | Annotation ID                       |
+| name           | string | The name of the annotation          |
+| formName       | string | formTemplate name of the annotation |
+| formTemplateId | number | formTemplateId of the annotation    |
+| children       | array  | Array of child annotations          |
 
 ### **Toggle Resolve Annotation**
 
-Toggles resolve specific annotation.
-
-Request
+Toggle the annotation resolution status.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: 'TOGGLE_RESOLVE_ANNOTATION',
-  operationArgs: {
-    annotationId: 1,
-  },
-});
+siteView4embed.toggleResolveAnnotation(annotationId);
 ```
 
-| Property     | Data type | Description             | Require |
-| ------------ | --------- | ----------------------- | ------- |
-| annotationId | number    | ID of target annotation | O       |
-
-Response
+| Property     | Type   | Description   | Requred |
+| ------------ | ------ | ------------- | ------- |
+| annotationId | number | Annotation ID | true    |
 
 ### **Update Annotation Form**
 
-Update specific annotation form.
-
-Request
+Update an annotation.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: 'UPDATE_ANNOTATION_FORM',
-  operationArgs: {
-    annotationId: 1,
-    name: "",
-    values: "",
-  },
-});
+siteView4embed.updateAnnotation(annotationId, name, values);
 ```
 
-| Property     | Data type | Description                                                                                | Require |
-| ------------ | --------- | ------------------------------------------------------------------------------------------ | ------- |
-| annotationId | number    | ID of target annotation                                                                    | O       |
-| name         | string    | New name of target annotation                                                              | X       |
-| values       | string    | Annotation values. stringify JSON `'["text1", "text2"]'`. array of values ​​for each field | X       |
-
-Response
+| Property     | Type   | Description                                                                                                | Requred |
+| ------------ | ------ | ---------------------------------------------------------------------------------------------------------- | ------- |
+| annotationId | number | Annotation ID annotation                                                                                   | true    |
+| name         | string | New name of the annotation                                                                                 | false   |
+| values       | string | A stringified array (using `JSON.stringify`) of values ​​for annotation fields like `'["text1", "text2"]'` | false   |
 
 ## **Utility**
 
 ### **Find Nearest Panos**
 
-Find the nearest panos based on specific coordinates.
-
-Request
+Find the nearest panos from the given coordinates.
 
 ```ts
-CupixApi.sendToCupix({
-  operationType: "FIND_NEAREST_PANOS",
-  operationArgs: {
-    levelId: 0,
-    captureId: 0,
-    coordX: 0,
-    coordY: 0,
-    maxCount: 0
-    normalX: 0,
-    normalY: 0,
-  }
-});
+siteView4embed.findNearestPanos(
+  levelId,
+  captureId,
+  coordX,
+  coordY,
+  normalX,
+  normalY,
+  maxCount
+);
 ```
 
-| Property  | Data type | Description                                                                            | Require |
-| --------- | --------- | -------------------------------------------------------------------------------------- | ------- |
-| levelId   | number    | The levelId of pano to find                                                            | O       |
-| captureId | number    | pano captureId to find                                                                 | O       |
-| coordX    | number    | Based on the target coordinate X, the target coordinate finds the nearest pano         | O       |
-| coordY    | number    | Based on the target coordinate Y, the target coordinate finds the nearest pano         | O       |
-| maxCount  | number    | Maximum number of panos to find. default: 6                                            | X       |
-| normalX   | number    | direction vector X, a vector to find a value within 45 degrees of the direction vector | X       |
-| normalY   | number    | Direction vector Y, a vector to find a value within 45 degrees of the direction vector | X       |
+| Property  | Type   | Description                                                                                                   | Requred |
+| --------- | ------ | ------------------------------------------------------------------------------------------------------------- | ------- |
+| levelId   | number | Level ID                                                                                                      | true    |
+| captureId | number | Capture ID                                                                                                    | true    |
+| coordX    | number | X coordinate of the searching center                                                                          | true    |
+| coordY    | number | Y coordinate of the searching center                                                                          | true    |
+| maxCount  | number | Maximum number of panos to find. default: 6                                                                   | false   |
+| normalX   | number | Direction vector X value. When it is given, panos within 45 degrees of the direction vector will be searched. | false   |
+| normalY   | number | Direction vector Y value.                                                                                     | false   |
 
 Response
 
@@ -1214,33 +964,32 @@ Response
 {
   panos: [
     {
-      id: 1,
-      name: "",
-      filename: "",
-      appCapturedAt: Date,
-      publishedAt: Date,
-      measureReadyAt: Date,
+      id: number,
+      name: string,
+      filename: string,
+      appCapturedAt: date,
+      publishedAt: date,
+      measureReadyAt: date,
       position: [],
-      levelId: 1,
-      captureId: 1,
+      levelId: number,
+      captureId: number,
     },
   ],
 }
 ```
 
-| Property | Data type            | Description                                                                                                                                                      |
-| -------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| panos    | array of pano object | The maxCount panos nearest to the target coordinates. If there is a normal value, the camera direction is prioritized within 45 degrees of the normal direction. |
+| Property | Type  | Description                                  |
+| -------- | ----- | -------------------------------------------- |
+| panos    | array | Array of panos searched by given conditions. |
 
-| pano Property  | Data type | Description                     |
-| -------------- | --------- | ------------------------------- |
-| id             | number    | ID of the pano                  |
-| name           | string    | Name of the pano                |
-| filename       | string    | Pano image file name            |
-| appCapturedAt  | Date      | Captured date on mobile         |
-| publishedAt    | Date      | Published date                  |
-| measureReadyAt | Date      | Measure ready date              |
-| position       | number[]  | Pano's [x,y,z] coordinates      |
-| levelId        | number    | ID of the level containing pano |
-| captureId      | number    | ID of capture containing pano   |
-
+| Property       | Type   | Description                      |
+| -------------- | ------ | -------------------------------- |
+| id             | number | Pano ID                          |
+| name           | string | Name of the pano                 |
+| filename       | string | Pano image file name             |
+| appCapturedAt  | date   | Date the capture was started     |
+| publishedAt    | date   | Published date                   |
+| measureReadyAt | date   | Measure ready status change date |
+| position       | []     | [x,y,z] coordinates of the pano  |
+| levelId        | number | Level ID                         |
+| captureId      | number | Capture ID                       |
