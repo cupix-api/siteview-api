@@ -152,7 +152,8 @@ CupixUI.goSiteView = () => {
   try {
     const op = "goSiteView";
     const key = CupixUI.promptString(op, "SiteView key");
-    siteView4embed.goSiteView(key);
+    const hideTopBar = CupixUI.promptNumber(op, "hide top bar. hide: 1, show: 0");
+    siteView4embed.goSiteView(key, !!hideTopBar);
   } catch (ec) {
     console.warn(ec);
   }
@@ -298,6 +299,34 @@ CupixUI.toggleResolveAnnotation = () => {
     console.warn(ec);
   }
 };
+
+CupixUI.setActiveAnnotation = () => {
+  try {
+    const op = "setActiveAnnotation";
+    const annotationId = CupixUI.promptNumber(op, "annotation id");
+    siteView4embed.setActiveAnnotation(annotationId);
+  } catch (ec) {
+    console.warn(ec);
+  }
+}
+
+CupixUI.resetActiveAnnotation = () => {
+  try {
+    siteView4embed.resetActiveAnnotation();
+  } catch (ec) {
+    console.warn(ec);
+  }
+}
+
+CupixUI.changeLayout = () => {
+  try {
+    const op = "changeLayout";
+    const layout = CupixUI.promptString(op, "layout: BASIC or TIMELINE or BIM_COMPARE");
+    siteView4embed.changeLayout(layout);
+  } catch (ec) {
+    console.warn(ec);
+  }
+}
 
 CupixUI.getFormTemplate = () => {
   try {

@@ -25,6 +25,7 @@
     - [Change Level](#change-level)
     - [Change Capture](#change-capture)
     - [Change Pano](#change-pano)
+    - [Change Layout](#change-layout)
   - [Camera](#camera)
     - [Get Camera Parameter](#get-camera-parameter)
     - [Set Camera Rotate](#set-camera-rotate)
@@ -41,6 +42,8 @@
     - [Get Annotation All](#get-annotation-all)
     - [Toggle Resolve Annotation](#toggle-resolve-annotation)
     - [Update Annotation Form](#update-annotation-form)
+    - [Set Active Annotation](#set-active-annotation)
+    - [Reset Active Annotation](#reset-active-annotation)
   - [Utility](#utility)
     - [Find Nearest Panos](#find-nearest-panos)
 
@@ -636,7 +639,20 @@ siteView4embed.changePano(panoId);
 | Property | Type       | Description            | Requred |
 | -------- | ---------- | ---------------------- | ------- |
 | panoId   | `number`   | Pano ID                | true    |
-| lookAt   | `number[]` | [x,y,z] look-at vector | false   |
+
+### **Change Layout**
+
+Change Layout
+
+```ts
+siteView4embed.changeLayout(layout);
+```
+
+| Property | Type                                       | Description            |
+| -------- | ------------------------------------------ | ---------------------- |
+| layout   | `'BASIC' \| 'TIMELINE' \| 'BIM_COMPARE'`   | preset layout          |
+
+
 
 ## **Camera**
 
@@ -929,6 +945,24 @@ siteView4embed.updateAnnotation(annotationId, name, values);
 | annotationId | `number` | Annotation ID annotation                                                                                       | true    |
 | name         | `string` | New name of the annotation                                                                                     | false   |
 | values       | `string` | A `string`ified array (using `JSON.`string`ify`) of values ​​for annotation fields like `'["text1", "text2"]'` | false   |
+
+### **Set Active Annotation**
+Set Active Annotation
+
+```ts
+siteView4embed.setActiveAnnotation(annotationId);
+```
+
+### **Reset Active Annotation**
+Reset Active Annotation
+
+```ts
+siteView4embed.resetActiveAnnotation();
+```
+
+| Property     | Type     | Description                                                                                                    | Requred |
+| ------------ | -------- | -------------------------------------------------------------------------------------------------------------- | ------- |
+| annotationId | `number` | Annotation ID annotation                                                                                       | true    |
 
 ## **Utility**
 
