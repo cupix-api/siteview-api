@@ -147,7 +147,7 @@ When the SiteView appears from the iframe, users are prompted to enter the login
 - Sign in with an email
 
 ```ts
-CupixApi.signin(teamDomain, email, password);
+siteView4embed.signin(teamDomain, email, password);
 ```
 
 | Property   | Type   | Description       |
@@ -159,7 +159,7 @@ CupixApi.signin(teamDomain, email, password);
 - Sign in with user's personal API token, which is available from the CupixWorks Account Settings page.
 
 ```ts
-CupixApi.signinWithToken(token);
+siteView4embed.signinWithToken(token);
 ```
 
 | Property | Type   | Description        |

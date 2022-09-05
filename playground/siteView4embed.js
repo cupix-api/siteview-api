@@ -22,9 +22,9 @@ siteView4embed.uuid = 0;
 
 /**
  * @param {string} htmlDivId
- * @param {string} target
+ * @param {string} siteviewUrl
  */
-siteView4embed.init = function (htmlDivId, target) {
+siteView4embed.init = function (htmlDivId, siteviewUrl) {
   window.siteView4embed = siteView4embed;
   var elem = document.getElementById(htmlDivId);
   let resolver;
@@ -32,7 +32,7 @@ siteView4embed.init = function (htmlDivId, target) {
     var iframe = document.createElement("iframe");
     iframe.style.width = "100%";
     iframe.style.height = "100%";
-    iframe.src = target ?? "https://apidemo.cupix.works";
+    iframe.src = siteviewUrl ?? "https://apidemo.cupix.works";
     iframe.onload = () => {
       siteView4embed.cupixWindow = iframe.contentWindow;
       if (resolver) resolver();
