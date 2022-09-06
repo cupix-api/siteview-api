@@ -46,6 +46,9 @@
     - [Reset Active Annotation](#reset-active-annotation)
   - [Utility](#utility)
     - [Find Nearest Panos](#find-nearest-panos)
+  - [BroadCast Event](#broadcast-event)
+    - [Active Annotation Changed](#active-annotation-changed)
+    - [Annotation Updated](#annotation-updated)
 
 # SiteView API for Embeds
 
@@ -108,9 +111,9 @@ window.addEventListener("message", (event) => {
 
 As well as the result of your API call, the SiteView dispatches various event messages like camera changes, pono transition, etc. and therefore, you can catch the user's input and execute follow-up controls.
 
-## **Initialize**
+## Initialize
 
-### **Start**
+### Start
 
 Initialize the API calls. The `running` state should be `true` to be able to call APIs.
 
@@ -134,7 +137,7 @@ Response
 | -------- | --------- | --------------------------------- |
 | running  | `boolean` | Whether the API is started or not |
 
-### **Stop**
+### Stop
 
 Stop an API call. APIs cannot be used when `running` is `false`.
 
@@ -154,9 +157,9 @@ Response
 | -------- | --------- | --------------------------------- |
 | running  | `boolean` | Whether the API is started or not |
 
-## **Authenticate**
+## Authenticate
 
-### **Sign In**
+### Sign In
 
 When the SiteView appears from the iframe, users are prompted to enter the login credentials unless the SiteView is publically published. Alternatively, you can use this `signin` method to authenticate the access programmatically.
 
@@ -182,15 +185,15 @@ siteView4embed.signinWithToken(token);
 | -------- | -------- | ------------------ |
 | token    | `string` | Personal API token |
 
-### **Sign Out**
+### Sign Out
 
 ```ts
 siteView4embed.signout();
 ```
 
-## **Navigate**
+## Navigate
 
-### **Go Home**
+### Go Home
 
 Load the project dashboard page.
 
@@ -198,7 +201,7 @@ Load the project dashboard page.
 siteView4embed.goHome();
 ```
 
-### **Go SiteView**
+### Go SiteView
 
 Load the SiteView page.
 
@@ -211,9 +214,9 @@ siteView4embed.goSiteView(siteViewKey, hideTopBar);
 | siteViewKey | `string`  | The key (id) of the SiteView       |
 | hideTopBar  | `boolean` | Hide the top GUI bar. Default=true |
 
-## **Get Info**
+## Get Info
 
-### **Get Siteview**
+### Get Siteview
 
 Get information on the current SiteView.
 
@@ -235,7 +238,7 @@ Response
 | key      | `string` | SiteView key  |
 | name     | `string` | SiteView name |
 
-### **Get Level**
+### Get Level
 
 Get information on a specific level.
 
@@ -269,7 +272,7 @@ Response
 | elevation     | `number`  | The height of the level in meter         |
 | height        | `number`  | The ceiling height of the level in meter |
 
-### **Get Level All**
+### Get Level All
 
 Get information on all levels.
 
@@ -305,7 +308,7 @@ Response
 | elevation      | `number`  | The height of the level in meter         |
 | height         | `number`  | The ceiling height of the level in meter |
 
-### **Get Capture**
+### Get Capture
 
 Get information on a specific capture.
 
@@ -336,7 +339,7 @@ Response
 | name     | `string` | The label of the capture |
 | date     | `date`   | Date of the capture      |
 
-### **Get Capture All**
+### Get Capture All
 
 Get information on all captures.
 
@@ -369,7 +372,7 @@ Response
 | name     | `string` | The label of the capture |
 | date     | `date`   | Date of the capture      |
 
-### **Get Pano**
+### Get Pano
 
 Get information on a specific pano.
 
@@ -411,7 +414,7 @@ Response
 | levelId        | `number` | Level ID                         |
 | captureId      | `number` | Capture ID                       |
 
-### **Get Pano All**
+### Get Pano All
 
 Get information on all panos.
 
@@ -455,7 +458,7 @@ Response
 | levelId        | `number` | Level ID                         |
 | captureId      | `number` | Capture ID                       |
 
-### **Get Room**
+### Get Room
 
 Get information on a specific room.
 
@@ -489,7 +492,7 @@ Response
 | minBound   | `number[]` | [x,y,z] min coordinates of the bounding box |
 | maxBound   | `number[]` | [x,y,z] max coordinates of the bounding box |
 
-### **Get Room All**
+### Get Room All
 
 Get information on all rooms.
 
@@ -525,7 +528,7 @@ Response
 | minBound   | `number[]` | [x,y,z] min coordinates of the bounding box |
 | maxBound   | `number[]` | [x,y,z] max coordinates of the bounding box |
 
-### **Get Form Template**
+### Get Form Template
 
 Get information on a specific form template.
 
@@ -579,7 +582,7 @@ Response
 | name               | `string`                                                                                                                                 | Name of the form field |
 | kind               | `"select_boxes" \| "text_field" \| "number" \| "description" \| "member" \| "text_area" \| "check_box" \| "select" \| "radio" \| "date"` | Types of form field    |
 
-### **Get Form Template All**
+### Get Form Template All
 
 Get information on all templates.
 
@@ -615,9 +618,9 @@ Response
 | created_at  | `string` | Created date of the form template |
 | updated_at  | `string` | Updated date of the form template |
 
-## **Change**
+## Change
 
-### **Change Level**
+### Change Level
 
 Change to a specific level
 
@@ -629,7 +632,7 @@ siteView4embed.changeLevel(levelId);
 | -------- | -------- | ------------------ | ------- |
 | levelId  | `number` | Level ID to change | true    |
 
-### **Change Capture**
+### Change Capture
 
 Change to a specific capture.
 
@@ -641,7 +644,7 @@ siteView4embed.changeCapture(captureId);
 | --------- | -------- | -------------------- | ------- |
 | captureId | `number` | Capture ID to change | true    |
 
-### **Change Pano**
+### Change Pano
 
 Navigate to a specific pano.
 
@@ -649,11 +652,11 @@ Navigate to a specific pano.
 siteView4embed.changePano(panoId);
 ```
 
-| Property | Type       | Description            | Requred |
-| -------- | ---------- | ---------------------- | ------- |
-| panoId   | `number`   | Pano ID                | true    |
+| Property | Type     | Description | Requred |
+| -------- | -------- | ----------- | ------- |
+| panoId   | `number` | Pano ID     | true    |
 
-### **Change Layout**
+### Change Layout
 
 Change Layout
 
@@ -661,15 +664,15 @@ Change Layout
 siteView4embed.changeLayout(layout);
 ```
 
-| Property | Type                                       | Description            |
-| -------- | ------------------------------------------ | ---------------------- |
-| layout   | `'BASIC' \| 'TIMELINE' \| 'BIM_COMPARE'`   | preset layout          |
+| Property | Type                                     | Description   |
+| -------- | ---------------------------------------- | ------------- |
+| layout   | `'BASIC' \| 'TIMELINE' \| 'BIM_COMPARE'` | preset layout |
 
 
 
-## **Camera**
+## Camera
 
-### **Get Camera Parameter**
+### Get Camera Parameter
 
 Get camera parameters.
 
@@ -712,7 +715,7 @@ Response
 | pivotAtPano | `[]`       | [x,y,z] Camera rotation pivot point w.r.t the pano coordinate system         |
 | panoId      | `number`   | Current pano id                                                              |
 
-### **Set Camera Rotate**
+### Set Camera Rotate
 
 Rotate the camera.
 
@@ -725,7 +728,7 @@ siteView4embed.setCameraRotate(direction, angle);
 | direction | `'UP' \| 'DOWN' \| 'LEFT' \| 'RIGHT'` | Camera rotation direction | true    |
 | angle     | `number`                              | Angles in degree          | true    |
 
-### **Set Camera Zoom**
+### Set Camera Zoom
 
 Change the zoom level of the camera.
 
@@ -737,7 +740,7 @@ siteView4embed.setCameraZoom(angleInDegree);
 | ------------- | -------- | -------------------------- | ------- |
 | angleInDegree | `number` | Camera FOV (Field of View) | true    |
 
-### **Set Camera Lookat**
+### Set Camera Lookat
 
 Make the camera to look at a specific point.
 
@@ -751,7 +754,7 @@ siteView4embed.setCameraLookAt(x, y, z);
 | lookAtY  | `number` | Y coordinate | true    |
 | lookAtZ  | `number` | Z coordinate | true    |
 
-### **Set Camera Reset**
+### Set Camera Reset
 
 Reset camera parameters to the default values.
 
@@ -759,7 +762,7 @@ Reset camera parameters to the default values.
 siteView4embed.setCameraReset();
 ```
 
-### **Set Camera Move**
+### Set Camera Move
 
 ```ts
 siteView4embed.setCameraMove(direction);
@@ -768,13 +771,13 @@ siteView4embed.setCameraMove(direction);
 Move the camera. The nearest pano will be searched to the given direction, and the pano will be changed.
 
 Request
-| Property | Type | Description |
-| - | - | - |
+| Property  | Type                                      | Description           |
+| --------- | ----------------------------------------- | --------------------- |
 | direction | `'FORWARD' \| 'BACK' \| 'LEFT' \| 'RIGHT` | Camera move direction |
 
-## **Annotation**
+## Annotation
 
-### **Add Annotation Form**
+### Add Annotation Form
 
 Add an annotation to an annotation group.
 
@@ -789,7 +792,7 @@ siteView4embed.addAnnotation(formTemplateId, annotationGroupId, name, values);
 | name              | `string` | The name of the annotation. default: 'New form'                                                                | false   |
 | values            | `string` | A `string`ified array (using `JSON.`string`ify`) of values ​​for annotation fields like `'["text1", "text2"]'` | false   |
 
-### **Delete Annotation**
+### Delete Annotation
 
 Delete an annotation.
 
@@ -801,7 +804,7 @@ siteView4embed.deleteAnnotation(annotationId);
 | ------------ | -------- | ------------------------------ | ------- |
 | annotationId | `number` | ID of annotation to be deleted | true    |
 
-### **Get Annotation Group**
+### Get Annotation Group
 
 Get information on a specific annotation group.
 
@@ -831,7 +834,7 @@ Response
 | reviewKey | `string` | SiteView key of the annotation group |
 | name      | `string` | The name of the annotation group     |
 
-### **Get Annotation Group All**
+### Get Annotation Group All
 
 Get information on all annotation groups.
 
@@ -863,7 +866,7 @@ Response
 | reviewKey | `string` | SiteView key of the annotation group |
 | name      | `string` | The name of the annotation group     |
 
-### **Get Annotation**
+### Get Annotation
 
 Get information on a specific annotation.
 
@@ -897,7 +900,7 @@ Response
 | formTemplateId | `number` | formTemplateId of the annotation    |
 | children       | array    | Array of child annotations          |
 
-### **Get Annotation All**
+### Get Annotation All
 
 Get information on all annotations.
 
@@ -933,7 +936,7 @@ Response
 | formTemplateId | `number` | formTemplateId of the annotation    |
 | children       | array    | Array of child annotations          |
 
-### **Toggle Resolve Annotation**
+### Toggle Resolve Annotation
 
 Toggle the annotation resolution status.
 
@@ -945,7 +948,7 @@ siteView4embed.toggleResolveAnnotation(annotationId);
 | ------------ | -------- | ------------- | ------- |
 | annotationId | `number` | Annotation ID | true    |
 
-### **Update Annotation Form**
+### Update Annotation Form
 
 Update an annotation.
 
@@ -959,27 +962,27 @@ siteView4embed.updateAnnotation(annotationId, name, values);
 | name         | `string` | New name of the annotation                                                                                     | false   |
 | values       | `string` | A `string`ified array (using `JSON.`string`ify`) of values ​​for annotation fields like `'["text1", "text2"]'` | false   |
 
-### **Set Active Annotation**
+### Set Active Annotation
 Set Active Annotation
 
 ```ts
 siteView4embed.setActiveAnnotation(annotationId);
 ```
 
-### **Reset Active Annotation**
+### Reset Active Annotation
 Reset Active Annotation
 
 ```ts
 siteView4embed.resetActiveAnnotation();
 ```
 
-| Property     | Type     | Description                                                                                                    | Requred |
-| ------------ | -------- | -------------------------------------------------------------------------------------------------------------- | ------- |
-| annotationId | `number` | Annotation ID annotation                                                                                       | true    |
+| Property     | Type     | Description              | Requred |
+| ------------ | -------- | ------------------------ | ------- |
+| annotationId | `number` | Annotation ID annotation | true    |
 
-## **Utility**
+## Utility
 
-### **Find Nearest Panos**
+### Find Nearest Panos
 
 Find the nearest panos from the given coordinates.
 
@@ -1040,3 +1043,132 @@ Response
 | position       | `[]`     | [x,y,z] coordinates of the pano  |
 | levelId        | `number` | Level ID                         |
 | captureId      | `number` | Capture ID                       |
+
+
+## BroadCast Event
+
+### Active Annotation Changed
+
+emitted when active annotation changed.
+
+Response
+
+```ts
+{
+  reset: boolean;
+  prevAnnotationId: number;
+  id: number;
+  name?: string;
+  annotationGroup?: {
+    id: number;
+    name: string;
+  };
+  level?: {
+    id: number;
+    name: string;
+    elevation: number;
+  };
+  record?: {
+    id: number;
+    note: string;
+    capturedAt: string;
+  }
+  link?: string;
+  position?: number[];
+  form?: {
+    items: FormItemData[];
+  };
+}
+```
+
+| Property             | Type                    | Description                               |
+| -------------------- | ----------------------- | ----------------------------------------- |
+| id                   | `number`                | Annotation ID                             |
+| name                 | `string`                | The name of the annotation                |
+| reset                | `boolean`               | if set active annotation, reset is false. |
+| annotationGroup      | `Object`                |                                           |
+| annotationGroup.id   | `number`                | Annotation group ID                       |
+| annotationGroup.name | `string`                | The name of the annotation group          |
+| level                | `Object`                |                                           |
+| level.id             | `number`                | Level ID                                  |
+| level.name           | `string`                | Name of the level                         |
+| level.elevation      | `number`                | The height of the level in meter          |
+| record               | `Object`                |                                           |
+| record.id            | `number`                | Capture ID                                |
+| record.note          | `string`                | Capture's note                            |
+| record.capturedAt    | `string`                | Date of the capture                       |
+| link                 | `string \| '(not set)'` | External link                             |
+| position             | `number[]`              | [x,y,z] coordinates of annotation         |
+| form                 | `Object`                |                                           |
+| form.items           | `FormItemData[]`        | Field items of annotation                 |
+
+| FormItemData Property | Type                          | Description                                                   |
+| --------------------- | ----------------------------- | ------------------------------------------------------------- |
+| id                    | `number`                      | Field ID                                                      |
+| label                 | `string`                      | Field label                                                   |
+| name                  | `string`                      | Field name                                                    |
+| value                 | `string \| number \| boolean` | Field value                                                   |
+| options               | `string[]`                    | Field options for radio button, dropdown select, multi-select |
+
+### Annotation Updated
+
+emitted when annotation updated
+
+Response
+
+```ts
+{
+  reset: boolean;
+  prevAnnotationId: number;
+  id: number;
+  name?: string;
+  annotationGroup?: {
+    id: number;
+    name: string;
+  };
+  level?: {
+    id: number;
+    name: string;
+    elevation: number;
+  };
+  record?: {
+    id: number;
+    note: string;
+    capturedAt: string;
+  }
+  link?: string;
+  position?: number[];
+  form?: {
+    items: FormItemData[];
+  };
+}
+```
+
+| Property             | Type                    | Description                               |
+| -------------------- | ----------------------- | ----------------------------------------- |
+| id                   | `number`                | Annotation ID                             |
+| name                 | `string`                | The name of the annotation                |
+| reset                | `boolean`               | if set active annotation, reset is false. |
+| annotationGroup      | `Object`                |                                           |
+| annotationGroup.id   | `number`                | Annotation group ID                       |
+| annotationGroup.name | `string`                | The name of the annotation group          |
+| level                | `Object`                |                                           |
+| level.id             | `number`                | Level ID                                  |
+| level.name           | `string`                | Name of the level                         |
+| level.elevation      | `number`                | The height of the level in meter          |
+| record               | `Object`                |                                           |
+| record.id            | `number`                | Capture ID                                |
+| record.note          | `string`                | Capture's note                            |
+| record.capturedAt    | `string`                | Date of the capture                       |
+| link                 | `string \| '(not set)'` | External link                             |
+| position             | `number[]`              | [x,y,z] coordinates of annotation         |
+| form                 | `Object`                |                                           |
+| form.items           | `FormItemData[]`        | Field items of annotation                 |
+
+| FormItemData Property | Type                          | Description                                                   |
+| --------------------- | ----------------------------- | ------------------------------------------------------------- |
+| id                    | `number`                      | Field ID                                                      |
+| label                 | `string`                      | Field label                                                   |
+| name                  | `string`                      | Field name                                                    |
+| value                 | `string \| number \| boolean` | Field value                                                   |
+| options               | `string[]`                    | Field options for radio button, dropdown select, multi-select |
