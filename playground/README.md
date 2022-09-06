@@ -95,6 +95,19 @@ function onSiteViewLoaded(iframe) {
 }
 ```
 
+### Listen for messages from the SiteView iframe
+
+The result of your API call will be dispatched from the SiteView, and your app can listen for the dispatched messages by executing the following code:
+
+```js
+window.addEventListener("message", (event) => {
+	let responseType = event.data['responseType']	// string
+	let response = event.data['response']	// response object
+})
+```
+
+As well as the result of your API call, the SiteView dispatches various event messages like camera changes, pono transition, etc. and therefore, you can catch the user's input and execute follow-up controls.
+
 ## **Initialize**
 
 ### **Start**
