@@ -15,7 +15,10 @@
   <body>
     <div id="cupix-container" style="width:100%; height:100%;"></div>
     <script>
-      siteView4embed.init('cupix-container');
+      (async function () {
+        await siteView4embed.init('cupix-container');
+        siteView4embed.start();
+      })();
     </script>
   </body>
 </html>

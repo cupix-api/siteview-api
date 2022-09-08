@@ -19,17 +19,6 @@ function setContent(id, content) {
   if (elem) elem.innerText = content;
 }
 
-function getJSONContent(json) {
-  if (json == undefined) return "{}";
-  let parsed;
-  try {
-    parsed = JSON.parse(json);
-  } catch (ec) {
-    parsed = json;
-  }
-  return JSON.stringify(parsed, null, 2);
-}
-
 function setPostContent(postType, postContent) {
   setContent("event-post-timestamp", `Updated: ${new Date().toLocaleString()}`);
   setContent("event-post-type", postType || "--");
@@ -54,7 +43,6 @@ window.addEventListener(
     const response = e && e.data;
     if (response == undefined) return;
     if (response.header != "CUPIXWORKS_API") return;
-    console.log("[CUPIXWORKS_API]", JSON.stringify(response || {}));
     setResponseContent(
       e.data.responseType,
       e.data.response,
