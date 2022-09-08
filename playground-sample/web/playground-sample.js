@@ -12,7 +12,7 @@ let sideNav;
 
 
 async function initCupix() {
-  await siteView4embed.init('cupix-container');
+  await siteView4embed.init('cupix-container', target);
   let apiLoaded = false;
   let retryCount = 0;
   do {
@@ -55,58 +55,6 @@ async function signinWithToken() {
     document.getElementById("cupix-container-actions").classList.remove("hide");
   } catch (ec) {
     console.warn(ec);
-  }
-};
-
-function getJSONContent(json) {
-  if (json == undefined) return "{}";
-  let parsed;
-  try {
-    parsed = JSON.parse(json);
-  } catch (ec) {
-    parsed = json;
-  }
-  return JSON.stringify(parsed, null, 2);
-}
-
-function log(...params) {
-  console.log(`%c${params.join(' ')}`, 'color: #bada55;')
-}
-
-window.addEventListener(
-  "message",
-  /** @param {MessageEvent<CupixMessageResponse>} e */
-  function (e) {
-    const response = e && e.data;
-    if (response == undefined) return;
-    if (response.header != "CUPIXWORKS_API") return;
-    log("[CUPIXWORKS_API]", JSON.stringify(response || {}));
-    if (
-      response.request?.uuid &&
-      typeof resolvers[response.request.uuid] === "function"
-    ) {
-      resolvers[response.request.uuid](response.response || response);
-    }
-    setResponseContent(
-      e.data.responseType,
-      e.data.response,
-      e.data.errorMessage,
-      e.data.errorArgs
-    );
-  },
-  false
-);
-
-function setResponseContent(responseType, response, errorMessage, errorArgs) {
-  log(
-    "event-resp-timestamp",
-    `Updated: ${new Date().toLocaleString()}`
-  );
-  log("event-resp-type", responseType);
-  log("event-resp-content", getJSONContent(response));
-  if (errorMessage) {
-    console.error("event-error-msg", errorMessage);
-    console.error("event-error-args", getJSONContent(errorArgs));
   }
 }
 

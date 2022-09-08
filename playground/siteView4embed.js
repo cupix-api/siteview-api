@@ -3,6 +3,7 @@
  * @enum {string}
  */
 const OPERATION_TYPE = {
+  API_READY: "API_READY",
   APP_API_START: "APP_API_START",
   APP_API_STOP: "APP_API_STOP",
   SIGNIN: "SIGNIN",
@@ -60,57 +61,77 @@ const resolvers = {};
 /**
  * @typedef {Object} siteView4embed
  * @property {number} uuid
- * */
-var siteView4embed = siteView4embed || {};
-
-siteView4embed.uuid = 0;
+ * @property {boolean} quiet
+ * @property {boolean} ready
+ */
+const siteView4embed = {
+  uuid: 0,
+  quiet: false,
+  ready: false
+};
 
 /**
  * @param {string} htmlDivId
  * @param {string} siteviewUrl
  */
-siteView4embed.init = function (htmlDivId, siteviewUrl) {
+siteView4embed.init = async function (htmlDivId, siteviewUrl) {
   window.siteView4embed = siteView4embed;
-  var elem = document.getElementById(htmlDivId);
+  const elem = document.getElementById(htmlDivId);
   let resolver;
   if (elem) {
-    var iframe = document.createElement("iframe");
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
-    iframe.src = siteviewUrl ?? "https://apidemo.cupix.works";
+    const iframe = document.createElement("iframe");
     iframe.onload = () => {
       siteView4embed.cupixWindow = iframe.contentWindow;
       if (resolver) resolver();
     };
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.src = siteviewUrl ?? "https://apidemo.cupix.works";
+
     elem.appendChild(iframe);
   }
-  return new Promise((res, rej) => {
+  const result = new Promise((res, rej) => {
     resolver = res;
   });
+  return result;
 }
+
+siteView4embed.readyPromise = new Promise((res, rej) => {
+  resolvers[-1] = res;
+});
 
 /**
  * @param {CupixMessageRequest} event
- * @param {number} timeout
+ * @param {number} waitReady
  * @return {Promise<ErrorType>}
 */
-siteView4embed.sendToCupix = function (event, timeout) {
-  console.log(`sendToCupix: [${event.operationType}]`, JSON.stringify(event));
+siteView4embed.sendToCupix = async function (event, waitReady) {
   if (siteView4embed.cupixWindow) {
     event.header = "CUPIXWORKS_API";
     event.uuid = siteView4embed.uuid.toString();
     event.timestamp = Date.now();
-    siteView4embed.cupixWindow.postMessage(event, "*");
+    const error = { error: `timeout: ${event.operationType} ${waitReady}ms` };
+
 
     /** @type {Promise<ErrorType>} */
     const promise = new Promise((resolve) => {
-      resolvers[siteView4embed.uuid] = resolve;
-      if (!isNaN(timeout)) {
-        setTimeout(() => {
-          resolve({ error: `timeout: ${event.operationType}` });
-        }, timeout);
-      }
+      const id = siteView4embed.uuid
+      resolvers[id] = resolve;
+      setTimeout(() => {
+        if (resolvers[id]) {
+          resolve(error);
+        };
+        if (!siteView4embed.ready) {
+          resolvers[-1](false);
+        }
+      }, waitReady ?? 5000);
+
     });
+
+    await siteView4embed.readyPromise;
+    siteView4embed.cupixWindow.postMessage(event, "*");
+    if (!siteView4embed.quiet) console.log(`sendToCupix: [${event.operationType}]`, JSON.stringify(event));
+
     siteView4embed.uuid++;
     return promise;
   }
@@ -419,3 +440,46 @@ siteView4embed.changeLayout = (layout) =>
       layout
     }
   });
+
+function log(...params) {
+  console.log(`%c${params.join(' ')}`, 'color: #bada55;')
+}
+
+function ready() {
+  resolvers[-1](true);
+  siteView4embed.ready = true;
+}
+
+window.addEventListener(
+  "message",
+  /** @param {MessageEvent<CupixMessageResponse>} e */
+  function (e) {
+    const response = e && e.data;
+    if (response == undefined) return;
+    if (response.header != "CUPIXWORKS_API") return;
+    if (!siteView4embed.quiet) log("[CUPIXWORKS_API]", JSON.stringify(response || {}));
+    if (!siteView4embed.ready) ready(response);
+    if (
+      response.request?.uuid &&
+      typeof resolvers[response.request.uuid] === "function"
+    ) {
+      resolvers[response.request.uuid](response.response || response);
+      resolvers[response.request.uuid] = null;
+    }
+  },
+  false
+);
+
+
+
+function getJSONContent(json) {
+  if (json == undefined) return "{}";
+  let parsed;
+  try {
+    parsed = JSON.parse(json);
+  } catch (ec) {
+    parsed = json;
+  }
+  return JSON.stringify(parsed, null, 2);
+}
+
