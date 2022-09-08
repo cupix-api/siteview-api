@@ -152,7 +152,7 @@ CupixUI.goSiteView = () => {
   try {
     const op = "goSiteView";
     const key = CupixUI.promptString(op, "SiteView key");
-    const hideTopBar = CupixUI.promptNumber(op, "hide top bar. hide: 1, show: 0");
+    const hideTopBar = promptNumberOptional(op, "hide top bar. hide: 1, show: 0");
     siteView4embed.goSiteView(key, !!hideTopBar);
   } catch (ec) {
     console.warn(ec);
