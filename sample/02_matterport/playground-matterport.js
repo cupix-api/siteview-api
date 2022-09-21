@@ -19,8 +19,7 @@ let cameraSync = true;
 const samples = [
   {
     label: 'PAT - July 26, 2022',
-    cupixSiteViewURL: 'http://cupix.local.cupix.works:4200/sv/q8gnw1',
-    // cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
+    cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
     initialPano: {
       id: 1719961,
       levelId: 9158,
@@ -40,8 +39,7 @@ const samples = [
   },
   {
     label: 'PAT - Phase 1',
-    cupixSiteViewURL: 'http://cupix.local.cupix.works:4200/sv/q8gnw1',
-    // cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
+    cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
     initialPano: {
       id: 1719134,
       levelId: 9158,
@@ -61,8 +59,7 @@ const samples = [
   },
   {
     label: 'CT and Fluoro - 6.8.2022',
-    cupixSiteViewURL: 'http://cupix.local.cupix.works:4200/sv/q8gnw1',
-    // cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
+    cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
     initialPano: {
       id: 1719382,
       levelId: 9158,
@@ -82,8 +79,7 @@ const samples = [
   },
   {
     label: 'CT and Fluoro - Phase 1 Abatement',
-    cupixSiteViewURL: 'http://cupix.local.cupix.works:4200/sv/q8gnw1',
-    // cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
+    cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
     initialPano: {
       id: 1720071,
       levelId: 9158,
@@ -103,8 +99,7 @@ const samples = [
   },
   {
     label: 'CT and Fluoro - Phase 1 PAT Rescan',
-    cupixSiteViewURL: 'http://cupix.local.cupix.works:4200/sv/q8gnw1',
-    // cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
+    cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
     initialPano: {
       id: 1719154,
       levelId: 9158,
@@ -124,8 +119,7 @@ const samples = [
   },
   {
     label: 'CT and Fluoro - Phase 1',
-    cupixSiteViewURL: 'http://cupix.local.cupix.works:4200/sv/q8gnw1',
-    // cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
+    cupixSiteViewURL: 'https://cupix.stage.cupix.works/sv/q8gnw1',
     initialPano: {
       id: 1719828,
       levelId: 9158,
