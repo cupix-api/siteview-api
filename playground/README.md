@@ -1068,7 +1068,7 @@ Response
     name: string;
     elevation: number;
   };
-  record?: {
+  capture?: {
     id: number;
     note: string;
     capturedAt: string;
@@ -1093,10 +1093,10 @@ Response
 | level.id             | `number`                | Level ID                                  |
 | level.name           | `string`                | Name of the level                         |
 | level.elevation      | `number`                | The height of the level in meter          |
-| record               | `Object`                |                                           |
-| record.id            | `number`                | Capture ID                                |
-| record.note          | `string`                | Capture's note                            |
-| record.capturedAt    | `string`                | Date of the capture                       |
+| capture               | `Object`                |                                           |
+| capture.id            | `number`                | Capture ID                                |
+| capture.note          | `string`                | Capture's note                            |
+| capture.capturedAt    | `string`                | Date of the capture                       |
 | link                 | `string \| '(not set)'` | External link                             |
 | position             | `number[]`              | [x,y,z] coordinates of annotation         |
 | form                 | `Object`                |                                           |
@@ -1131,7 +1131,7 @@ Response
     name: string;
     elevation: number;
   };
-  record?: {
+  capture?: {
     id: number;
     note: string;
     capturedAt: string;
@@ -1156,10 +1156,10 @@ Response
 | level.id             | `number`                | Level ID                                  |
 | level.name           | `string`                | Name of the level                         |
 | level.elevation      | `number`                | The height of the level in meter          |
-| record               | `Object`                |                                           |
-| record.id            | `number`                | Capture ID                                |
-| record.note          | `string`                | Capture's note                            |
-| record.capturedAt    | `string`                | Date of the capture                       |
+| capture               | `Object`                |                                           |
+| capture.id            | `number`                | Capture ID                                |
+| capture.note          | `string`                | Capture's note                            |
+| capture.capturedAt    | `string`                | Date of the capture                       |
 | link                 | `string \| '(not set)'` | External link                             |
 | position             | `number[]`              | [x,y,z] coordinates of annotation         |
 | form                 | `Object`                |                                           |
