@@ -1,6 +1,6 @@
 {
   "name": "siteview4embed",
-  "description": "My webpack project",
+  "description": "siteview4embed",
   "version": "0.1.0",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
@@ -9,8 +9,30 @@
     "watch": "webpack --watch",
     "serve": "webpack serve"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/siteView4embed.min.js",
   "license": "MIT",
+  "files": [
+    "dist",
+    "playground",
+    "sample",
+    "!**/node_modules"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cupix-api/siteview-api"
+  },
+  "bugs": {
+    "url": "https://github.com/cupix-api/siteview-api/issues"
+  },
+  "keywords": [
+    "cupix",
+    "cupix-api",
+    "siteview",
+    "siteview-api"
+  ],
   "devDependencies": {
     "@babel/core": "^7.19.6",
     "@babel/preset-env": "^7.19.4",
