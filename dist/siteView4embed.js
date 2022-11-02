@@ -116,6 +116,7 @@ var siteView4embed = {
   quiet: false,
   ready: false
 };
+window.siteView4embed = siteView4embed;
 
 /**
  * @param {string} htmlDivId
@@ -128,7 +129,6 @@ siteView4embed.init = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            window.siteView4embed = siteView4embed;
             elem = document.getElementById(htmlDivId);
             if (elem) {
               iframe = document.createElement("iframe");
@@ -145,7 +145,7 @@ siteView4embed.init = /*#__PURE__*/function () {
               resolver = res;
             });
             return _context.abrupt("return", result);
-          case 5:
+          case 4:
           case "end":
             return _context.stop();
         }

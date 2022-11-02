@@ -70,12 +70,14 @@ const siteView4embed = {
   ready: false
 };
 
+window.siteView4embed = siteView4embed;
+
+
 /**
  * @param {string} htmlDivId
  * @param {string} siteviewUrl
  */
 siteView4embed.init = async function (htmlDivId, siteviewUrl) {
-  window.siteView4embed = siteView4embed;
   const elem = document.getElementById(htmlDivId);
   let resolver;
   if (elem) {
