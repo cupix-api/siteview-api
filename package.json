@@ -12,7 +12,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "./dist/siteView4embed.min.js",
+  "main": "./dist/umd/siteView4embed.min.js",
   "license": "MIT",
   "files": [
     "dist",
