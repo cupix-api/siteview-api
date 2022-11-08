@@ -533,16 +533,6 @@ function (e) {
     resolvers[response.request.uuid] = null;
   }
 }, false);
-function getJSONContent(json) {
-  if (json == undefined) return "{}";
-  var parsed;
-  try {
-    parsed = JSON.parse(json);
-  } catch (ec) {
-    parsed = json;
-  }
-  return JSON.stringify(parsed, null, 2);
-}
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_objectSpread({}, siteView4embed));
 var __webpack_exports__default = __webpack_exports__.Z;
 export { __webpack_exports__default as default };

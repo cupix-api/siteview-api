@@ -480,17 +480,6 @@ window.addEventListener(
 );
 
 
-function getJSONContent(json) {
-  if (json == undefined) return "{}";
-  let parsed;
-  try {
-    parsed = JSON.parse(json);
-  } catch (ec) {
-    parsed = json;
-  }
-  return JSON.stringify(parsed, null, 2);
-}
-
 export default {
   ...siteView4embed
 }

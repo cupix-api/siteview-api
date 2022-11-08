@@ -6,6 +6,7 @@
   - [Authenticate](#authenticate)
     - [Sign In](#sign-in)
     - [Sign Out](#sign-out)
+    - [Signed In](#signed-in)
   - [Navigate](#navigate)
     - [Go Home](#go-home)
     - [Go SiteView](#go-siteview)
@@ -46,9 +47,12 @@
     - [Reset Active Annotation](#reset-active-annotation)
   - [Utility](#utility)
     - [Find Nearest Panos](#find-nearest-panos)
+    - [Open Captures dialog](#open-captures-dialog)
   - [BroadCast Event](#broadcast-event)
     - [Active Annotation Changed](#active-annotation-changed)
     - [Annotation Updated](#annotation-updated)
+    - [API Ready](#api-ready)
+    - [Document loaded](#document-loaded)
 
 # SiteView API for Embeds
 
@@ -181,6 +185,8 @@ siteView4embed.signin(teamDomain, email, password);
 siteView4embed.signinWithToken(token);
 ```
 
+Response
+
 | Property | Type     | Description        |
 | -------- | -------- | ------------------ |
 | token    | `string` | Personal API token |
@@ -190,6 +196,14 @@ siteView4embed.signinWithToken(token);
 ```ts
 siteView4embed.signout();
 ```
+
+### Signed In
+
+Response
+
+| Property | Type      | Description                        |
+| -------- | --------- | ---------------------------------- |
+| signedIn | `boolean` | True if signed in, false otherwise |
 
 ## Navigate
 
@@ -664,6 +678,8 @@ Change Layout
 siteView4embed.changeLayout(layout);
 ```
 
+Request
+
 | Property | Type                                     | Description   |
 | -------- | ---------------------------------------- | ------------- |
 | layout   | `'BASIC' \| 'TIMELINE' \| 'BIM_COMPARE'` | preset layout |
@@ -1045,6 +1061,14 @@ Response
 | captureId      | `number` | Capture ID                       |
 
 
+### Open Captures dialog
+
+Response
+
+| Property | Type      | Description                     |
+| -------- | --------- | ------------------------------- |
+| success  | `boolean` | True when opening is successful |
+
 ## BroadCast Event
 
 ### Active Annotation Changed
@@ -1093,10 +1117,10 @@ Response
 | level.id             | `number`                | Level ID                                  |
 | level.name           | `string`                | Name of the level                         |
 | level.elevation      | `number`                | The height of the level in meter          |
-| capture               | `Object`                |                                           |
-| capture.id            | `number`                | Capture ID                                |
-| capture.note          | `string`                | Capture's note                            |
-| capture.capturedAt    | `string`                | Date of the capture                       |
+| capture              | `Object`                |                                           |
+| capture.id           | `number`                | Capture ID                                |
+| capture.note         | `string`                | Capture's note                            |
+| capture.capturedAt   | `string`                | Date of the capture                       |
 | link                 | `string \| '(not set)'` | External link                             |
 | position             | `number[]`              | [x,y,z] coordinates of annotation         |
 | form                 | `Object`                |                                           |
@@ -1156,10 +1180,10 @@ Response
 | level.id             | `number`                | Level ID                                  |
 | level.name           | `string`                | Name of the level                         |
 | level.elevation      | `number`                | The height of the level in meter          |
-| capture               | `Object`                |                                           |
-| capture.id            | `number`                | Capture ID                                |
-| capture.note          | `string`                | Capture's note                            |
-| capture.capturedAt    | `string`                | Date of the capture                       |
+| capture              | `Object`                |                                           |
+| capture.id           | `number`                | Capture ID                                |
+| capture.note         | `string`                | Capture's note                            |
+| capture.capturedAt   | `string`                | Date of the capture                       |
 | link                 | `string \| '(not set)'` | External link                             |
 | position             | `number[]`              | [x,y,z] coordinates of annotation         |
 | form                 | `Object`                |                                           |
@@ -1172,3 +1196,20 @@ Response
 | name                  | `string`                      | Field name                                                    |
 | value                 | `string \| number \| boolean` | Field value                                                   |
 | options               | `string[]`                    | Field options for radio button, dropdown select, multi-select |
+
+### API Ready
+
+Response
+
+| Property | Type      | Description             |
+| -------- | --------- | ----------------------- |
+| ready    | `boolean` | Returns true when ready |
+
+### Document loaded
+
+Response
+
+| Property       | Type      | Description                       |
+| -------------- | --------- | --------------------------------- |
+| hasBim         | `boolean` | True if the project has a BIM     |
+| documentLoaded | `boolean` | Returns true when document loaded |
