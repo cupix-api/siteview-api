@@ -1,0 +1,83 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- release
+
+pool: 'Maxwell'
+
+steps:
+- checkout: self
+  clean: true
+  persistCredentials: true
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '14.x'
+  displayName: 'Install Node.js'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      Clear-Content ~/.npmrc
+      Add-Content ~/.npmrc "//registry.npmjs.org/:_authToken=$env:PUBLIC_NPM_TOKEN_VAR"
+      Add-Content ~/.npmrc "@cupix:registry=https://cupix.pkgs.visualstudio.com/_packaging/cupix_library/npm/registry/"
+      Add-Content ~/.npmrc "always-auth=true"
+      Add-Content ~/.npmrc "//cupix.pkgs.visualstudio.com/_packaging/cupix_library/npm/registry/:username=cupix"
+      Add-Content ~/.npmrc "//cupix.pkgs.visualstudio.com/_packaging/cupix_library/npm/registry/:_password=$env:TOKEN_VAR"
+      Add-Content ~/.npmrc "//cupix.pkgs.visualstudio.com/_packaging/cupix_library/npm/registry/:email=npm requires email to be set but doesn't use the value"
+      Add-Content ~/.npmrc "//cupix.pkgs.visualstudio.com/_packaging/cupix_library/npm/:username=cupix"
+      Add-Content ~/.npmrc "//cupix.pkgs.visualstudio.com/_packaging/cupix_library/npm/:_password=$env:TOKEN_VAR"
+      Add-Content ~/.npmrc "//cupix.pkgs.visualstudio.com/_packaging/cupix_library/npm/:email=npm requires email to be set but doesn't use the value"
+      npm config set userconfig ~/.npmrc
+      npm config list
+      cat ~/.npmrc
+  env:
+    TOKEN_VAR: $(NPM_TOKEN)
+    PUBLIC_NPM_TOKEN_VAR: $(PUBLIC_NPM_TOKEN)
+  displayName: 'make .npmrc'
+
+- script: |
+    git config --global user.email "chris.yang@cupix.com"
+    git config --global user.name "azure pipeline"
+    git branch -D release
+    git checkout release
+    git pull --allow-unrelated-histories
+    git reset --hard origin/release
+  displayName: 'git config'
+
+- script: |
+    npm install -g webpack webpack-cli
+    npm ci
+  displayName: 'npm install, run webpack'
+
+- script: |
+    npm run build
+    git add .
+    git commit -m "azure - build [skip ci]"
+    npm version -m "azure - version patch [skip ci]" patch
+    git push
+  displayName: 'build & patch'
+
+- script: |
+    npm publish
+  displayName: 'publish'
+
+- script: |
+    git push
+    git push --tags
+  displayName: 'push'
+  condition: always() # this step will always run, even if the pipeline is canceled
+
+- script: |
+    git checkout master
+    git fetch origin
+    git reset --hard origin/master
+    git status
+    git merge origin/release
+    git push
+  displayName: 'merge release into master'
+  condition: always() # this step will always run, even if the pipeline is canceled
