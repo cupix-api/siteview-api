@@ -223,23 +223,23 @@ Load the SiteView page.
 siteView4embed.goSiteView(siteViewKey, hideTopBar, liteMode, openingGeolocation);
 ```
 
-| Property    | Type      | Description                        |
-| ----------- | --------- | ---------------------------------- |
-| siteViewKey | `string`  | The key (id) of the SiteView       |
-| hideTopBar  | `boolean` | Hide the top GUI bar. Default=true |
-| liteMode    | `boolean` | Toggle Lite mode. Default=false    |
-| openingGeolocation | `geolocation` | Where to open the Siteview |
+| Property    | Type      | Description                        | required |
+| ----------- | --------- | ---------------------------------- |----------|
+| siteViewKey | `string`  | The key (id) of the SiteView       | true     |
+| hideTopBar  | `boolean` | Hide the top GUI bar. Default=true |          |
+| liteMode    | `boolean` | Toggle Lite mode. Default=false    |          |
+| openingGeolocation | `geolocation` | Where to open the Siteview |       |
 
 #### geolocation
 
 Global location using EPSG code.
 Use the position value suitable for the type of coordinate system.
 
-| Property    | Type      | Description                        |
-| ----------- | --------- | ---------------------------------- |
-| epsg        | `number`  | The code of EPSG coordinates       |
-| xOrLon      | `number`  | location x or longitude            |
-| yOrLat      | `number`  | location y or latitude             |
+| Property    | Type      | Description                        | required |
+| ----------- | --------- | ---------------------------------- |----------|
+| epsg        | `number`  | The code of EPSG coordinates       | true     |
+| xOrLon      | `number`  | location x or longitude            | true     |
+| yOrLat      | `number`  | location y or latitude             | true     |
 
 ## Get Info
 
