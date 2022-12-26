@@ -113,7 +113,7 @@ window.addEventListener("message", (event) => {
 })
 ```
 
-As well as the result of your API call, the SiteView dispatches various event messages like camera changes, pono transition, etc. and therefore, you can catch the user's input and execute follow-up controls.
+As well as the result of your API call, the SiteView dispatches various event messages like camera changes, pano transition, etc. and therefore, you can catch the user's input and execute follow-up controls.
 
 ## Initialize
 
@@ -220,13 +220,18 @@ siteView4embed.goHome();
 Load the SiteView page.
 
 ```ts
-siteView4embed.goSiteView(siteViewKey, hideTopBar);
+siteView4embed.goSiteView(siteViewKey, hideTopBar, liteMode, openingGeolocation);
 ```
 
-| Property    | Type      | Description                        |
-| ----------- | --------- | ---------------------------------- |
-| siteViewKey | `string`  | The key (id) of the SiteView       |
-| hideTopBar  | `boolean` | Hide the top GUI bar. Default=true |
+| Property    | Type      | Description                        | required |
+| ----------- | --------- | ---------------------------------- |----------|
+| siteViewKey | `string`  | The key (id) of the SiteView       | true     |
+| hideTopBar  | `boolean` | Hide the top GUI bar. Default=true |          |
+| liteMode    | `boolean` | Toggle Lite mode. Default=false    |          |
+| openingGeolocation | `Object` | Global location using EPSG code. Use the position value suitable for the type of coordinate system. |          |
+| openingGeolocation.epsg        | `number`  | The code of EPSG coordinates       | true     |
+| openingGeolocation.xOrLon      | `number`  | location x or longitude            | true     |
+| openingGeolocation.yOrLat      | `number`  | location y or latitude             | true     |
 
 ## Get Info
 
@@ -260,7 +265,7 @@ Get information on a specific level.
 siteView4embed.getLevel(levelId);
 ```
 
-| Property | Type     | Description | Requred |
+| Property | Type     | Description | Required |
 | -------- | -------- | ----------- | ------- |
 | levelId  | `number` | Level ID    | true    |
 
@@ -330,7 +335,7 @@ Get information on a specific capture.
 siteView4embed.getCapture(captureId);
 ```
 
-| Property  | Type     | Description | Requred |
+| Property  | Type     | Description | Required |
 | --------- | -------- | ----------- | ------- |
 | captureId | `number` | Capture ID  | true    |
 
@@ -394,7 +399,7 @@ Get information on a specific pano.
 siteView4embed.getPano(panoId);
 ```
 
-| Property | Type     | Description | Requred |
+| Property | Type     | Description | Required |
 | -------- | -------- | ----------- | ------- |
 | panoId   | `number` | Pano ID     | true    |
 
@@ -480,7 +485,7 @@ Get information on a specific room.
 siteView4embed.getRoom(roomId);
 ```
 
-| Property | Type     | Description | Requred |
+| Property | Type     | Description | Required |
 | -------- | -------- | ----------- | ------- |
 | roomId   | `number` | Room ID     | true    |
 
@@ -550,7 +555,7 @@ Get information on a specific form template.
 siteView4embed.getFormTemplate(formTemplateId);
 ```
 
-| Property       | Type     | Description      | Requred |
+| Property       | Type     | Description      | Required |
 | -------------- | -------- | ---------------- | ------- |
 | formTemplateId | `number` | Form template ID | true    |
 
@@ -642,7 +647,7 @@ Change to a specific level
 siteView4embed.changeLevel(levelId);
 ```
 
-| Property | Type     | Description        | Requred |
+| Property | Type     | Description        | Required |
 | -------- | -------- | ------------------ | ------- |
 | levelId  | `number` | Level ID to change | true    |
 
@@ -654,7 +659,7 @@ Change to a specific capture.
 siteView4embed.changeCapture(captureId);
 ```
 
-| Property  | Type     | Description          | Requred |
+| Property  | Type     | Description          | Required |
 | --------- | -------- | -------------------- | ------- |
 | captureId | `number` | Capture ID to change | true    |
 
@@ -666,7 +671,7 @@ Navigate to a specific pano.
 siteView4embed.changePano(panoId);
 ```
 
-| Property | Type     | Description | Requred |
+| Property | Type     | Description | Required |
 | -------- | -------- | ----------- | ------- |
 | panoId   | `number` | Pano ID     | true    |
 
@@ -739,7 +744,7 @@ Rotate the camera.
 siteView4embed.setCameraRotate(direction, angle);
 ```
 
-| Property  | Type                                  | Description               | Requred |
+| Property  | Type                                  | Description               | Required |
 | --------- | ------------------------------------- | ------------------------- | ------- |
 | direction | `'UP' \| 'DOWN' \| 'LEFT' \| 'RIGHT'` | Camera rotation direction | true    |
 | angle     | `number`                              | Angles in degree          | true    |
@@ -752,7 +757,7 @@ Change the zoom level of the camera.
 siteView4embed.setCameraZoom(angleInDegree);
 ```
 
-| Property      | Type     | Description                | Requred |
+| Property      | Type     | Description                | Required |
 | ------------- | -------- | -------------------------- | ------- |
 | angleInDegree | `number` | Camera FOV (Field of View) | true    |
 
@@ -764,7 +769,7 @@ Make the camera to look at a specific point.
 siteView4embed.setCameraLookAt(x, y, z);
 ```
 
-| Property | Type     | Description  | Requred |
+| Property | Type     | Description  | Required |
 | -------- | -------- | ------------ | ------- |
 | lookAtX  | `number` | X coordinate | true    |
 | lookAtY  | `number` | Y coordinate | true    |
@@ -801,7 +806,7 @@ Add an annotation to an annotation group.
 siteView4embed.addAnnotation(formTemplateId, annotationGroupId, name, values);
 ```
 
-| Property          | Type     | Description                                                                                                    | Requred |
+| Property          | Type     | Description                                                                                                    | Required |
 | ----------------- | -------- | -------------------------------------------------------------------------------------------------------------- | ------- |
 | formTemplateId    | `number` | Annotation form template ID                                                                                    | true    |
 | annotationGroupId | `number` | Annotation group ID in which the annotation will be added                                                      | false   |
@@ -816,7 +821,7 @@ Delete an annotation.
 siteView4embed.deleteAnnotation(annotationId);
 ```
 
-| Property     | Type     | Description                    | Requred |
+| Property     | Type     | Description                    | Required |
 | ------------ | -------- | ------------------------------ | ------- |
 | annotationId | `number` | ID of annotation to be deleted | true    |
 
@@ -828,7 +833,7 @@ Get information on a specific annotation group.
 siteView4embed.getAnnotationGroup(annotationGroupId);
 ```
 
-| Property          | Type     | Description         | Requred |
+| Property          | Type     | Description         | Required |
 | ----------------- | -------- | ------------------- | ------- |
 | annotationGroupId | `number` | Annotation group ID | true    |
 
@@ -890,7 +895,7 @@ Get information on a specific annotation.
 siteView4embed.getAnnotation(annotationId);
 ```
 
-| Property     | Type     | Description   | Requred |
+| Property     | Type     | Description   | Required |
 | ------------ | -------- | ------------- | ------- |
 | annotationId | `number` | Annotation ID | true    |
 
@@ -960,7 +965,7 @@ Toggle the annotation resolution status.
 siteView4embed.toggleResolveAnnotation(annotationId);
 ```
 
-| Property     | Type     | Description   | Requred |
+| Property     | Type     | Description   | Required |
 | ------------ | -------- | ------------- | ------- |
 | annotationId | `number` | Annotation ID | true    |
 
@@ -972,7 +977,7 @@ Update an annotation.
 siteView4embed.updateAnnotation(annotationId, name, values);
 ```
 
-| Property     | Type     | Description                                                                                                    | Requred |
+| Property     | Type     | Description                                                                                                    | Required |
 | ------------ | -------- | -------------------------------------------------------------------------------------------------------------- | ------- |
 | annotationId | `number` | Annotation ID annotation                                                                                       | true    |
 | name         | `string` | New name of the annotation                                                                                     | false   |
@@ -992,7 +997,7 @@ Reset Active Annotation
 siteView4embed.resetActiveAnnotation();
 ```
 
-| Property     | Type     | Description              | Requred |
+| Property     | Type     | Description              | Required |
 | ------------ | -------- | ------------------------ | ------- |
 | annotationId | `number` | Annotation ID annotation | true    |
 
@@ -1014,7 +1019,7 @@ siteView4embed.findNearestPanos(
 );
 ```
 
-| Property  | Type     | Description                                                                                                   | Requred |
+| Property  | Type     | Description                                                                                                   | Required |
 | --------- | -------- | ------------------------------------------------------------------------------------------------------------- | ------- |
 | levelId   | `number` | Level ID                                                                                                      | true    |
 | captureId | `number` | Capture ID                                                                                                    | true    |
