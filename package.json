@@ -1,7 +1,7 @@
 {
   "name": "@cupix-sdk/siteview4embed",
   "description": "siteview4embed",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
