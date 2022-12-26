@@ -79,5 +79,8 @@ steps:
     git status
     git merge origin/release
     git push
+    git remote add upstream https://cupix-ian:$(GITHUB_TOKEN)@github.com/cupix-api/siteview-api
+    git push upstream release
+    git push upstream master
   displayName: 'merge release into master'
   condition: always() # this step will always run, even if the pipeline is canceled
