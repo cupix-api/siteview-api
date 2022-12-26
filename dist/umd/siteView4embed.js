@@ -282,12 +282,14 @@ siteView4embed.goHome = function () {
 siteView4embed.goSiteView = function (siteViewKey) {
   var hideTopBar = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
   var liteMode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var openingGeolocation = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
   return siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.GO_SITEVIEW,
     operationArgs: {
       siteViewKey: siteViewKey,
       hideTopBar: hideTopBar,
-      liteMode: liteMode
+      liteMode: liteMode,
+      openingGeolocation: openingGeolocation
     }
   });
 };

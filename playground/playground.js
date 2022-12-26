@@ -160,6 +160,29 @@ CupixUI.goSiteView = () => {
   }
 };
 
+CupixUI.goSiteViewWithGeolocation = () => {
+  try {
+    const op = "goSiteView";
+    const key = CupixUI.promptString(op, "SiteView key");
+    const isLiteMode = promptNumberOptional(op, "liteMode: 1, basic: 0");
+    const hideTopBar = isLiteMode === 1 ? 0 : promptNumberOptional(op, "hide top bar. hide: 1, show: 0");
+
+    const epsg = CupixUI.promptString(op, "espg code");
+    const xOrLon = CupixUI.promptString(op, "x or longitude");
+    const yOrLat = CupixUI.promptString(op, "y or latitude");
+
+    const openingGeoloation = {
+      epsg: epsg,
+      xOrLon: xOrLon,
+      yOrLat: yOrLat
+    };
+
+    siteView4embed.goSiteView(key, !!hideTopBar, isLiteMode, openingGeoloation);
+  } catch (ec) {
+    console.warn(ec);
+  }
+};
+
 CupixUI.getLevel = () => {
   try {
     const op = "getLevel";
