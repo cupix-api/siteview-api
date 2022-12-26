@@ -68,15 +68,11 @@ steps:
 - script: |
     git push
     git push --tags
-  displayName: 'push'
-  condition: always() # this step will always run, even if the pipeline is canceled
-
-- script: |
     git checkout master
     git fetch origin
     git reset --hard origin/master
     git status
     git merge origin/release
     git push
-  displayName: 'merge release into master'
+  displayName: 'push'
   condition: always() # this step will always run, even if the pipeline is canceled
