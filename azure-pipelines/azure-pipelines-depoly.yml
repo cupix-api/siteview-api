@@ -74,9 +74,7 @@ steps:
 
 - script: |
     git checkout master
-    git fetch origin
-    git reset --hard origin/master
-    git status
+    git pull --allow-unrelated-histories
     git merge origin/release
     git push
   displayName: 'merge release into master'
