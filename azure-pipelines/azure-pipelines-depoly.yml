@@ -46,6 +46,7 @@ steps:
     git branch -D release
     git checkout release
     git pull --allow-unrelated-histories
+    git reset --hard origin/release
   displayName: 'git config'
 
 - script: |
@@ -72,9 +73,10 @@ steps:
   condition: always() # this step will always run, even if the pipeline is canceled
 
 - script: |
-    git branch -D master
     git checkout master
-    git pull --allow-unrelated-histories
+    git fetch origin
+    git reset --hard origin/master
+    git status
     git merge origin/release
     git push
   displayName: 'merge release into master'
