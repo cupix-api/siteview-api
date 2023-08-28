@@ -15,7 +15,7 @@ export function initialize(
   domId,
   siteViewURL,
   apiToken,
-  hideTopbar = true) {
+  hideSideBar = true) {
   return new Promise(async resolve => {
     currentSiteViewURL = siteViewURL;
     const reg = /([^\/]+)\/sv\/(\w+)/.exec(siteViewURL);
@@ -37,8 +37,8 @@ export function initialize(
       child.remove();
     }
 
-    if (hideTopbar) {
-      siteViewURL += '?hide_topbar=1';
+    if (hideSideBar) {
+      siteViewURL += '?hide_side_bar=1';
     }
 
     const iframe = document.createElement('iframe');
@@ -56,7 +56,7 @@ export function initialize(
         await siteView4embed.start();
         await siteView4embed.signout();
         await siteView4embed.signinWithToken(apiToken);
-        await siteView4embed.goSiteView(siteviewKey, hideTopbar);
+        await siteView4embed.goSiteView(siteviewKey, hideSideBar);
         onLoaded();
         resolve();
       })();
