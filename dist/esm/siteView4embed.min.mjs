@@ -252,19 +252,19 @@ siteView4embed.goHome = function () {
 /**
 * @param {string} siteViewKey
 * @param {boolean} hideSideBar
-* @param {boolean} mapBtnBottom
+* @param {'top' | 'bottom'} mapViewPosition
 * @param {"BASIC" | "TIMELINE" | "BIM_COMPARE"} layout
 * */
 siteView4embed.goSiteView = function (siteViewKey) {
-  var hideSideBar = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  var mapBtnBottom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+  var hideSideBar = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var mapViewPosition = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'top';
   var openingGeolocation = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
   return siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.GO_SITEVIEW,
     operationArgs: {
       siteViewKey: siteViewKey,
       hideSideBar: hideSideBar,
-      mapBtnBottom: mapBtnBottom,
+      mapViewPosition: mapViewPosition,
       openingGeolocation: openingGeolocation
     }
   });
