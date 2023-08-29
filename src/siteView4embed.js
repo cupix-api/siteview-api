@@ -188,16 +188,16 @@ siteView4embed.goHome = () =>
 /**
 * @param {string} siteViewKey
 * @param {boolean} hideSideBar
-* @param {boolean} mapBtnBottom
+* @param {'top' | 'bottom'} mapViewPosition
 * @param {"BASIC" | "TIMELINE" | "BIM_COMPARE"} layout
 * */
-siteView4embed.goSiteView = (siteViewKey, hideSideBar = false, mapBtnBottom = true, openingGeolocation = undefined) =>
+siteView4embed.goSiteView = (siteViewKey, hideSideBar = false, mapViewPosition = 'top', openingGeolocation = undefined) =>
   siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.GO_SITEVIEW,
     operationArgs: {
       siteViewKey,
       hideSideBar,
-      mapBtnBottom,
+      mapViewPosition,
       openingGeolocation
     }
   });
