@@ -15,7 +15,7 @@ export function initialize(
   domId,
   siteViewURL,
   apiToken,
-  hideSideBar = true) {
+  hideSideBar = false) {
   return new Promise(async resolve => {
     currentSiteViewURL = siteViewURL;
     const reg = /([^\/]+)\/sv\/(\w+)/.exec(siteViewURL);
