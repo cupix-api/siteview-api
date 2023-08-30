@@ -341,16 +341,6 @@ CupixUI.resetActiveAnnotation = () => {
   }
 }
 
-CupixUI.changeLayout = () => {
-  try {
-    const op = "changeLayout";
-    const layout = CupixUI.promptString(op, "layout: BASIC or TIMELINE or BIM_COMPARE");
-    siteView4embed.changeLayout(layout);
-  } catch (ec) {
-    console.warn(ec);
-  }
-}
-
 CupixUI.getFormTemplate = () => {
   try {
     const op = "getFormTemplate";
