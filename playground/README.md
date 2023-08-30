@@ -220,14 +220,14 @@ siteView4embed.goHome();
 Load the SiteView page.
 
 ```ts
-siteView4embed.goSiteView(siteViewKey, hideTopBar, liteMode, openingGeolocation);
+siteView4embed.goSiteView(siteViewKey, hideSidebar, liteMode, openingGeolocation);
 ```
 
-| Property    | Type      | Description                        | required |
-| ----------- | --------- | ---------------------------------- |----------|
-| siteViewKey | `string`  | The key (id) of the SiteView       | true     |
-| hideTopBar  | `boolean` | Hide the top GUI bar. Default=true |          |
-| liteMode    | `boolean` | Toggle Lite mode. Default=false    |          |
+| Property    | Type      | Description                         | required |
+| ----------- | --------- | ----------------------------------- |----------|
+| siteViewKey | `string`  | The key (id) of the SiteView        | true     |
+| hideSideBar | `boolean` | Hide the side GUI bar. Default=true |          |
+| liteMode    | `boolean` | Toggle Lite mode. Default=false     |          |
 | openingGeolocation | `Object` | Global location using EPSG code. Use the position value suitable for the type of coordinate system. |          |
 | openingGeolocation.epsg        | `number`  | The code of EPSG coordinates       | true     |
 | openingGeolocation.xOrLon      | `number`  | location x or longitude            | true     |

@@ -151,10 +151,9 @@ CupixUI.goSiteView = () => {
   try {
     const op = "goSiteView";
     const key = CupixUI.promptString(op, "SiteView key");
-    const isLiteMode = promptNumberOptional(op, "liteMode: 1, basic: 0");
-    const hideTopBar = isLiteMode === 1 ? 0 : promptNumberOptional(op, "hide top bar. hide: 1, show: 0");
-
-    siteView4embed.goSiteView(key, !!hideTopBar, isLiteMode);
+    const hideSideBar = promptNumberOptional(op, "hide sidebar. hide: 1, show: 0")
+    const mapViewPosition = promptStringOptional(op, "map view position. 'top' or 'bottom'")
+    siteView4embed.goSiteView(key, hideSideBar, mapViewPosition);
   } catch (ec) {
     console.warn(ec);
   }
@@ -164,8 +163,8 @@ CupixUI.goSiteViewWithGeolocation = () => {
   try {
     const op = "goSiteView";
     const key = CupixUI.promptString(op, "SiteView key");
-    const isLiteMode = promptNumberOptional(op, "liteMode: 1, basic: 0");
-    const hideTopBar = isLiteMode === 1 ? 0 : promptNumberOptional(op, "hide top bar. hide: 1, show: 0");
+    const hideSideBar = promptNumberOptional(op, "hide sidebar. hide: 1, show: 0")
+    const mapViewPosition = promptStringOptional(op, "map view position. 'top' or 'bottom'")
 
     const epsg = CupixUI.promptString(op, "espg code");
     const xOrLon = CupixUI.promptString(op, "x or longitude");
@@ -177,7 +176,7 @@ CupixUI.goSiteViewWithGeolocation = () => {
       yOrLat: yOrLat
     };
 
-    siteView4embed.goSiteView(key, !!hideTopBar, isLiteMode, openingGeoloation);
+    siteView4embed.goSiteView(key, hideSideBar, mapViewPosition, openingGeoloation);
   } catch (ec) {
     console.warn(ec);
   }

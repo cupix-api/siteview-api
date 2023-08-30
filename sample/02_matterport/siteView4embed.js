@@ -194,12 +194,12 @@ siteView4embed.goHome = () =>
     operationType: OPERATION_TYPE.GO_HOME
   });
 
-siteView4embed.goSiteView = (siteViewKey, hideTopBar = true) =>
+siteView4embed.goSiteView = (siteViewKey, hideSideBar = false) =>
   siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.GO_SITEVIEW,
     operationArgs: {
       siteViewKey: siteViewKey,
-      hideTopBar: hideTopBar
+      hideSideBar: hideSideBar
     }
   });
 
