@@ -276,13 +276,11 @@ function setCurrentLayoutMode(mode) {
   switch (mode) {
     case 'BASIC':
       currentViewLayoutMode = 'BASIC';
-      Cupix.changeLayout('BASIC');
       cupixViewerElem.setAttribute('style', undefined);
       matterportViewerWrapperElem.setAttribute('style', undefined);
       break;
     case 'BIM_COMPARE':
       currentViewLayoutMode = 'BIM_COMPARE';
-      Cupix.changeLayout('BIM_COMPARE');
       cupixViewerElem.setAttribute('style', 'width: calc(200% / 3) !important');
       matterportViewerWrapperElem.setAttribute('style', 'width: calc(100% / 3) !important');
       break;

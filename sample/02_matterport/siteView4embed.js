@@ -495,18 +495,6 @@ siteView4embed.resetActiveAnnotation = (caller) =>
     }
   });
 
-/**
- * @param {"BASIC" | "TIMELINE" | "BIM_COMPARE"} layout
- */
-siteView4embed.changeLayout = (layout, caller) =>
-  siteView4embed.sendToCupix({
-    operationType: OPERATION_TYPE.CHANGE_LAYOUT,
-    operationArgs: {
-      layout: layout,
-      caller: caller
-    }
-  });
-
 function log(...params) {
   // console.log(`%c${params.join(' ')}`, 'color: #bada55;')
 }

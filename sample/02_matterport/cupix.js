@@ -144,7 +144,3 @@ export async function moveToPoint(xyz) {
   const pano = await findNearestPano(xyz);
   if (pano) await moveTo(pano.id);
 }
-
-export async function changeLayout(layout) {
-  siteView4embed.changeLayout(layout, 'cupix');
-}

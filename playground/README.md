@@ -675,22 +675,6 @@ siteView4embed.changePano(panoId);
 | -------- | -------- | ----------- | ------- |
 | panoId   | `number` | Pano ID     | true    |
 
-### Change Layout
-
-Change Layout
-
-```ts
-siteView4embed.changeLayout(layout);
-```
-
-Request
-
-| Property | Type                                     | Description   |
-| -------- | ---------------------------------------- | ------------- |
-| layout   | `'BASIC' \| 'TIMELINE' \| 'BIM_COMPARE'` | preset layout |
-
-
-
 ## Camera
 
 ### Get Camera Parameter
