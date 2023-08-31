@@ -262,6 +262,16 @@ CupixUI.changePano = () => {
   }
 };
 
+CupixUI.changePreset = () => {
+  try {
+    const op = "changePreset";
+    const name = CupixUI.promptString(op, "preset name");
+    siteView4embed.changePreset(name);
+  } catch (ec) {
+    console.warn(ec);
+  }
+};
+
 function promptStringOptional(...rest) {
   try {
     return CupixUI.promptString(...rest);

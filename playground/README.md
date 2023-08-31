@@ -26,7 +26,7 @@
     - [Change Level](#change-level)
     - [Change Capture](#change-capture)
     - [Change Pano](#change-pano)
-    - [Change Layout](#change-layout)
+    - [Change Preset](#change-preset)
   - [Camera](#camera)
     - [Get Camera Parameter](#get-camera-parameter)
     - [Set Camera Rotate](#set-camera-rotate)
@@ -674,6 +674,18 @@ siteView4embed.changePano(panoId);
 | Property | Type     | Description | Required |
 | -------- | -------- | ----------- | ------- |
 | panoId   | `number` | Pano ID     | true    |
+
+### Change Preset
+
+Change to a specific preset.
+
+```ts
+siteView4embed.changePreset(presetName);
+```
+
+| Property     | Type     | Description          | Required |
+| ------------ | -------- | -------------------- | -------- |
+| presetName   | `string` | Preset of the layout | true     |
 
 ## Camera
 
