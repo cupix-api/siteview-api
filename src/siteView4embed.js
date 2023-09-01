@@ -30,6 +30,7 @@ const OPERATION_TYPE = {
   CHANGE_LEVEL: "CHANGE_LEVEL",
   CHANGE_CAPTURE: "CHANGE_CAPTURE",
   CHANGE_PANO: "CHANGE_PANO",
+  CHANGE_PRESET: "CHANGE_PRESET",
   FIND_NEAREST_PANOS: "FIND_NEAREST_PANOS",
   ADD_ANNOTATION_FORM: "ADD_ANNOTATION_FORM",
   DELETE_ANNOTATION: "DELETE_ANNOTATION",
@@ -338,6 +339,14 @@ siteView4embed.changePano = (panoId) =>
     operationType: OPERATION_TYPE.CHANGE_PANO,
     operationArgs: {
       panoId: panoId
+    }
+  });
+
+siteView4embed.changePreset = (presetName) =>
+  siteView4embed.sendToCupix({
+    operationType: OPERATION_TYPE.CHANGE_PRESET,
+    operationArgs: {
+      presetName: presetName
     }
   });
 
