@@ -191,15 +191,24 @@ siteView4embed.goHome = () =>
 * @param {boolean} hideSideBar
 * @param {'top' | 'bottom'} mapViewPosition
 * @param {"BASIC" | "TIMELINE" | "BIM_COMPARE"} layout
+* @param {string} openingGeolocation
+* @param {object} { coordinate: [string, string], offset?: { x: 0, y: 0, z: 0 } }
 * */
-siteView4embed.goSiteView = (siteViewKey, hideSideBar = false, mapViewPosition = 'top', openingGeolocation = undefined) =>
+siteView4embed.goSiteView = (
+  siteViewKey,
+  hideSideBar = false,
+  mapViewPosition = 'top',
+  openingGeolocation = undefined,
+  openingBimGridInfo = undefined,
+  ) =>
   siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.GO_SITEVIEW,
     operationArgs: {
       siteViewKey,
       hideSideBar,
       mapViewPosition,
-      openingGeolocation
+      openingGeolocation,
+      openingBimGridInfo
     }
   });
 

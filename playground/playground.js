@@ -48,6 +48,32 @@ function setOutputErrorMessage(operationType, errorMessage, errorArgs) {
   setResponseContent(operationType, undefined, errorMessage, errorArgs);
 }
 
+function promptVector2Optional(...rest) {
+  try {
+    return CupixUI.promptVector2(...rest);
+  } catch {
+    return {};
+  }
+}
+
+function promptVector3Optional(...rest) {
+  try {
+    return CupixUI.promptVector3(...rest);
+  } catch {
+    return undefined;
+  }
+}
+
+function promptBimGridInfo(op) {
+  const start = CupixUI.promptString(op, "Start grid label.");
+  const end = CupixUI.promptString(op, "End grid label.");
+  const offset = promptVector3Optional(op, "normal vector (x, y, z) (optional)");
+  return {
+    coordinate: [start, end],
+    offset
+  };
+}
+
 window.addEventListener(
   "message",
   function (e) {
@@ -125,6 +151,31 @@ CupixUI.promptVector2 = (operationType, valueName, defaultValue) => {
   }
 };
 
+CupixUI.promptVector3 = (operationType, valueName, defaultValue) => {
+  let str = CupixUI.promptString(operationType, valueName, defaultValue);
+  try {
+    str = str.replace(/\s/g, "");
+    let token = str.split(",");
+    if (token.length !== 3) throw "invalid vector size";
+    let x = Number(token[0]);
+    let y = Number(token[1]);
+    let z = Number(token[2]);
+    if (isNaN(x) || isNaN(y) || isNaN(z)) throw "invalid number";
+    return {
+      x: x,
+      y: y,
+      z: z
+    };
+  } catch (ec) {
+    console.warn(ec);
+    let errorMessage = `invalid ${valueName}`;
+    setOutputErrorMessage(operationType, errorMessage, {
+      input: str
+    });
+    throw new Error(errorMessage);
+  }
+};
+
 CupixUI.signin = () => {
   try {
     const op = "signin";
@@ -177,6 +228,20 @@ CupixUI.goSiteViewWithGeolocation = () => {
     };
 
     siteView4embed.goSiteView(key, hideSideBar, mapViewPosition, openingGeoloation);
+  } catch (ec) {
+    console.warn(ec);
+  }
+};
+
+CupixUI.goSiteViewWithBimGridInfo = () => {
+  try {
+    const op = "goSiteView";
+    const key = CupixUI.promptString(op, "SiteView key");
+    const hideSideBar = promptNumberOptional(op, "hide sidebar. hide: 1, show: 0")
+    const mapViewPosition = promptStringOptional(op, "map view position. 'top' or 'bottom'")
+    const openingBimGridInfo = promptBimGridInfo(op);
+
+    siteView4embed.goSiteView(key, hideSideBar, mapViewPosition, undefined, openingBimGridInfo);
   } catch (ec) {
     console.warn(ec);
   }
@@ -360,14 +425,6 @@ CupixUI.getFormTemplate = () => {
     console.warn(ec);
   }
 };
-
-function promptVector2Optional(...rest) {
-  try {
-    return CupixUI.promptVector2(...rest);
-  } catch {
-    return {};
-  }
-}
 
 CupixUI.getAnnotationGroup = () => {
   try {
