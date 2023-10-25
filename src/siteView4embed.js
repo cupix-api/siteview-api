@@ -31,6 +31,7 @@ const OPERATION_TYPE = {
   CHANGE_CAPTURE: "CHANGE_CAPTURE",
   CHANGE_PANO: "CHANGE_PANO",
   CHANGE_PRESET: "CHANGE_PRESET",
+  CHANGE_BIM_GRID_INFO: "CHANGE_BIM_GRID_INFO",
   FIND_NEAREST_PANOS: "FIND_NEAREST_PANOS",
   ADD_ANNOTATION_FORM: "ADD_ANNOTATION_FORM",
   DELETE_ANNOTATION: "DELETE_ANNOTATION",
@@ -356,6 +357,17 @@ siteView4embed.changePreset = (presetName) =>
     operationType: OPERATION_TYPE.CHANGE_PRESET,
     operationArgs: {
       presetName: presetName
+    }
+  });
+
+siteView4embed.changeBimGridInfo = (info) =>
+  siteView4embed.sendToCupix({
+    operationType: OPERATION_TYPE.CHANGE_BIM_GRID_INFO,
+    operationArgs: {
+      bimGridInfo: {
+        coordinate: info.coordinate,
+        offset: info.offset
+      }
     }
   });
 

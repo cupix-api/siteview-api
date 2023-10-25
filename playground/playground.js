@@ -327,6 +327,16 @@ CupixUI.changePano = () => {
   }
 };
 
+CupixUI.changeBimGridInfo = () => {
+  try {
+    const op = "changeBimGridInfo";
+    const bimGridInfo = promptBimGridInfo(op);
+    siteView4embed.changeBimGridInfo(bimGridInfo);
+  } catch (ec) {
+    console.warn(ec);
+  }
+}
+
 CupixUI.changePreset = () => {
   try {
     const op = "changePreset";
