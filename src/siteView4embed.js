@@ -31,6 +31,7 @@ const OPERATION_TYPE = {
   CHANGE_CAPTURE: "CHANGE_CAPTURE",
   CHANGE_PANO: "CHANGE_PANO",
   CHANGE_PRESET: "CHANGE_PRESET",
+  MOVE_TO_BIM_GRID: "MOVE_TO_BIM_GRID",
   FIND_NEAREST_PANOS: "FIND_NEAREST_PANOS",
   ADD_ANNOTATION_FORM: "ADD_ANNOTATION_FORM",
   DELETE_ANNOTATION: "DELETE_ANNOTATION",
@@ -191,15 +192,24 @@ siteView4embed.goHome = () =>
 * @param {boolean} hideSideBar
 * @param {'top' | 'bottom'} mapViewPosition
 * @param {"BASIC" | "TIMELINE" | "BIM_COMPARE"} layout
+* @param {string} openingGeolocation
+* @param {object} { coordinate: [string, string], offset?: { x: 0, y: 0, z: 0 } }
 * */
-siteView4embed.goSiteView = (siteViewKey, hideSideBar = false, mapViewPosition = 'top', openingGeolocation = undefined) =>
+siteView4embed.goSiteView = (
+  siteViewKey,
+  hideSideBar = false,
+  mapViewPosition = 'top',
+  openingGeolocation = undefined,
+  openingBimGrid = undefined,
+  ) =>
   siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.GO_SITEVIEW,
     operationArgs: {
       siteViewKey,
       hideSideBar,
       mapViewPosition,
-      openingGeolocation
+      openingGeolocation,
+      openingBimGrid
     }
   });
 
@@ -347,6 +357,17 @@ siteView4embed.changePreset = (presetName) =>
     operationType: OPERATION_TYPE.CHANGE_PRESET,
     operationArgs: {
       presetName: presetName
+    }
+  });
+
+siteView4embed.moveToBimGrid = (info) =>
+  siteView4embed.sendToCupix({
+    operationType: OPERATION_TYPE.MOVE_TO_BIM_GRID,
+    operationArgs: {
+      bimGrid: {
+        coordinate: info.coordinate,
+        offset: info.offset
+      }
     }
   });
 
