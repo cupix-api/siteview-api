@@ -327,11 +327,11 @@ CupixUI.changePano = () => {
   }
 };
 
-CupixUI.changeBimGridInfo = () => {
+CupixUI.moveToBimGrid = () => {
   try {
-    const op = "changeBimGridInfo";
+    const op = "moveToBimGrid";
     const bimGridInfo = promptBimGridInfo(op);
-    siteView4embed.changeBimGridInfo(bimGridInfo);
+    siteView4embed.moveToBimGrid(bimGridInfo);
   } catch (ec) {
     console.warn(ec);
   }

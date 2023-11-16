@@ -360,7 +360,7 @@ siteView4embed.changePreset = (presetName) =>
     }
   });
 
-siteView4embed.changeBimGridInfo = (info) =>
+siteView4embed.moveToBimGrid = (info) =>
   siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.MOVE_TO_BIM_GRID,
     operationArgs: {
