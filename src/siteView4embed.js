@@ -31,7 +31,7 @@ const OPERATION_TYPE = {
   CHANGE_CAPTURE: "CHANGE_CAPTURE",
   CHANGE_PANO: "CHANGE_PANO",
   CHANGE_PRESET: "CHANGE_PRESET",
-  CHANGE_BIM_GRID_INFO: "CHANGE_BIM_GRID_INFO",
+  MOVE_TO_BIM_GRID: "MOVE_TO_BIM_GRID",
   FIND_NEAREST_PANOS: "FIND_NEAREST_PANOS",
   ADD_ANNOTATION_FORM: "ADD_ANNOTATION_FORM",
   DELETE_ANNOTATION: "DELETE_ANNOTATION",
@@ -200,7 +200,7 @@ siteView4embed.goSiteView = (
   hideSideBar = false,
   mapViewPosition = 'top',
   openingGeolocation = undefined,
-  openingBimGridInfo = undefined,
+  openingBimGrid = undefined,
   ) =>
   siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.GO_SITEVIEW,
@@ -209,7 +209,7 @@ siteView4embed.goSiteView = (
       hideSideBar,
       mapViewPosition,
       openingGeolocation,
-      openingBimGridInfo
+      openingBimGrid
     }
   });
 
@@ -362,9 +362,9 @@ siteView4embed.changePreset = (presetName) =>
 
 siteView4embed.changeBimGridInfo = (info) =>
   siteView4embed.sendToCupix({
-    operationType: OPERATION_TYPE.CHANGE_BIM_GRID_INFO,
+    operationType: OPERATION_TYPE.MOVE_TO_BIM_GRID,
     operationArgs: {
-      bimGridInfo: {
+      bimGrid: {
         coordinate: info.coordinate,
         offset: info.offset
       }
