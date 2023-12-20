@@ -1,5 +1,8 @@
 - [SiteView API for Embeds](#siteview-api-for-embeds)
   - [Getting Started](#getting-started)
+    - [Include the SDK library](#include-the-sdk-library)
+    - [Add the SiteView iframe in your HTML page](#add-the-siteview-iframe-in-your-html-page)
+    - [Listen for messages from the SiteView iframe](#listen-for-messages-from-the-siteview-iframe)
   - [Initialize](#initialize)
     - [Start](#start)
     - [Stop](#stop)
@@ -10,6 +13,7 @@
   - [Navigate](#navigate)
     - [Go Home](#go-home)
     - [Go SiteView](#go-siteview)
+      - [When using URL input directly](#when-using-url-input-directly)
   - [Get Info](#get-info)
     - [Get Siteview](#get-siteview)
     - [Get Level](#get-level)
@@ -108,9 +112,9 @@ The result of your API call will be dispatched from the SiteView, and your app c
 
 ```js
 window.addEventListener("message", (event) => {
-	let responseType = event.data['responseType']	// string
-	let response = event.data['response']	// response object
-})
+  let responseType = event.data["responseType"]; // string
+  let response = event.data["response"]; // response object
+});
 ```
 
 As well as the result of your API call, the SiteView dispatches various event messages like camera changes, pano transition, etc. and therefore, you can catch the user's input and execute follow-up controls.
@@ -220,18 +224,54 @@ siteView4embed.goHome();
 Load the SiteView page.
 
 ```ts
-siteView4embed.goSiteView(siteViewKey, hideSidebar, liteMode, openingGeolocation);
+siteView4embed.goSiteView(
+  siteViewKey,
+  hideSidebar,
+  liteMode,
+  openingGeolocation,
+  openingBimGrid,
+  openingLevelId,
+  openingLevelName,
+  openingCaptureId,
+  openingCaptureDate,
+  openingPosition
+);
 ```
 
-| Property    | Type      | Description                         | required |
-| ----------- | --------- | ----------------------------------- |----------|
-| siteViewKey | `string`  | The key (id) of the SiteView        | true     |
-| hideSideBar | `boolean` | Hide the side GUI bar. Default=true |          |
-| liteMode    | `boolean` | Toggle Lite mode. Default=false     |          |
-| openingGeolocation | `Object` | Global location using EPSG code. Use the position value suitable for the type of coordinate system. |          |
-| openingGeolocation.epsg        | `number`  | The code of EPSG coordinates       | true     |
-| openingGeolocation.xOrLon      | `number`  | location x or longitude            | true     |
-| openingGeolocation.yOrLat      | `number`  | location y or latitude             | true     |
+| Property                  | Type                                  | Description                                                                                         | required | example |
+| ------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------- | -------- | ------- |
+| siteViewKey               | `string`                              | The key (id) of the SiteView                                                                        | true     | sv=     |
+| hideSideBar               | `boolean`                             | Hide the side GUI bar. Default=true                                                                 |          |
+| liteMode                  | `boolean`                             | Toggle Lite mode. Default=false                                                                     |          |
+| deepLink                  | `boolean`                             | Whether to use the deepLink feature                                                                 |          |
+| openingGeolocation        | `Object`                              | Global location using EPSG code. Use the position value suitable for the type of coordinate system. |          |
+| openingGeolocation.epsg   | `number`                              | The code of EPSG coordinates                                                                        | true     |
+| openingGeolocation.xOrLon | `number`                              | Location x or longitude                                                                             | true     |
+| openingGeolocation.yOrLat | `number`                              | Location y or latitude                                                                              | true     |
+| openingBimGridCoordinate | `[string, string]`                    | Start and end grid label                                                                            |          |
+| openingBimGridOffset     | `{x: number, y: number, z: number}`   | Offset from the intersection of two grids                                                           |          |
+| openingPosition           | `{ x: number, y; number, z: number }` | Position of the point to open                                                                       |
+| openingLevelId            | `number`                              | Id of the level to open                                                                             |          |
+| openingLevelName          | `string`                              | Name of the level to open (use the openingLevelId if it exists)                                     |          |
+| openingCaptureId          | `number`                              | Id of the capture to open                                                                           |          |
+| openingCaptureDate        | `string`                              | Name of the capture to open (use the openingCaptureId if it exists) (YYYY-MM-DD)                                |          |
+
+
+#### When using URL input directly
+
+| Property | Query param key | Available Value | Example |
+| -------- | --------------- | --------------- | ------- |
+| mapViewPosition | `map_view_position` | 'top', 'bottom' | map_view_position=top
+| hideSideBar | `hide_side_bar` | 0, 1 | hide_side_bar=1
+| deepLink | `deep` | 0, 1| deep=0
+| openingGeolocation | `svog` | epsg,xOrLon,yOrLat | svog=0,0,0 |
+| openingBimGridCoordinate | `obgc` | labels in the BIM Grid | obgc=A1,B2 |
+| openingBimGridOffset | `obgo` | coordinate | obgo=0,0,0 |
+| openingPosition | `op` | oordinate | op=0,0,0 |
+| openingLevelId | `sval` | id of the level | sval=1 |
+| openingLevelName | `svaln` | name of level | svaln=level2 |
+| openingCaptureId | `svor` | id of capture | svor=1 |
+| openingCaptureDate | `svord` | date of capture | svord=2023-12-25
 
 ## Get Info
 
@@ -266,8 +306,8 @@ siteView4embed.getLevel(levelId);
 ```
 
 | Property | Type     | Description | Required |
-| -------- | -------- | ----------- | ------- |
-| levelId  | `number` | Level ID    | true    |
+| -------- | -------- | ----------- | -------- |
+| levelId  | `number` | Level ID    | true     |
 
 Response
 
@@ -336,8 +376,8 @@ siteView4embed.getCapture(captureId);
 ```
 
 | Property  | Type     | Description | Required |
-| --------- | -------- | ----------- | ------- |
-| captureId | `number` | Capture ID  | true    |
+| --------- | -------- | ----------- | -------- |
+| captureId | `number` | Capture ID  | true     |
 
 Response
 
@@ -400,8 +440,8 @@ siteView4embed.getPano(panoId);
 ```
 
 | Property | Type     | Description | Required |
-| -------- | -------- | ----------- | ------- |
-| panoId   | `number` | Pano ID     | true    |
+| -------- | -------- | ----------- | -------- |
+| panoId   | `number` | Pano ID     | true     |
 
 Response
 
@@ -486,8 +526,8 @@ siteView4embed.getRoom(roomId);
 ```
 
 | Property | Type     | Description | Required |
-| -------- | -------- | ----------- | ------- |
-| roomId   | `number` | Room ID     | true    |
+| -------- | -------- | ----------- | -------- |
+| roomId   | `number` | Room ID     | true     |
 
 Response
 
@@ -556,8 +596,8 @@ siteView4embed.getFormTemplate(formTemplateId);
 ```
 
 | Property       | Type     | Description      | Required |
-| -------------- | -------- | ---------------- | ------- |
-| formTemplateId | `number` | Form template ID | true    |
+| -------------- | -------- | ---------------- | -------- |
+| formTemplateId | `number` | Form template ID | true     |
 
 Response
 
@@ -648,8 +688,8 @@ siteView4embed.changeLevel(levelId);
 ```
 
 | Property | Type     | Description        | Required |
-| -------- | -------- | ------------------ | ------- |
-| levelId  | `number` | Level ID to change | true    |
+| -------- | -------- | ------------------ | -------- |
+| levelId  | `number` | Level ID to change | true     |
 
 ### Change Capture
 
@@ -660,8 +700,8 @@ siteView4embed.changeCapture(captureId);
 ```
 
 | Property  | Type     | Description          | Required |
-| --------- | -------- | -------------------- | ------- |
-| captureId | `number` | Capture ID to change | true    |
+| --------- | -------- | -------------------- | -------- |
+| captureId | `number` | Capture ID to change | true     |
 
 ### Change Pano
 
@@ -672,8 +712,8 @@ siteView4embed.changePano(panoId);
 ```
 
 | Property | Type     | Description | Required |
-| -------- | -------- | ----------- | ------- |
-| panoId   | `number` | Pano ID     | true    |
+| -------- | -------- | ----------- | -------- |
+| panoId   | `number` | Pano ID     | true     |
 
 ### Change Preset
 
@@ -683,9 +723,9 @@ Change to a specific preset.
 siteView4embed.changePreset(presetName);
 ```
 
-| Property     | Type     | Description          | Required |
-| ------------ | -------- | -------------------- | -------- |
-| presetName   | `string` | Preset of the layout | true     |
+| Property   | Type     | Description          | Required |
+| ---------- | -------- | -------------------- | -------- |
+| presetName | `string` | Preset of the layout | true     |
 
 ## Camera
 
@@ -741,9 +781,9 @@ siteView4embed.setCameraRotate(direction, angle);
 ```
 
 | Property  | Type                                  | Description               | Required |
-| --------- | ------------------------------------- | ------------------------- | ------- |
-| direction | `'UP' \| 'DOWN' \| 'LEFT' \| 'RIGHT'` | Camera rotation direction | true    |
-| angle     | `number`                              | Angles in degree          | true    |
+| --------- | ------------------------------------- | ------------------------- | -------- |
+| direction | `'UP' \| 'DOWN' \| 'LEFT' \| 'RIGHT'` | Camera rotation direction | true     |
+| angle     | `number`                              | Angles in degree          | true     |
 
 ### Set Camera Zoom
 
@@ -754,8 +794,8 @@ siteView4embed.setCameraZoom(angleInDegree);
 ```
 
 | Property      | Type     | Description                | Required |
-| ------------- | -------- | -------------------------- | ------- |
-| angleInDegree | `number` | Camera FOV (Field of View) | true    |
+| ------------- | -------- | -------------------------- | -------- |
+| angleInDegree | `number` | Camera FOV (Field of View) | true     |
 
 ### Set Camera Lookat
 
@@ -766,10 +806,10 @@ siteView4embed.setCameraLookAt(x, y, z);
 ```
 
 | Property | Type     | Description  | Required |
-| -------- | -------- | ------------ | ------- |
-| lookAtX  | `number` | X coordinate | true    |
-| lookAtY  | `number` | Y coordinate | true    |
-| lookAtZ  | `number` | Z coordinate | true    |
+| -------- | -------- | ------------ | -------- |
+| lookAtX  | `number` | X coordinate | true     |
+| lookAtY  | `number` | Y coordinate | true     |
+| lookAtZ  | `number` | Z coordinate | true     |
 
 ### Set Camera Reset
 
@@ -788,7 +828,7 @@ siteView4embed.setCameraMove(direction);
 Move the camera. The nearest pano will be searched to the given direction, and the pano will be changed.
 
 Request
-| Property  | Type                                      | Description           |
+| Property | Type | Description |
 | --------- | ----------------------------------------- | --------------------- |
 | direction | `'FORWARD' \| 'BACK' \| 'LEFT' \| 'RIGHT` | Camera move direction |
 
@@ -803,11 +843,11 @@ siteView4embed.addAnnotation(formTemplateId, annotationGroupId, name, values);
 ```
 
 | Property          | Type     | Description                                                                                                    | Required |
-| ----------------- | -------- | -------------------------------------------------------------------------------------------------------------- | ------- |
-| formTemplateId    | `number` | Annotation form template ID                                                                                    | true    |
-| annotationGroupId | `number` | Annotation group ID in which the annotation will be added                                                      | false   |
-| name              | `string` | The name of the annotation. default: 'New form'                                                                | false   |
-| values            | `string` | A `string`ified array (using `JSON.`string`ify`) of values ​​for annotation fields like `'["text1", "text2"]'` | false   |
+| ----------------- | -------- | -------------------------------------------------------------------------------------------------------------- | -------- |
+| formTemplateId    | `number` | Annotation form template ID                                                                                    | true     |
+| annotationGroupId | `number` | Annotation group ID in which the annotation will be added                                                      | false    |
+| name              | `string` | The name of the annotation. default: 'New form'                                                                | false    |
+| values            | `string` | A `string`ified array (using `JSON.`string`ify`) of values ​​for annotation fields like `'["text1", "text2"]'` | false    |
 
 ### Delete Annotation
 
@@ -818,8 +858,8 @@ siteView4embed.deleteAnnotation(annotationId);
 ```
 
 | Property     | Type     | Description                    | Required |
-| ------------ | -------- | ------------------------------ | ------- |
-| annotationId | `number` | ID of annotation to be deleted | true    |
+| ------------ | -------- | ------------------------------ | -------- |
+| annotationId | `number` | ID of annotation to be deleted | true     |
 
 ### Get Annotation Group
 
@@ -830,8 +870,8 @@ siteView4embed.getAnnotationGroup(annotationGroupId);
 ```
 
 | Property          | Type     | Description         | Required |
-| ----------------- | -------- | ------------------- | ------- |
-| annotationGroupId | `number` | Annotation group ID | true    |
+| ----------------- | -------- | ------------------- | -------- |
+| annotationGroupId | `number` | Annotation group ID | true     |
 
 Response
 
@@ -892,8 +932,8 @@ siteView4embed.getAnnotation(annotationId);
 ```
 
 | Property     | Type     | Description   | Required |
-| ------------ | -------- | ------------- | ------- |
-| annotationId | `number` | Annotation ID | true    |
+| ------------ | -------- | ------------- | -------- |
+| annotationId | `number` | Annotation ID | true     |
 
 Response
 
@@ -962,8 +1002,8 @@ siteView4embed.toggleResolveAnnotation(annotationId);
 ```
 
 | Property     | Type     | Description   | Required |
-| ------------ | -------- | ------------- | ------- |
-| annotationId | `number` | Annotation ID | true    |
+| ------------ | -------- | ------------- | -------- |
+| annotationId | `number` | Annotation ID | true     |
 
 ### Update Annotation Form
 
@@ -974,12 +1014,13 @@ siteView4embed.updateAnnotation(annotationId, name, values);
 ```
 
 | Property     | Type     | Description                                                                                                    | Required |
-| ------------ | -------- | -------------------------------------------------------------------------------------------------------------- | ------- |
-| annotationId | `number` | Annotation ID annotation                                                                                       | true    |
-| name         | `string` | New name of the annotation                                                                                     | false   |
-| values       | `string` | A `string`ified array (using `JSON.`string`ify`) of values ​​for annotation fields like `'["text1", "text2"]'` | false   |
+| ------------ | -------- | -------------------------------------------------------------------------------------------------------------- | -------- |
+| annotationId | `number` | Annotation ID annotation                                                                                       | true     |
+| name         | `string` | New name of the annotation                                                                                     | false    |
+| values       | `string` | A `string`ified array (using `JSON.`string`ify`) of values ​​for annotation fields like `'["text1", "text2"]'` | false    |
 
 ### Set Active Annotation
+
 Set Active Annotation
 
 ```ts
@@ -987,6 +1028,7 @@ siteView4embed.setActiveAnnotation(annotationId);
 ```
 
 ### Reset Active Annotation
+
 Reset Active Annotation
 
 ```ts
@@ -994,8 +1036,8 @@ siteView4embed.resetActiveAnnotation();
 ```
 
 | Property     | Type     | Description              | Required |
-| ------------ | -------- | ------------------------ | ------- |
-| annotationId | `number` | Annotation ID annotation | true    |
+| ------------ | -------- | ------------------------ | -------- |
+| annotationId | `number` | Annotation ID annotation | true     |
 
 ## Utility
 
@@ -1016,14 +1058,14 @@ siteView4embed.findNearestPanos(
 ```
 
 | Property  | Type     | Description                                                                                                   | Required |
-| --------- | -------- | ------------------------------------------------------------------------------------------------------------- | ------- |
-| levelId   | `number` | Level ID                                                                                                      | true    |
-| captureId | `number` | Capture ID                                                                                                    | true    |
-| coordX    | `number` | X coordinate of the searching center                                                                          | true    |
-| coordY    | `number` | Y coordinate of the searching center                                                                          | true    |
-| maxCount  | `number` | Maximum `number` of panos to find. default: 6                                                                 | false   |
-| normalX   | `number` | Direction vector X value. When it is given, panos within 45 degrees of the direction vector will be searched. | false   |
-| normalY   | `number` | Direction vector Y value.                                                                                     | false   |
+| --------- | -------- | ------------------------------------------------------------------------------------------------------------- | -------- |
+| levelId   | `number` | Level ID                                                                                                      | true     |
+| captureId | `number` | Capture ID                                                                                                    | true     |
+| coordX    | `number` | X coordinate of the searching center                                                                          | true     |
+| coordY    | `number` | Y coordinate of the searching center                                                                          | true     |
+| maxCount  | `number` | Maximum `number` of panos to find. default: 6                                                                 | false    |
+| normalX   | `number` | Direction vector X value. When it is given, panos within 45 degrees of the direction vector will be searched. | false    |
+| normalY   | `number` | Direction vector Y value.                                                                                     | false    |
 
 Response
 
@@ -1060,7 +1102,6 @@ Response
 | position       | `[]`     | [x,y,z] coordinates of the pano  |
 | levelId        | `number` | Level ID                         |
 | captureId      | `number` | Capture ID                       |
-
 
 ### Open Captures dialog
 
