@@ -200,6 +200,11 @@ siteView4embed.goSiteView = (
   hideSideBar = false,
   mapViewPosition = 'top',
   openingGeolocation = undefined,
+  openingLevelId = undefined,
+  openingLevelName = undefined,
+  openingCaptureId = undefined,
+  openingCaptureDate = undefined,
+  openingPosition = undefined,
   openingBimGrid = undefined,
   ) =>
   siteView4embed.sendToCupix({
@@ -209,6 +214,11 @@ siteView4embed.goSiteView = (
       hideSideBar,
       mapViewPosition,
       openingGeolocation,
+      ...(openingLevelId && { openingLevelId }),
+      ...(openingLevelName && { openingLevelName }),
+      ...(openingCaptureId && { openingCaptureId }),
+      ...(openingCaptureDate && { openingCaptureDate }),
+      ...(openingPosition && { openingPosition }),
       openingBimGrid
     }
   });
