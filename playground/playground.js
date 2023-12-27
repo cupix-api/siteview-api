@@ -1,4 +1,4 @@
-const isProd = /cupix-api.github.io/.test(window.location.href);
+const isProd = /cupixrnd.github.io/.test(window.location.href);
 const target = isProd ? "https://apidemo.cupix.works/sv/9hivpe82w8" : "http://cupix.local.cupix.works:4200";
 
 /**
