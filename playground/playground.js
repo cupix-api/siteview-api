@@ -210,6 +210,33 @@ CupixUI.goSiteView = () => {
   }
 };
 
+CupixUI.goSiteViewWithLevelAndRecord = () => {
+  try {
+    const op = "goSiteView";
+    const key = CupixUI.promptString(op, "SiteView key");
+    const hideSideBar = promptNumberOptional(op, "hide sidebar. hide: 1, show: 0")
+    const mapViewPosition = promptStringOptional(op, "map view position. 'top' or 'bottom'")
+    const openingLevelId = promptNumberOptional(op, "level id (optional)");
+    const openingLevelName = promptStringOptional(op, "level name (optional)");
+    const openingCaptureId = promptNumberOptional(op, "capture id (optional)");
+    const openingCaptureDate = promptStringOptional(op, "capture date (optional, ex: YYYY-MM-DD)");
+    const openingPosition = promptVector3Optional(op, "opening position with normal vector (x, y, z) (optional)");
+    siteView4embed.goSiteView(
+      key,
+      hideSideBar,
+      mapViewPosition,
+      undefined,
+      openingLevelId,
+      openingLevelName,
+      openingCaptureId,
+      openingCaptureDate,
+      openingPosition
+    );
+  } catch (ec) {
+    console.warn(ec);
+  }
+};
+
 CupixUI.goSiteViewWithGeolocation = () => {
   try {
     const op = "goSiteView";
@@ -239,9 +266,25 @@ CupixUI.goSiteViewWithBimGridInfo = () => {
     const key = CupixUI.promptString(op, "SiteView key");
     const hideSideBar = promptNumberOptional(op, "hide sidebar. hide: 1, show: 0")
     const mapViewPosition = promptStringOptional(op, "map view position. 'top' or 'bottom'")
-    const openingBimGridInfo = promptBimGridInfo(op);
+    const openingLevelId = promptNumberOptional(op, "level id (optional)");
+    const openingLevelName = promptStringOptional(op, "level name (optional)");
+    const openingCaptureId = promptNumberOptional(op, "capture id (optional)");
+    const openingCaptureDate = promptStringOptional(op, "capture date (optional, ex: YYYY-MM-DD)");
+    const openingPosition = promptVector3Optional(op, "opening position with normal vector (x, y, z) (optional)");
+    const openingBimGrid = promptBimGridInfo(op);
 
-    siteView4embed.goSiteView(key, hideSideBar, mapViewPosition, undefined, openingBimGridInfo);
+    siteView4embed.goSiteView(
+      key,
+      hideSideBar,
+      mapViewPosition,
+      undefined,
+      openingLevelId,
+      openingLevelName,
+      openingCaptureId,
+      openingCaptureDate,
+      openingPosition,
+      openingBimGrid
+    );
   } catch (ec) {
     console.warn(ec);
   }
