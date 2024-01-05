@@ -287,7 +287,8 @@ siteView4embed.goSiteView = function (siteViewKey) {
     }), openingPosition && {
       openingPosition: openingPosition
     }), {}, {
-      openingBimGrid: openingBimGrid
+      openingBimGrid: openingBimGrid,
+      deepLink: true
     })
   });
 };
