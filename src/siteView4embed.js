@@ -30,6 +30,8 @@ const OPERATION_TYPE = {
   CHANGE_LEVEL: "CHANGE_LEVEL",
   CHANGE_CAPTURE: "CHANGE_CAPTURE",
   CHANGE_PANO: "CHANGE_PANO",
+  CHANGE_PRESET: "CHANGE_PRESET",
+  MOVE_TO_BIM_GRID: "MOVE_TO_BIM_GRID",
   FIND_NEAREST_PANOS: "FIND_NEAREST_PANOS",
   ADD_ANNOTATION_FORM: "ADD_ANNOTATION_FORM",
   DELETE_ANNOTATION: "DELETE_ANNOTATION",
@@ -187,18 +189,38 @@ siteView4embed.goHome = () =>
 
 /**
 * @param {string} siteViewKey
-* @param {boolean} hideTopBar
-* @param {boolean} liteMode
+* @param {boolean} hideSideBar
+* @param {'top' | 'bottom'} mapViewPosition
 * @param {"BASIC" | "TIMELINE" | "BIM_COMPARE"} layout
+* @param {string} openingGeolocation
+* @param {object} { coordinate: [string, string], offset?: { x: 0, y: 0, z: 0 } }
 * */
-siteView4embed.goSiteView = (siteViewKey, hideTopBar = true, liteMode = false, openingGeolocation = undefined) =>
+siteView4embed.goSiteView = (
+  siteViewKey,
+  hideSideBar = false,
+  mapViewPosition = 'top',
+  openingGeolocation = undefined,
+  openingLevelId = undefined,
+  openingLevelName = undefined,
+  openingCaptureId = undefined,
+  openingCaptureDate = undefined,
+  openingPosition = undefined,
+  openingBimGrid = undefined,
+  ) =>
   siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.GO_SITEVIEW,
     operationArgs: {
       siteViewKey,
-      hideTopBar,
-      liteMode,
-      openingGeolocation
+      hideSideBar,
+      mapViewPosition,
+      openingGeolocation,
+      ...(openingLevelId && { openingLevelId }),
+      ...(openingLevelName && { openingLevelName }),
+      ...(openingCaptureId && { openingCaptureId }),
+      ...(openingCaptureDate && { openingCaptureDate }),
+      ...(openingPosition && { openingPosition }),
+      openingBimGrid,
+      deepLink: true
     }
   });
 
@@ -341,6 +363,25 @@ siteView4embed.changePano = (panoId) =>
     }
   });
 
+siteView4embed.changePreset = (presetName) =>
+  siteView4embed.sendToCupix({
+    operationType: OPERATION_TYPE.CHANGE_PRESET,
+    operationArgs: {
+      presetName: presetName
+    }
+  });
+
+siteView4embed.moveToBimGrid = (info) =>
+  siteView4embed.sendToCupix({
+    operationType: OPERATION_TYPE.MOVE_TO_BIM_GRID,
+    operationArgs: {
+      bimGrid: {
+        coordinate: info.coordinate,
+        offset: info.offset
+      }
+    }
+  });
+
 siteView4embed.findNearestPanos = (
   levelId,
   captureId,
@@ -438,17 +479,6 @@ siteView4embed.setActiveAnnotation = (annotationId) =>
 siteView4embed.resetActiveAnnotation = () =>
   siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.RESET_ACTIVE_ANNOTATION
-  });
-
-/**
- * @param {"BASIC" | "TIMELINE" | "BIM_COMPARE"} layout
- */
-siteView4embed.changeLayout = (layout) =>
-  siteView4embed.sendToCupix({
-    operationType: OPERATION_TYPE.CHANGE_LAYOUT,
-    operationArgs: {
-      layout
-    }
   });
 
 function log(...params) {

@@ -1,5 +1,5 @@
-const isProd = /cupix-api.github.io/.test(window.location.href);
-const target = isProd ? "https://apidemo.cupix.works" : "http://cupix.local.cupix.works:4200";
+const isProd = /cupixrnd.github.io/.test(window.location.href);
+const target = isProd ? "https://apidemo.cupix.works/sv/9hivpe82w8" : "http://cupix.local.cupix.works:4200";
 
 /**
  * @type {Window | null | undefined} cupixWindow
@@ -46,6 +46,32 @@ function setResponseContent(responseType, response, errorMessage, errorArgs) {
 
 function setOutputErrorMessage(operationType, errorMessage, errorArgs) {
   setResponseContent(operationType, undefined, errorMessage, errorArgs);
+}
+
+function promptVector2Optional(...rest) {
+  try {
+    return CupixUI.promptVector2(...rest);
+  } catch {
+    return {};
+  }
+}
+
+function promptVector3Optional(...rest) {
+  try {
+    return CupixUI.promptVector3(...rest);
+  } catch {
+    return undefined;
+  }
+}
+
+function promptBimGridInfo(op) {
+  const start = CupixUI.promptString(op, "Start grid label.");
+  const end = CupixUI.promptString(op, "End grid label.");
+  const offset = promptVector3Optional(op, "normal vector (x, y, z) (optional)");
+  return {
+    coordinate: [start, end],
+    offset
+  };
 }
 
 window.addEventListener(
@@ -125,6 +151,31 @@ CupixUI.promptVector2 = (operationType, valueName, defaultValue) => {
   }
 };
 
+CupixUI.promptVector3 = (operationType, valueName, defaultValue) => {
+  let str = CupixUI.promptString(operationType, valueName, defaultValue);
+  try {
+    str = str.replace(/\s/g, "");
+    let token = str.split(",");
+    if (token.length !== 3) throw "invalid vector size";
+    let x = Number(token[0]);
+    let y = Number(token[1]);
+    let z = Number(token[2]);
+    if (isNaN(x) || isNaN(y) || isNaN(z)) throw "invalid number";
+    return {
+      x: x,
+      y: y,
+      z: z
+    };
+  } catch (ec) {
+    console.warn(ec);
+    let errorMessage = `invalid ${valueName}`;
+    setOutputErrorMessage(operationType, errorMessage, {
+      input: str
+    });
+    throw new Error(errorMessage);
+  }
+};
+
 CupixUI.signin = () => {
   try {
     const op = "signin";
@@ -151,10 +202,36 @@ CupixUI.goSiteView = () => {
   try {
     const op = "goSiteView";
     const key = CupixUI.promptString(op, "SiteView key");
-    const isLiteMode = promptNumberOptional(op, "liteMode: 1, basic: 0");
-    const hideTopBar = isLiteMode === 1 ? 0 : promptNumberOptional(op, "hide top bar. hide: 1, show: 0");
+    const hideSideBar = promptNumberOptional(op, "hide sidebar. hide: 1, show: 0")
+    const mapViewPosition = promptStringOptional(op, "map view position. 'top' or 'bottom'")
+    siteView4embed.goSiteView(key, hideSideBar, mapViewPosition);
+  } catch (ec) {
+    console.warn(ec);
+  }
+};
 
-    siteView4embed.goSiteView(key, !!hideTopBar, isLiteMode);
+CupixUI.goSiteViewWithLevelAndRecord = () => {
+  try {
+    const op = "goSiteView";
+    const key = CupixUI.promptString(op, "SiteView key");
+    const hideSideBar = promptNumberOptional(op, "hide sidebar. hide: 1, show: 0")
+    const mapViewPosition = promptStringOptional(op, "map view position. 'top' or 'bottom'")
+    const openingLevelId = promptNumberOptional(op, "level id (optional)");
+    const openingLevelName = promptStringOptional(op, "level name (optional)");
+    const openingCaptureId = promptNumberOptional(op, "capture id (optional)");
+    const openingCaptureDate = promptStringOptional(op, "capture date (optional, ex: YYYY-MM-DD)");
+    const openingPosition = promptVector3Optional(op, "opening position with normal vector (x, y, z) (optional)");
+    siteView4embed.goSiteView(
+      key,
+      hideSideBar,
+      mapViewPosition,
+      undefined,
+      openingLevelId,
+      openingLevelName,
+      openingCaptureId,
+      openingCaptureDate,
+      openingPosition
+    );
   } catch (ec) {
     console.warn(ec);
   }
@@ -164,8 +241,8 @@ CupixUI.goSiteViewWithGeolocation = () => {
   try {
     const op = "goSiteView";
     const key = CupixUI.promptString(op, "SiteView key");
-    const isLiteMode = promptNumberOptional(op, "liteMode: 1, basic: 0");
-    const hideTopBar = isLiteMode === 1 ? 0 : promptNumberOptional(op, "hide top bar. hide: 1, show: 0");
+    const hideSideBar = promptNumberOptional(op, "hide sidebar. hide: 1, show: 0")
+    const mapViewPosition = promptStringOptional(op, "map view position. 'top' or 'bottom'")
 
     const epsg = CupixUI.promptString(op, "espg code");
     const xOrLon = CupixUI.promptString(op, "x or longitude");
@@ -177,7 +254,37 @@ CupixUI.goSiteViewWithGeolocation = () => {
       yOrLat: yOrLat
     };
 
-    siteView4embed.goSiteView(key, !!hideTopBar, isLiteMode, openingGeoloation);
+    siteView4embed.goSiteView(key, hideSideBar, mapViewPosition, openingGeoloation);
+  } catch (ec) {
+    console.warn(ec);
+  }
+};
+
+CupixUI.goSiteViewWithBimGridInfo = () => {
+  try {
+    const op = "goSiteView";
+    const key = CupixUI.promptString(op, "SiteView key");
+    const hideSideBar = promptNumberOptional(op, "hide sidebar. hide: 1, show: 0")
+    const mapViewPosition = promptStringOptional(op, "map view position. 'top' or 'bottom'")
+    const openingLevelId = promptNumberOptional(op, "level id (optional)");
+    const openingLevelName = promptStringOptional(op, "level name (optional)");
+    const openingCaptureId = promptNumberOptional(op, "capture id (optional)");
+    const openingCaptureDate = promptStringOptional(op, "capture date (optional, ex: YYYY-MM-DD)");
+    const openingPosition = promptVector3Optional(op, "opening position with normal vector (x, y, z) (optional)");
+    const openingBimGrid = promptBimGridInfo(op);
+
+    siteView4embed.goSiteView(
+      key,
+      hideSideBar,
+      mapViewPosition,
+      undefined,
+      openingLevelId,
+      openingLevelName,
+      openingCaptureId,
+      openingCaptureDate,
+      openingPosition,
+      openingBimGrid
+    );
   } catch (ec) {
     console.warn(ec);
   }
@@ -263,6 +370,26 @@ CupixUI.changePano = () => {
   }
 };
 
+CupixUI.moveToBimGrid = () => {
+  try {
+    const op = "moveToBimGrid";
+    const bimGridInfo = promptBimGridInfo(op);
+    siteView4embed.moveToBimGrid(bimGridInfo);
+  } catch (ec) {
+    console.warn(ec);
+  }
+}
+
+CupixUI.changePreset = () => {
+  try {
+    const op = "changePreset";
+    const name = CupixUI.promptString(op, "preset name");
+    siteView4embed.changePreset(name);
+  } catch (ec) {
+    console.warn(ec);
+  }
+};
+
 function promptStringOptional(...rest) {
   try {
     return CupixUI.promptString(...rest);
@@ -342,16 +469,6 @@ CupixUI.resetActiveAnnotation = () => {
   }
 }
 
-CupixUI.changeLayout = () => {
-  try {
-    const op = "changeLayout";
-    const layout = CupixUI.promptString(op, "layout: BASIC or TIMELINE or BIM_COMPARE");
-    siteView4embed.changeLayout(layout);
-  } catch (ec) {
-    console.warn(ec);
-  }
-}
-
 CupixUI.getFormTemplate = () => {
   try {
     const op = "getFormTemplate";
@@ -361,14 +478,6 @@ CupixUI.getFormTemplate = () => {
     console.warn(ec);
   }
 };
-
-function promptVector2Optional(...rest) {
-  try {
-    return CupixUI.promptVector2(...rest);
-  } catch {
-    return {};
-  }
-}
 
 CupixUI.getAnnotationGroup = () => {
   try {

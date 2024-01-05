@@ -1,6 +1,6 @@
 
-const isProd = /cupix-api.github.io/.test(window.location.href);
-const token = isProd ? "pTqdixG8g2fLkdLyu2f0fGeZNvlQEgPF" : "Mi6F6bioooAjGrS7nP1DPqPgYoJniEw8";
+const isProd = /cupixrnd.github.io/.test(window.location.href);
+const token = isProd ? "qdC8rAl5ezk5asW5kKzWJHxjHpPANtf6" : "Mi6F6bioooAjGrS7nP1DPqPgYoJniEw8";
 const target = isProd ? "https://apidemo.cupix.works" : "http://cupix.local.cupix.works:4200";
 
 const facilities = [

@@ -9,12 +9,12 @@ CupixWorks SiteView API enables third-party developers to embed the SiteView wit
 
 # Sample Web App
 
-[SiteView in Facility System Dashboard](https://cupix-api.github.io/siteview-api/sample/playground-sample/web/index.html)
+[SiteView in Facility System Dashboard](https://cupixrnd.github.io/siteview-api/sample/playground-sample/web/index.html)
 
 # API Playground
 
-[Play around each API call](https://cupix-api.github.io/siteview-api/playground/playground.html#)
+[Play around each API call](https://cupixrnd.github.io/siteview-api/playground/playground.html#)
 
 # API Reference
 
-See [this page](https://github.com/cupix-api/siteview-api/blob/master/playground) for the event reference
+See [this page](https://github.com/cupixrnd/siteview-api/blob/master/playground) for the event reference

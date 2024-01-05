@@ -63,6 +63,8 @@ var OPERATION_TYPE = {
   CHANGE_LEVEL: "CHANGE_LEVEL",
   CHANGE_CAPTURE: "CHANGE_CAPTURE",
   CHANGE_PANO: "CHANGE_PANO",
+  CHANGE_PRESET: "CHANGE_PRESET",
+  MOVE_TO_BIM_GRID: "MOVE_TO_BIM_GRID",
   FIND_NEAREST_PANOS: "FIND_NEAREST_PANOS",
   ADD_ANNOTATION_FORM: "ADD_ANNOTATION_FORM",
   DELETE_ANNOTATION: "DELETE_ANNOTATION",
@@ -251,22 +253,42 @@ siteView4embed.goHome = function () {
 
 /**
 * @param {string} siteViewKey
-* @param {boolean} hideTopBar
-* @param {boolean} liteMode
+* @param {boolean} hideSideBar
+* @param {'top' | 'bottom'} mapViewPosition
 * @param {"BASIC" | "TIMELINE" | "BIM_COMPARE"} layout
+* @param {string} openingGeolocation
+* @param {object} { coordinate: [string, string], offset?: { x: 0, y: 0, z: 0 } }
 * */
 siteView4embed.goSiteView = function (siteViewKey) {
-  var hideTopBar = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  var liteMode = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var hideSideBar = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var mapViewPosition = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'top';
   var openingGeolocation = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
+  var openingLevelId = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : undefined;
+  var openingLevelName = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : undefined;
+  var openingCaptureId = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : undefined;
+  var openingCaptureDate = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : undefined;
+  var openingPosition = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : undefined;
+  var openingBimGrid = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : undefined;
   return siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.GO_SITEVIEW,
-    operationArgs: {
+    operationArgs: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
       siteViewKey: siteViewKey,
-      hideTopBar: hideTopBar,
-      liteMode: liteMode,
+      hideSideBar: hideSideBar,
+      mapViewPosition: mapViewPosition,
       openingGeolocation: openingGeolocation
-    }
+    }, openingLevelId && {
+      openingLevelId: openingLevelId
+    }), openingLevelName && {
+      openingLevelName: openingLevelName
+    }), openingCaptureId && {
+      openingCaptureId: openingCaptureId
+    }), openingCaptureDate && {
+      openingCaptureDate: openingCaptureDate
+    }), openingPosition && {
+      openingPosition: openingPosition
+    }), {}, {
+      openingBimGrid: openingBimGrid
+    })
   });
 };
 siteView4embed.getSiteView = function () {
@@ -408,6 +430,25 @@ siteView4embed.changePano = function (panoId) {
     }
   });
 };
+siteView4embed.changePreset = function (presetName) {
+  return siteView4embed.sendToCupix({
+    operationType: OPERATION_TYPE.CHANGE_PRESET,
+    operationArgs: {
+      presetName: presetName
+    }
+  });
+};
+siteView4embed.moveToBimGrid = function (info) {
+  return siteView4embed.sendToCupix({
+    operationType: OPERATION_TYPE.MOVE_TO_BIM_GRID,
+    operationArgs: {
+      bimGrid: {
+        coordinate: info.coordinate,
+        offset: info.offset
+      }
+    }
+  });
+};
 siteView4embed.findNearestPanos = function (levelId, captureId, coordX, coordY, normalX, normalY, maxCount) {
   return siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.FIND_NEAREST_PANOS,
@@ -498,18 +539,6 @@ siteView4embed.setActiveAnnotation = function (annotationId) {
 siteView4embed.resetActiveAnnotation = function () {
   return siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.RESET_ACTIVE_ANNOTATION
-  });
-};
-
-/**
- * @param {"BASIC" | "TIMELINE" | "BIM_COMPARE"} layout
- */
-siteView4embed.changeLayout = function (layout) {
-  return siteView4embed.sendToCupix({
-    operationType: OPERATION_TYPE.CHANGE_LAYOUT,
-    operationArgs: {
-      layout: layout
-    }
   });
 };
 function log() {
