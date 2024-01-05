@@ -79,5 +79,5 @@ steps:
 
   - script: |
       git remote add github-origin https://github.com/cupixrnd/siteview-api.git
-      git push github-origin master
+      git push github-origin master:release
     displayName: "publish github page"
