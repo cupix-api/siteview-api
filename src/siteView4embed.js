@@ -219,7 +219,8 @@ siteView4embed.goSiteView = (
       ...(openingCaptureId && { openingCaptureId }),
       ...(openingCaptureDate && { openingCaptureDate }),
       ...(openingPosition && { openingPosition }),
-      openingBimGrid
+      openingBimGrid,
+      deepLink: true
     }
   });
 
