@@ -136,12 +136,23 @@ window.siteView4embed = siteView4embed;
  */
 siteView4embed.init = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(htmlDivId, siteviewUrl) {
-    var elem, resolver, iframe, result;
+    var auth,
+      elem,
+      resolver,
+      _siteviewUrl,
+      iframe,
+      result,
+      _args = arguments;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            auth = _args.length > 2 && _args[2] !== undefined ? _args[2] : {
+              accessCode: undefined,
+              apiToken: undefined
+            };
             elem = document.getElementById(htmlDivId);
+            if (auth !== null && auth !== void 0 && auth.apiToken) siteviewUrl += "?cupix_api_token=".concat(access.apiToken);else if (auth !== null && auth !== void 0 && auth.accessCode) siteviewUrl += "?access_code=".concat(access.accessCode);
             if (elem) {
               iframe = document.createElement("iframe");
               iframe.onload = function () {
@@ -150,14 +161,14 @@ siteView4embed.init = /*#__PURE__*/function () {
               };
               iframe.style.width = "100%";
               iframe.style.height = "100%";
-              iframe.src = siteviewUrl !== null && siteviewUrl !== void 0 ? siteviewUrl : "https://apidemo.cupix.works";
+              iframe.src = (_siteviewUrl = siteviewUrl) !== null && _siteviewUrl !== void 0 ? _siteviewUrl : "https://apidemo.cupix.works";
               elem.appendChild(iframe);
             }
             result = new Promise(function (res, rej) {
               resolver = res;
             });
             return _context.abrupt("return", result);
-          case 4:
+          case 6:
           case "end":
             return _context.stop();
         }

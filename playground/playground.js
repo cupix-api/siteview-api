@@ -1,5 +1,7 @@
 const isProd = /cupixrnd.github.io/.test(window.location.href);
 const target = isProd ? "https://apidemo.cupix.works/sv/9hivpe82w8" : "http://cupix.local.cupix.works:4200";
+const apiToken = isProd ? '' : '';
+const accessCode = isProd ? '' : '';
 
 /**
  * @type {Window | null | undefined} cupixWindow
@@ -7,7 +9,7 @@ const target = isProd ? "https://apidemo.cupix.works/sv/9hivpe82w8" : "http://cu
 var cupixWindow;
 
 window.onload = function () {
-  siteView4embed.init("cupix-container", target);
+  siteView4embed.init("cupix-container", target, { accessCode: accessCode, apiToken: apiToken });
 };
 
 /**
