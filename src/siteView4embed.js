@@ -83,8 +83,8 @@ siteView4embed.init = async function (htmlDivId, siteviewUrl, auth = { accessCod
   const elem = document.getElementById(htmlDivId);
   let resolver;
 
-  if (auth?.apiToken) siteviewUrl += `?cupix_api_token=${access.apiToken}`;
-  else if (auth?.accessCode) siteviewUrl += `?access_code=${access.accessCode}`;
+  if (auth?.apiToken) siteviewUrl += `?cupix_api_token=${auth.apiToken}`;
+  else if (auth?.accessCode) siteviewUrl += `?access_code=${auth.accessCode}`;
 
   if (elem) {
     const iframe = document.createElement("iframe");
