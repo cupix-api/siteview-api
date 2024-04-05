@@ -83,14 +83,16 @@ Add a wrapper div in your HTML page.
 Then, calling `init()` SDK method with the div id and the SiteView URL will insert the iframe block programmatically.
 
 ```js
-siteView4embed.init("cupix-container", "[your SiteView URL]");
+siteView4embed.init("cupix-container", "[your SiteView URL]", "[your auth info]");
 ```
+Your auth info is in the form of `{ accessCode: string, apiToken: string }`, with `apiToken` taking priority over `accessCode`.
 
 [Check a live sample](https://stackblitz.com/edit/js-aap1v1?file=index.html)
 
 **Method 2:**
 
-Add an iframe div in your HTML page with the SiteView URL as the source and an `onload()` callback method.
+Add an iframe div in your HTML page with the SiteView URL as the source and an `onload()` callback method.<br/>
+When using accessCode, append the `access_code` query parameter to your SIteView URL for configuration, and when using apiToken, use the `cupix_api_token` query parameter to construct the URL.
 
 ```html
 <iframe src="[your SiteView URL]" onload="onSiteViewLoaded(this)"></iframe>
