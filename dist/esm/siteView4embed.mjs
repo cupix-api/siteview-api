@@ -128,7 +128,7 @@ siteView4embed.init = /*#__PURE__*/function () {
               apiToken: undefined
             };
             elem = document.getElementById(htmlDivId);
-            if (auth !== null && auth !== void 0 && auth.apiToken) siteviewUrl += "?cupix_api_token=".concat(access.apiToken);else if (auth !== null && auth !== void 0 && auth.accessCode) siteviewUrl += "?access_code=".concat(access.accessCode);
+            if (auth !== null && auth !== void 0 && auth.apiToken) siteviewUrl += "?cupix_api_token=".concat(auth.apiToken);else if (auth !== null && auth !== void 0 && auth.accessCode) siteviewUrl += "?access_code=".concat(auth.accessCode);
             if (elem) {
               iframe = document.createElement("iframe");
               iframe.onload = function () {
