@@ -251,22 +251,6 @@ siteView4embed.stop = function () {
     operationType: OPERATION_TYPE.APP_API_STOP
   });
 };
-
-/**
- * @param {string} teamDomain
- * @param {string} email
- * @param {string} password
- * */
-siteView4embed.signin = function (teamDomain, email, password) {
-  return siteView4embed.sendToCupix({
-    operationType: OPERATION_TYPE.SIGNIN,
-    operationArgs: {
-      email: email,
-      password: password,
-      teamDomain: teamDomain
-    }
-  });
-};
 siteView4embed.signinWithToken = function (token) {
   return siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.SIGNIN,
