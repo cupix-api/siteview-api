@@ -173,18 +173,6 @@ Response
 
 When the SiteView appears from the iframe, users are prompted to enter the login credentials unless the SiteView is publically published. Alternatively, you can use this `signin` method to authenticate the access programmatically.
 
-- Sign in with an email
-
-```ts
-siteView4embed.signin(teamDomain, email, password);
-```
-
-| Property   | Type     | Description       |
-| ---------- | -------- | ----------------- |
-| email      | `string` | User email.       |
-| password   | `string` | User password.    |
-| teamDomain | `string` | User team domain. |
-
 - Sign in with user's personal API token, which is available from the CupixWorks Account Settings page.
 
 ```ts
