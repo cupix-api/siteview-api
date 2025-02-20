@@ -1,4 +1,4 @@
-const isProd = /cupixrnd.github.io/.test(window.location.href);
+const isProd = true
 const target = isProd ? "https://apidemo.cupix.works/sv/9hivpe82w8" : "http://cupix.local.cupix.works:4200";
 const apiToken = isProd ? '' : '';
 const accessCode = isProd ? '' : '';
@@ -175,18 +175,6 @@ CupixUI.promptVector3 = (operationType, valueName, defaultValue) => {
       input: str
     });
     throw new Error(errorMessage);
-  }
-};
-
-CupixUI.signin = () => {
-  try {
-    const op = "signin";
-    const teamDomain = CupixUI.promptString(op, "team domain");
-    const email = CupixUI.promptString(op, "email");
-    const password = CupixUI.promptString(op, "password");
-    siteView4embed.signin(teamDomain, email, password);
-  } catch (ec) {
-    console.warn(ec);
   }
 };
 

@@ -158,21 +158,6 @@ siteView4embed.stop = () =>
     operationType: OPERATION_TYPE.APP_API_STOP
   });
 
-/**
- * @param {string} teamDomain
- * @param {string} email
- * @param {string} password
- * */
-siteView4embed.signin = (teamDomain, email, password) =>
-  siteView4embed.sendToCupix({
-    operationType: OPERATION_TYPE.SIGNIN,
-    operationArgs: {
-      email: email,
-      password: password,
-      teamDomain: teamDomain
-    }
-  });
-
 siteView4embed.signinWithToken = (token) =>
   siteView4embed.sendToCupix({
     operationType: OPERATION_TYPE.SIGNIN,
